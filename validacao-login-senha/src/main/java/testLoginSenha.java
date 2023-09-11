@@ -7,6 +7,12 @@ public class testLoginSenha {
         String senha;
         String login;
 
+        System.out.format("""
+              *----------*----------*----------*
+                   Bem-Vindo ao FastTotem!
+              *----------*----------*----------*
+              """);
+
         do {
             System.out.print("Informe seu Login: ");
             login = entrada.nextLine();
