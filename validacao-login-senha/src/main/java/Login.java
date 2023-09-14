@@ -4,7 +4,7 @@ public class Login {
     public static void main(String[] args) {
 
         Scanner leitor = new Scanner(System.in);
-        Validacao acao = new Validacao();
+        Validacao validacao = new Validacao();
         String senha;
         String login;
         Boolean informacoesValidadas;
@@ -22,7 +22,7 @@ public class Login {
             System.out.print("Informe sua Senha: ");
             senha = leitor.nextLine();
 
-            informacoesValidadas = acao.validarLogin(login, senha);
+            informacoesValidadas = validacao.validarLogin(login, senha);
 
             if (informacoesValidadas) {
 

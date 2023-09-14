@@ -1,6 +1,6 @@
 public class Validacao {
 
-    String emailBD = "luluzinha@gmail.com";
+    String emailBD = "fasttotem@gmail.com";
     String senhaBD = "12345678";
 
     Boolean validarLogin(String email, String senha) {
