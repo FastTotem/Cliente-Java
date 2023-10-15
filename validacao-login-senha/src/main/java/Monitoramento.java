@@ -18,59 +18,37 @@ public class Monitoramento {
         Looca looca = new Looca();
         Mensagens mensagem = new Mensagens();
         Integer ligado = 1;
-        Sistema sistema = looca.getSistema();
 
 
-        Memoria memoria;
-        Processador processador;
-        DiscoGrupo grupoDeDiscos;
+        MemoriaT memoriaTotem = new MemoriaT();
+        ProcessadorT processadorTotem = new ProcessadorT();
+        SistemaT sistemaTotem = new SistemaT();
+        DiscoT discoTotem = new DiscoT();
+
         DispositivosUsbGrupo grupoUsb;
-
         List<DispositivoUsb> dispositivoUsbs;
-        List<Disco> discos;
 
         System.out.println(mensagem.getBoasVindas());
 
         // Provisorio
         Integer inputUser = 1;
 
-        System.out.println(sistema);
+        System.out.println(sistemaTotem);
         do {
-            memoria = looca.getMemoria();
-            processador = looca.getProcessador();
-            grupoDeDiscos = looca.getGrupoDeDiscos();
             grupoUsb = looca.getDispositivosUsbGrupo();
-
-
-            discos = grupoDeDiscos.getDiscos();
             dispositivoUsbs = grupoUsb.getDispositivosUsb();
 
-            System.out.println("Memoria: ");
-            System.out.println("Memoria total: " + memoria.getTotal());
-            System.out.println("Memoria em uso: " + memoria.getEmUso());
-            System.out.println("Memoria Disponivel: " + memoria.getDisponivel());
-
+            System.out.println(memoriaTotem);
             System.out.println("\n");
 
-            System.out.println("Processador: ");
-            System.out.println("Nome: " + processador.getNome());
-            System.out.println("Fabricante: " + processador.getFabricante());
-            System.out.println("Microarquitetura: " + processador.getMicroarquitetura());
-            System.out.println("Numero Cpus Logicas: " + processador.getNumeroCpusLogicas());
-            System.out.println("Numero Cpus Fisicas: " + processador.getNumeroCpusFisicas());
-            System.out.println("Numero Pacotes Físicos: " + processador.getNumeroPacotesFisicos());
-            System.out.println("Frequencia: " + processador.getFrequencia());
-            System.out.println("Uso: " + processador.getUso());
-
+            System.out.println(processadorTotem);
             System.out.println("\n");
 
-            System.out.println("Grupo de Discos: ");
-            System.out.println("Todos os discos: " + grupoDeDiscos.getDiscos());
-
+            System.out.println(discoTotem);
             System.out.println("\n");
 
             System.out.println("Grupo de USB: ");
-            System.out.println("Todos os discos: " + grupoUsb.getDispositivosUsb());
+            System.out.println("USBs em USO: " + grupoUsb.getDispositivosUsbConectados());
 
             System.out.println("\n");
 
