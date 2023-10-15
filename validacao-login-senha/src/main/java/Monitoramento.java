@@ -6,7 +6,9 @@ import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
 import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
 import com.github.britooo.looca.api.group.sistema.Sistema;
+import org.w3c.dom.ls.LSOutput;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,6 +26,7 @@ public class Monitoramento {
         ProcessadorT processadorTotem = new ProcessadorT();
         SistemaT sistemaTotem = new SistemaT();
         DiscoT discoTotem = new DiscoT();
+        DiscoGrupo grupoDeDiscos = new DiscoGrupo();
 
         DispositivosUsbGrupo grupoUsb;
         List<DispositivoUsb> dispositivoUsbs;
@@ -45,14 +48,19 @@ public class Monitoramento {
             System.out.println("\n");
 
             System.out.println(discoTotem);
-            System.out.println("\n");
+            System.out.format("""
+                  Todos os discos: %s,
+                  Quantidade de Volumes no disco: %s,
+                  Tamanho total do Disco: %s,
+                  """, grupoDeDiscos.getQuantidadeDeDiscos(),grupoDeDiscos.getQuantidadeDeVolumes(),grupoDeDiscos.getTamanhoTotal().shortValue());
 
-            System.out.println("Grupo de USB: ");
-            System.out.println("USBs em USO: " + grupoUsb.getDispositivosUsbConectados());
+            System.out.format("""
+              Grupo de USB: %s,
+              Todos os USBs: %s,
+              USBs em USO: %s,
+              """, grupoUsb.getDispositivosUsbConectados(), grupoUsb.getDispositivosUsb(), grupoUsb.getDispositivosUsbConectados());
 
-            System.out.println("\n");
-
-            System.out.println("Insira 0 caso deseje sair: ");
+            System.out.println("\nInsira 0 caso deseje sair: ");
             inputUser = in.nextInt();
             if (inputUser.equals(0)) ligado = 0;
 
@@ -61,4 +69,5 @@ public class Monitoramento {
         System.out.println(mensagem.getAdeus());
         System.exit(1);
     }
+
 }
