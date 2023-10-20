@@ -2,6 +2,7 @@ import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.discos.DiscoGrupo;
 import com.github.britooo.looca.api.group.dispositivos.DispositivoUsb;
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
+import oshi.SystemInfo;
 
 import java.util.List;
 import java.util.Scanner;
@@ -49,7 +50,7 @@ public class Monitoramento {
             processadorT.setIdProcessador(componente.inserirComponentes(String.valueOf(TipoCapturaEnum.PROCESSADOR)));
             //inserir componentes restantes
             maquinaT.inserirDadosSistema(totem.getIdTotem());
-            // colocar para inserir serialNumber
+            totem.setBoardSerialNumber((new SystemInfo()).getHardware().getComputerSystem().getBaseboard().getSerialNumber());
         }
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
