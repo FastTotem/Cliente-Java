@@ -1,73 +1,75 @@
 import com.github.britooo.looca.api.core.Looca;
-import com.github.britooo.looca.api.group.discos.Disco;
 import com.github.britooo.looca.api.group.discos.DiscoGrupo;
 import com.github.britooo.looca.api.group.dispositivos.DispositivoUsb;
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
-import com.github.britooo.looca.api.group.memoria.Memoria;
-import com.github.britooo.looca.api.group.processador.Processador;
-import com.github.britooo.looca.api.group.sistema.Sistema;
-import org.w3c.dom.ls.LSOutput;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class Monitoramento {
     public static void main(String[] args) {
+
         Scanner in = new Scanner(System.in);
+        Scanner txtScanner = new Scanner(System.in);
+        Totem totem = new Totem();
 
-        Looca looca = new Looca();
         Mensagens mensagem = new Mensagens();
-        Integer ligado = 1;
-
-
-        MemoriaT memoriaTotem = new MemoriaT();
-        ProcessadorT processadorTotem = new ProcessadorT();
-        SistemaT sistemaTotem = new SistemaT();
-        DiscoT discoTotem = new DiscoT();
-        DiscoGrupo grupoDeDiscos = new DiscoGrupo();
-
-        DispositivosUsbGrupo grupoUsb;
-        List<DispositivoUsb> dispositivoUsbs;
-
         System.out.println(mensagem.getBoasVindas());
 
-        // Provisorio
-        Integer inputUser = 1;
+        Boolean chaveValida = false;
 
-        System.out.println(sistemaTotem);
         do {
-            grupoUsb = looca.getDispositivosUsbGrupo();
-            dispositivoUsbs = grupoUsb.getDispositivosUsb();
+            System.out.println("Digite a chave de ativação do totem:");
+            String chaveDeAcesso = txtScanner.nextLine();
 
-            System.out.println(memoriaTotem);
-            System.out.println("\n");
+            totem.setChaveDeAcesso(chaveDeAcesso);
+            totem = totem.getTotem();
+            if (totem == null){
+                System.out.println("Chave de ativação incorreta!");
+                totem = new Totem();
+            } else {
+                chaveValida = true;
+            }
 
-            System.out.println(processadorTotem);
-            System.out.println("\n");
+        } while (!chaveValida);
 
-            System.out.println(discoTotem);
-            System.out.format("""
-                  Todos os discos: %s,
-                  Quantidade de Volumes no disco: %s,
-                  Tamanho total do Disco: %s,
-                  """, grupoDeDiscos.getQuantidadeDeDiscos(),grupoDeDiscos.getQuantidadeDeVolumes(),grupoDeDiscos.getTamanhoTotal().shortValue());
+        Componente componente = new Componente();
+        componente.setFkTotem(totem.getIdTotem());
+        MaquinaT maquinaT = new MaquinaT();
+        MemoriaT memoriaT = new MemoriaT();
+        ProcessadorT processadorT = new ProcessadorT();
 
-            System.out.format("""
-              Grupo de USB: %s,
-              Todos os USBs: %s,
-              USBs em USO: %s,
-              """, grupoUsb.getDispositivosUsbConectados(), grupoUsb.getDispositivosUsb(), grupoUsb.getDispositivosUsbConectados());
+        if (!totem.validarTotemJaAtivo()){
+            memoriaT.setIdMemoria(componente.inserirComponentes(String.valueOf(TipoCapturaEnum.MEMORIA)));
+            processadorT.setIdProcessador(componente.inserirComponentes(String.valueOf(TipoCapturaEnum.PROCESSADOR)));
+            //inserir componentes restantes
+            maquinaT.inserirDadosSistema(totem.getIdTotem());
+            // colocar para inserir serialNumber
+        }
 
-            System.out.println("\nInsira 0 caso deseje sair: ");
-            inputUser = in.nextInt();
-            if (inputUser.equals(0)) ligado = 0;
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
-        } while (ligado.equals(1));
+        scheduler.scheduleAtFixedRate(() -> {
+            memoriaT.inserirCapturaUsoMemoria();
+            processadorT.inserirCapturaUsoProcessador();
+        }, 0, 1, TimeUnit.MINUTES);
 
-        System.out.println(mensagem.getAdeus());
-        System.exit(1);
+        //execução contínua do código
+        CountDownLatch latch = new CountDownLatch(1);
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            scheduler.shutdown();
+        }
+
+
     }
 
 }

@@ -1,5 +1,6 @@
 import com.github.britooo.looca.api.group.discos.Disco;
 import com.github.britooo.looca.api.group.discos.DiscoGrupo;
+import com.github.britooo.looca.api.util.Conversor;
 
 public class DiscoT {
     private DiscoGrupo grupoDeDiscos;
@@ -32,7 +33,7 @@ public class DiscoT {
         sb.append("Nome: ").append(disco.getNome()).append("\n");
         sb.append("Modelo: ").append(disco.getModelo()).append("\n");
 //        sb.append("Serial: ").append(disco.getSerial()).append("\n");
-        sb.append("Tamanho: ").append(disco.getTamanho()).append("\n");
+        sb.append("Tamanho: ").append(Conversor.formatarBytes(disco.getTamanho())).append("\n");
 //        sb.append("Leituras: ").append(disco.getLeituras()).append("\n");
 //        sb.append("Bytes de leitura: ").append(disco.getBytesDeLeitura()).append("\n");
         sb.append("Escritas: ").append(disco.getEscritas()).append("\n");

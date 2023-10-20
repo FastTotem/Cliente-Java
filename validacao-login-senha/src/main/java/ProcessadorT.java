@@ -1,12 +1,22 @@
 import com.github.britooo.looca.api.group.processador.Processador;
 
-public class ProcessadorT {
+public class ProcessadorT extends Componente {
     private Processador processador;
+    private Integer idProcessador;
     private Double emUso;
     private Long frequencia;
 
     public ProcessadorT() {
         this.processador = new Processador();
+    }
+
+    public void inserirCapturaUsoProcessador(){
+
+        emUso = processador.getUso();
+//        frequencia = processador.getFrequencia();
+        inserirCapturaComponente(emUso, String.valueOf(TipoCapturaEnum.PROCESSADOR), idProcessador);
+//        inserirCapturaComponente(frequencia, String.valueOf(TipoCapturaEnum.PROCESSADOR));
+
     }
 
     public Double getEmUso() {
@@ -15,6 +25,14 @@ public class ProcessadorT {
 
     public Long getFrequencia() {
         return processador.getFrequencia();
+    }
+
+    public Integer getIdProcessador() {
+        return idProcessador;
+    }
+
+    public void setIdProcessador(Integer idProcessador) {
+        this.idProcessador = idProcessador;
     }
 
     @Override
