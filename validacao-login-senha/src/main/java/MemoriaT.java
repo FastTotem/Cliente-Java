@@ -1,9 +1,9 @@
 import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.util.Conversor;
 
-public class MemoriaT {
+public class MemoriaT extends Componente{
     private Memoria memoria;
-
+    private Integer idMemoria;
     private Long total;
     private Long disponivel;
     private Long emUso;
@@ -11,6 +11,22 @@ public class MemoriaT {
 
     public MemoriaT() {
         this.memoria = new Memoria();
+    }
+
+    public Long getPorcentagemUsada() {
+        Long totalAtual = memoria.getTotal();
+        Long emUsoAtual = memoria.getEmUso();
+        Long porcentagem = emUsoAtual/totalAtual;
+        return porcentagem;
+    }
+
+    public void inserirCapturaUsoMemoria(){
+
+        emUso = memoria.getEmUso();
+        this.inserirCapturaComponente(emUso, String.valueOf(TipoCapturaEnum.MEMORIA), idMemoria);
+//        disponivel = memoria.getDisponivel();
+//        this.inserirCapturaComponente(disponivel, String.valueOf(TipoCapturaEnum.MEMORIA));
+
     }
 
     public Long getTotal() {
@@ -25,11 +41,24 @@ public class MemoriaT {
         return memoria.getEmUso();
     }
 
-    public Long getPorcentagemUsada() {
-        Long totalAtual = memoria.getTotal();
-        Long emUsoAtual = memoria.getEmUso();
-        Long porcentagem = emUsoAtual/totalAtual;
-        return porcentagem;
+    public void setTotal(Long total) {
+        this.total = total;
+    }
+
+    public void setDisponivel(Long disponivel) {
+        this.disponivel = disponivel;
+    }
+
+    public void setEmUso(Long emUso) {
+        this.emUso = emUso;
+    }
+
+    public void setIdMemoriaTotemValidado(Integer idTotem) {
+        idMemoria = getIdComponente(String.valueOf(TipoCapturaEnum.MEMORIA), idTotem);
+    }
+
+    public void setIdMemoria(Integer idMemoria) {
+        this.idMemoria = idMemoria;
     }
 
     @Override
