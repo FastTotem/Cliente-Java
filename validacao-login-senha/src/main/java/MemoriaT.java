@@ -53,8 +53,8 @@ public class MemoriaT extends Componente{
         this.emUso = emUso;
     }
 
-    public Integer getIdMemoria() {
-        return idMemoria;
+    public void setIdMemoriaTotemValidado(Integer idTotem) {
+        idMemoria = getIdComponente(String.valueOf(TipoCapturaEnum.MEMORIA), idTotem);
     }
 
     public void setIdMemoria(Integer idMemoria) {

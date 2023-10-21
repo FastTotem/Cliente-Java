@@ -2,6 +2,7 @@ import conexao.Conexao;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import oshi.SystemInfo;
 
 public class Totem {
 
@@ -38,11 +39,22 @@ public class Totem {
 
     }
 
-    public Boolean validarTotemJaAtivo() {
-        if (boardSerialNumber != null) {
-            return true;
+    public Totem validarTotemJaAtivo() {
+
+        try {
+            Totem totem = con.queryForObject("SELECT * FROM totem WHERE boardSerialNumber = ?",
+                    new BeanPropertyRowMapper<>(Totem.class), boardSerialNumber);
+
+            return totem;
+
+        } catch (EmptyResultDataAccessException e) {
+            return null;
         }
-        return false;
+
+    }
+
+    public void inserirBoardSerialNumber(){
+        con.update("UPDATE totem SET boardSerialNumber = ? WHERE idTotem = ?", boardSerialNumber, idTotem);
     }
 
     public Integer getIdTotem() {

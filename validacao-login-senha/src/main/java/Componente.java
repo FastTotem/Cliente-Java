@@ -28,20 +28,6 @@ public class Componente {
         return componentes;
     }
 
-//    public void inserirComponentes(String nomeComponente){
-//
-//        List<Componente> componentes = verificarComponente();
-//        if (componentes.isEmpty() && !Objects.equals(nomeComponente, String.valueOf(TipoCapturaEnum.DISCO))){
-//            con.update("INSERT INTO componente (nomeComponente, fkTotem) VALUES (?,?)",
-//                    nomeComponente, fkTotem);
-//            System.out.println("Componente inserido!");
-//        } else {
-//            con.update("INSERT INTO componente (nomeComponente, fkTotem) VALUES (?,?)",
-//                    nomeComponente, fkTotem);
-//        }
-//
-//    };
-
     public Integer inserirComponentes(String nomeComponente){
 
         this.nomeComponente = nomeComponente;
@@ -89,6 +75,18 @@ public class Componente {
 
         System.out.println("Captura realizada!");
 
+    }
+
+    protected List<Integer> getListaIdComponente(String nomeComponente) {
+        List<Integer> idComponentes = con.query("SELECT idComponente FROM componente WHERE nomeComponente = ? AND fkTotem = ?",
+                new BeanPropertyRowMapper<>(Integer.class), nomeComponente, fkTotem);
+        return idComponentes;
+    }
+
+    protected Integer getIdComponente(String nomeComponente, Integer idTotem) {
+        idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE nomeComponente = ? AND fkTotem = ?",
+                Integer.class, nomeComponente, idTotem);
+        return idComponente;
     }
 
     public Integer getIdComponente() {

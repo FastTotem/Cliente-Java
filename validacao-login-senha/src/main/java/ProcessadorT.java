@@ -27,8 +27,8 @@ public class ProcessadorT extends Componente {
         return processador.getFrequencia();
     }
 
-    public Integer getIdProcessador() {
-        return idProcessador;
+    public void setIdProcessadorTotemValidado(Integer idTotem) {
+        idProcessador = getIdComponente(String.valueOf(TipoCapturaEnum.PROCESSADOR), idTotem);
     }
 
     public void setIdProcessador(Integer idProcessador) {
