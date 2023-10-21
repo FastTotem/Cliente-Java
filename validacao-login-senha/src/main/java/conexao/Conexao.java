@@ -13,8 +13,8 @@ public class Conexao {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
         dataSource.setUrl("jdbc:mysql://localhost:3306/fasttotem");
-        dataSource.setUsername("root");
-        dataSource.setPassword("12345678");
+        dataSource.setUsername("fastTotemAdmin");
+        dataSource.setPassword("fasttotem123");
 
         conexaoDoBanco = new JdbcTemplate(dataSource);
     }
