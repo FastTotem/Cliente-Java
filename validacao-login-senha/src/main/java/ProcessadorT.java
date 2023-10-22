@@ -14,7 +14,7 @@ public class ProcessadorT extends Componente {
 
         emUso = processador.getUso();
 //        frequencia = processador.getFrequencia();
-        inserirCapturaComponente(emUso, String.valueOf(TipoCapturaEnum.PROCESSADOR), idProcessador);
+        inserirCapturaComponente(emUso, String.valueOf(TipoEnum.PROCESSADOR), idProcessador);
 //        inserirCapturaComponente(frequencia, String.valueOf(TipoCapturaEnum.PROCESSADOR));
 
     }
@@ -28,7 +28,7 @@ public class ProcessadorT extends Componente {
     }
 
     public void setIdProcessadorTotemValidado(Integer idTotem) {
-        idProcessador = getIdComponente(String.valueOf(TipoCapturaEnum.PROCESSADOR), idTotem);
+        idProcessador = getIdComponente(String.valueOf(TipoEnum.PROCESSADOR), idTotem);
     }
 
     public void setIdProcessador(Integer idProcessador) {

@@ -15,8 +15,9 @@ public class Monitoramento {
         Totem totem = new Totem();
         String serialNumber = new SystemInfo().getHardware().getComputerSystem().getBaseboard().getSerialNumber();
         totem.setBoardSerialNumber(serialNumber);
-        Componente componente = new Componente();
 
+        Componente componente = new Componente();
+        DiscosT discosT = new DiscosT();
         MaquinaT maquinaT = new MaquinaT();
         MemoriaT memoriaT = new MemoriaT();
         ProcessadorT processadorT = new ProcessadorT();
@@ -46,19 +47,36 @@ public class Monitoramento {
 
             } while (!chaveValida);
 
+            // fkTotem para inserção na captura
             componente.setFkTotem(totem.getIdTotem());
+            discosT.setFkTotem(totem.getIdTotem());
+            memoriaT.setFkTotem(totem.getIdTotem());
+            processadorT.setFkTotem(totem.getIdTotem());
+            maquinaT.setFkTotem(totem.getIdTotem());
 
-            memoriaT.setIdMemoria(componente.inserirComponentes(String.valueOf(TipoCapturaEnum.MEMORIA)));
-            processadorT.setIdProcessador(componente.inserirComponentes(String.valueOf(TipoCapturaEnum.PROCESSADOR)));
-            //inserir componentes restantes
+            // set id dos componentes para captura
+            memoriaT.setIdMemoria(componente.inserirComponentes(String.valueOf(TipoEnum.MEMORIA)));
+            processadorT.setIdProcessador(componente.inserirComponentes(String.valueOf(TipoEnum.PROCESSADOR)));
+            discosT.inserirDiscos();
 
-            maquinaT.inserirDadosSistema(totem.getIdTotem());
+            maquinaT.inserirDadosSistema();
             totem.setBoardSerialNumber(serialNumber);
             totem.inserirBoardSerialNumber();
 
         } else {
+
+            // fkTotem para inserção na captura
+            discosT.setFkTotem(totem.getIdTotem());
+            memoriaT.setFkTotem(totem.getIdTotem());
+            processadorT.setFkTotem(totem.getIdTotem());
+            maquinaT.setFkTotem(totem.getIdTotem());
+
+            // set id dos componentes para captura
+            discosT.setIdDiscos();
             memoriaT.setIdMemoriaTotemValidado(totem.getIdTotem());
+            memoriaT.setFkTotem(totem.getIdTotem());
             processadorT.setIdProcessadorTotemValidado(totem.getIdTotem());
+
         }
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
@@ -66,7 +84,12 @@ public class Monitoramento {
         scheduler.scheduleAtFixedRate(() -> {
             memoriaT.inserirCapturaUsoMemoria();
             processadorT.inserirCapturaUsoProcessador();
+            discosT.inserirCapturasDisco();
         }, 0, 1, TimeUnit.MINUTES);
+
+        scheduler.scheduleAtFixedRate(() -> {
+            maquinaT.inserirTempoDeAtividade();
+        }, 0, 1, TimeUnit.HOURS);
 
         //execução contínua do código
         CountDownLatch latch = new CountDownLatch(1);

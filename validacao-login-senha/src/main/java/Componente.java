@@ -16,11 +16,6 @@ public class Componente {
 
     public Componente() {}
 
-    public Componente(Integer idComponente, String nomeComponente) {
-        this.idComponente = idComponente;
-        this.nomeComponente = nomeComponente;
-    }
-
     public List<Componente> verificarComponente(){
         List<Componente> componentes = con.query("SELECT * FROM componente where fkTotem = ? and nomeComponente = ?",
                 new BeanPropertyRowMapper<>(Componente.class), fkTotem, nomeComponente);
@@ -41,7 +36,7 @@ public class Componente {
 
             return idComponente;
 
-        } else if (Objects.equals(nomeComponente, String.valueOf(TipoCapturaEnum.DISCO))){
+        } else if (Objects.equals(nomeComponente, String.valueOf(TipoEnum.DISCO))){
 
             con.update("INSERT INTO componente (nomeComponente, fkTotem) VALUES (?,?)",
                     nomeComponente, fkTotem);
@@ -58,8 +53,8 @@ public class Componente {
 
     protected void inserirCapturaComponente(Long valor, String tipoCaptura, Integer idComponente){
 
-        con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente) VALUES (?,?,?,?)",
-                valor, tipoCaptura, LocalDateTime.now(), idComponente);
+        con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
+                valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
 
         System.out.println("Captura realizada!");
 
@@ -67,19 +62,16 @@ public class Componente {
 
     protected void inserirCapturaComponente(Double valor, String tipoCaptura, Integer idComponente){
 
-        Conexao conexao = new Conexao();
-        JdbcTemplate con = conexao.getConexaoDoBanco();
-
-        con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente) VALUES (?,?,?,?)",
-                valor, tipoCaptura, LocalDateTime.now(), idComponente);
+        con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
+                valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
 
         System.out.println("Captura realizada!");
 
     }
 
     protected List<Integer> getListaIdComponente(String nomeComponente) {
-        List<Integer> idComponentes = con.query("SELECT idComponente FROM componente WHERE nomeComponente = ? AND fkTotem = ?",
-                new BeanPropertyRowMapper<>(Integer.class), nomeComponente, fkTotem);
+        List<Integer> idComponentes = con.queryForList("SELECT idComponente FROM componente WHERE nomeComponente = ? AND fkTotem = ?",
+                Integer.class, nomeComponente, fkTotem);
         return idComponentes;
     }
 
