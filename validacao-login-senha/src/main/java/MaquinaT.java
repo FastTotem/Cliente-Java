@@ -1,4 +1,3 @@
-import com.github.britooo.looca.api.group.discos.Disco;
 import com.github.britooo.looca.api.group.discos.DiscoGrupo;
 import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
@@ -17,6 +16,7 @@ public class MaquinaT {
     private Long capacidadeRam;
     private Long capacidadeDisco;
     private Long tempoDeAtividade;
+    private Integer fkTotem;
 
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
@@ -35,17 +35,18 @@ public class MaquinaT {
         this.tempoDeAtividade = sistema.getTempoDeAtividade();
     }
 
-    public void inserirDadosSistema(Integer idTotem){
+    public void inserirDadosSistema(){
         con.update("INSERT INTO infoMaquina " +
                 "(sistemaOperacional, fabricante, nomeProcessador, " +
                 "capacidadeRam, capacidadeDisco, fkTotem) " +
-                "VALUES (?,?,?,?,?,?)", sistemaOperacional, fabricante, nomeProcessador, capacidadeRam, capacidadeDisco, idTotem);
+                "VALUES (?,?,?,?,?,?)", sistemaOperacional, fabricante, nomeProcessador, capacidadeRam, capacidadeDisco, fkTotem);
 
+        System.out.println("Dados do sistema inseridos!");
     }
 
     public void inserirTempoDeAtividade(){
-        con.update("INSERT INTO captura (valor, tipo, dataHora) VALUES (?,?,?)",
-                tempoDeAtividade, String.valueOf(TipoCapturaEnum.SISTEMA), LocalDateTime.now());
+        con.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,?)",
+                tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now(), fkTotem);
 
         System.out.println("Captura realizada!");
     }
@@ -60,6 +61,14 @@ public class MaquinaT {
 
     public Integer getArquitetura() {
         return sistema.getArquitetura();
+    }
+
+    public Integer getFkTotem() {
+        return fkTotem;
+    }
+
+    public void setFkTotem(Integer fkTotem) {
+        this.fkTotem = fkTotem;
     }
 
     @Override

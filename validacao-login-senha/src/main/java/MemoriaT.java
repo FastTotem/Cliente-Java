@@ -23,7 +23,7 @@ public class MemoriaT extends Componente{
     public void inserirCapturaUsoMemoria(){
 
         emUso = memoria.getEmUso();
-        this.inserirCapturaComponente(emUso, String.valueOf(TipoCapturaEnum.MEMORIA), idMemoria);
+        this.inserirCapturaComponente(emUso, String.valueOf(TipoEnum.MEMORIA), idMemoria);
 //        disponivel = memoria.getDisponivel();
 //        this.inserirCapturaComponente(disponivel, String.valueOf(TipoCapturaEnum.MEMORIA));
 
@@ -54,7 +54,7 @@ public class MemoriaT extends Componente{
     }
 
     public void setIdMemoriaTotemValidado(Integer idTotem) {
-        idMemoria = getIdComponente(String.valueOf(TipoCapturaEnum.MEMORIA), idTotem);
+        idMemoria = getIdComponente(String.valueOf(TipoEnum.MEMORIA), idTotem);
     }
 
     public void setIdMemoria(Integer idMemoria) {
