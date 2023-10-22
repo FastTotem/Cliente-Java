@@ -1,17 +1,37 @@
+import com.github.britooo.looca.api.group.discos.Disco;
+
 public class DiscoT {
+    private Disco disco;
     private Long tamanho;
     private Long escritas;
     private Long bytesDeEscritas;
     private String nome;
     private String modelo;
+    private Long bytesDeLeituras;
 
-    public DiscoT(Long tamanho, Long escritas, Long bytesDeEscritas, String nome, String modelo) {
-        this.tamanho = tamanho;
-        this.escritas = escritas;
-        this.bytesDeEscritas = bytesDeEscritas;
-        this.nome = nome;
-        this.modelo = modelo;
+
+    private Integer tempoInsert;
+    private Long lastRead;
+    private Long lastWrite;
+
+    public DiscoT(Disco disco) {
+        this.disco = disco;
+        this.tamanho = disco.getTamanho();
+        this.escritas = disco.getEscritas();
+        this.bytesDeLeituras = disco.getBytesDeLeitura();
+        this.bytesDeEscritas = disco.getBytesDeEscritas();
+        this.nome = disco.getNome();
+        this.modelo = disco.getModelo();
+        this.tempoInsert = 60;
+        this.lastRead = bytesDeEscritas;
+        this.lastWrite = bytesDeEscritas;
     }
+
+    public Long calcularReadWrite(){
+        Long resposta = (getBytesDeEscritas() - lastWrite) + (getBytesDeLeituras() - lastRead) / tempoInsert;
+        return resposta;
+    }
+
 
     public Long getTamanho() {
         return tamanho;
@@ -22,7 +42,7 @@ public class DiscoT {
     }
 
     public Long getBytesDeEscritas() {
-        return bytesDeEscritas;
+        return disco.getBytesDeEscritas();
     }
 
     public String getNome() {
@@ -32,6 +52,8 @@ public class DiscoT {
     public String getModelo() {
         return modelo;
     }
+
+    public Long getBytesDeLeituras() { return disco.getBytesDeLeitura(); }
 
     @Override
     public String toString(){

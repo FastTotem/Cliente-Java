@@ -1,15 +1,19 @@
 import com.github.britooo.looca.api.group.dispositivos.DispositivoUsb;
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
 
+import java.util.List;
+
 public class UsbT {
     private String nome;
     private String idExclusivo;
-    private Boolean conectado;
+    private DispositivoUsb maquininha;
+    private DispositivosUsbGrupo usbs;
 
-    public UsbT(String nome, String idExclusivo, Boolean conectado) {
-        this.nome = nome;
-        this.idExclusivo = idExclusivo;
-        this.conectado = conectado;
+    public UsbT(DispositivoUsb maquininha, DispositivosUsbGrupo usbs) {
+        this.maquininha = maquininha;
+        this.nome = maquininha.getNome();
+        this.idExclusivo = maquininha.getIdDispositivoUsbExclusivo();
+        this.usbs = usbs;
     }
 
     public String getNome() {
@@ -22,6 +26,15 @@ public class UsbT {
 
     public Boolean getConectado() {
         return conectado;
+    }
+
+    public Boolean verificarConexao(){
+        List<DispositivoUsb> usbsConectados = usbs.getDispositivosUsbConectados();
+        if (usbsConectados.contains(maquininha)){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     @Override

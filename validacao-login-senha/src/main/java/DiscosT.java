@@ -16,7 +16,7 @@ public class DiscosT {
         discosT = new ArrayList<DiscoT>();
 
         for (Disco disco: discos) {
-            DiscoT novoDisco = new DiscoT(disco.getTamanho(), disco.getEscritas(), disco.getBytesDeEscritas(), disco.getNome(), disco.getModelo());
+            DiscoT novoDisco = new DiscoT(disco);
             discosT.add(novoDisco);
         }
     }

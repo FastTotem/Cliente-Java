@@ -1,5 +1,8 @@
+import com.github.britooo.looca.api.group.dispositivos.DispositivoUsb;
+import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
 import oshi.SystemInfo;
 
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
@@ -20,6 +23,8 @@ public class Monitoramento {
         MaquinaT maquinaT = new MaquinaT();
         MemoriaT memoriaT = new MemoriaT();
         ProcessadorT processadorT = new ProcessadorT();
+
+        DispositivosUsbGrupo usbs = new DispositivosUsbGrupo();
 
         Mensagens mensagem = new Mensagens();
         System.out.println(mensagem.getBoasVindas());
@@ -55,6 +60,10 @@ public class Monitoramento {
             maquinaT.inserirDadosSistema(totem.getIdTotem());
             totem.setBoardSerialNumber(serialNumber);
             totem.inserirBoardSerialNumber();
+
+            // Encontrando a maquininha
+            Maquininha cadastroMaquina = new Maquininha(usbs, txtScanner);
+            UsbT maquininha = new UsbT(cadastroMaquina.cadastrar(),usbs);
 
         } else {
             memoriaT.setIdMemoriaTotemValidado(totem.getIdTotem());
