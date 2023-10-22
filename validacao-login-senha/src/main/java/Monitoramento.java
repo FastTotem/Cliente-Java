@@ -1,7 +1,11 @@
 import com.github.britooo.looca.api.group.dispositivos.DispositivoUsb;
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
+import gui.TelaChaveAtivacao;
 import oshi.SystemInfo;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
@@ -37,16 +41,35 @@ public class Monitoramento {
             Boolean chaveValida = false;
             totem = new Totem();
 
-            do {
-                System.out.println("Digite a chave de ativação do totem:");
-                String chaveDeAcesso = txtScanner.nextLine();
+//                System.out.println("Digite a chave de ativação do totem:");
+//                String chaveDeAcesso = txtScanner.nextLine();
 
-                totem.setChaveDeAcesso(chaveDeAcesso);
+            do {
+
+                TelaChaveAtivacao telaChaveAtivacao = new TelaChaveAtivacao();
+                final String[] activationKey = new String[1];
+                telaChaveAtivacao.desenharTela(new TelaChaveAtivacao.ActivationListener() {
+                    @Override
+                    public void onActivation(String key) {
+                        System.out.println("Chave de ativação: " + key);
+                        activationKey[0] = key;
+                    }
+                });
+
+                if (activationKey[0] != null) {
+                    String chaveDeAcesso = activationKey[0];
+                    totem.setChaveDeAcesso(chaveDeAcesso);
+                }
+
                 totem = totem.getTotem();
                 if (totem == null){
+                    JOptionPane.showMessageDialog(null, "Chave de ativação incorreta! Insira uma chave válida", "Erro - Chave inválida", JOptionPane.ERROR_MESSAGE);
+                    telaChaveAtivacao. fechar(telaChaveAtivacao.getTelaChaveAtivacaoFrame());
                     System.out.println("Chave de ativação incorreta!");
                     totem = new Totem();
                 } else {
+                    JOptionPane.showMessageDialog(null, "Chave validada com sucesso!", "Sucesso - Chave válida", JOptionPane.INFORMATION_MESSAGE);
+                    telaChaveAtivacao.fechar(telaChaveAtivacao.getTelaChaveAtivacaoFrame());
                     chaveValida = true;
                 }
 
