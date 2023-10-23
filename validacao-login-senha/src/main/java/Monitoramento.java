@@ -1,8 +1,6 @@
-import com.github.britooo.looca.api.group.dispositivos.DispositivoUsb;
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
 import oshi.SystemInfo;
 
-import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
@@ -26,6 +24,8 @@ public class Monitoramento {
         ProcessadorT processadorT = new ProcessadorT();
 
         DispositivosUsbGrupo usbs = new DispositivosUsbGrupo();
+        Maquininha cadastroMaquina = new Maquininha(usbs, txtScanner);
+        UsbT maquininha = new UsbT(usbs);
 
         Mensagens mensagem = new Mensagens();
         System.out.println(mensagem.getBoasVindas());
@@ -60,8 +60,8 @@ public class Monitoramento {
             maquinaT.setFkTotem(totem.getIdTotem());
 
             // set id dos componentes para captura
-            memoriaT.setIdMemoria(componente.inserirComponentes(String.valueOf(TipoEnum.MEMORIA)));
-            processadorT.setIdProcessador(componente.inserirComponentes(String.valueOf(TipoEnum.PROCESSADOR)));
+            memoriaT.setIdMemoria(componente.inserirComponente(String.valueOf(TipoEnum.MEMORIA), null));
+            processadorT.setIdProcessador(componente.inserirComponente(String.valueOf(TipoEnum.PROCESSADOR), null));
             discosT.inserirDiscos();
 
             maquinaT.inserirDadosSistema();
@@ -69,8 +69,9 @@ public class Monitoramento {
             totem.inserirBoardSerialNumber();
 
             // Encontrando a maquininha
-            Maquininha cadastroMaquina = new Maquininha(usbs, txtScanner);
-            UsbT maquininha = new UsbT(cadastroMaquina.cadastrar(),usbs);
+            maquininha.setMaquininha(cadastroMaquina.cadastrar());
+            maquininha.setFkTotem(totem.getIdTotem());
+            maquininha.inserirDispositivo();
 
         } else {
 
@@ -79,6 +80,7 @@ public class Monitoramento {
             memoriaT.setFkTotem(totem.getIdTotem());
             processadorT.setFkTotem(totem.getIdTotem());
             maquinaT.setFkTotem(totem.getIdTotem());
+            maquininha.setFkTotem(totem.getIdTotem());
 
             // set id dos componentes para captura
             discosT.setIdDiscos();
@@ -94,10 +96,12 @@ public class Monitoramento {
             memoriaT.inserirCapturaUsoMemoria();
             processadorT.inserirCapturaUsoProcessador();
             discosT.inserirCapturasDisco();
+            discosT.inserirReadWrite();
         }, 0, 1, TimeUnit.MINUTES);
 
         scheduler.scheduleAtFixedRate(() -> {
             maquinaT.inserirTempoDeAtividade();
+            maquininha.verificarConexao();
         }, 0, 1, TimeUnit.HOURS);
 
         //execução contínua do código

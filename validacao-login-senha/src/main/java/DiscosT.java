@@ -26,7 +26,7 @@ public class DiscosT extends Componente {
     public void inserirDiscos(){
 
         for (DiscoT discoT : discosT){
-            idDiscos.add(inserirComponentes(String.valueOf(TipoEnum.DISCO)));
+            idDiscos.add(inserirComponente(String.valueOf(TipoEnum.DISCO), discoT.getNome()));
         }
 
     }
@@ -48,6 +48,26 @@ public class DiscosT extends Componente {
         for(DiscoT discoT: discosT){
             inserirCapturaComponente(discoT.getEscritas(), String.valueOf(TipoEnum.ESCRITA), discoT.getIdDisco());
             inserirCapturaComponente(discoT.getLeituras(), String.valueOf(TipoEnum.LEITURA), discoT.getIdDisco());
+        }
+
+    }
+
+    public void inserirReadWrite(){
+
+        if (idDiscos.isEmpty()){
+            setIdDiscos();
+        }
+
+        if (discosT.get(0).getIdDisco() == null){
+            Integer idDisco;
+            for (int i = 0; i < idDiscos.size(); i++) {
+                idDisco = idDiscos.get(i);
+                discosT.get(i).setIdDisco(idDisco);
+            }
+        }
+
+        for(DiscoT discoT: discosT){
+            inserirCapturaComponente(discoT.calcularReadWrite(), String.valueOf(TipoEnum.TAXA_TRANSFERENCIA), discoT.getIdDisco());
         }
 
     }

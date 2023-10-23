@@ -10,6 +10,7 @@ public class Componente {
 
     private Integer idComponente;
     private String nomeComponente;
+    private String tipoComponente;
     private Integer fkTotem;
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
@@ -17,31 +18,31 @@ public class Componente {
     public Componente() {}
 
     public List<Componente> verificarComponente(){
-        List<Componente> componentes = con.query("SELECT * FROM componente where fkTotem = ? and nomeComponente = ?",
-                new BeanPropertyRowMapper<>(Componente.class), fkTotem, nomeComponente);
+        List<Componente> componentes = con.query("SELECT * FROM componente where fkTotem = ? and tipoComponente = ?",
+                new BeanPropertyRowMapper<>(Componente.class), fkTotem, tipoComponente);
 
         return componentes;
     }
 
-    public Integer inserirComponentes(String nomeComponente){
+    public Integer inserirComponente(String tipoComponente, String nomeComponente){
 
-        this.nomeComponente = nomeComponente;
+        this.tipoComponente = tipoComponente;
         List<Componente> componentes = verificarComponente();
         if (componentes.isEmpty()){
-            con.update("INSERT INTO componente (nomeComponente, fkTotem) VALUES (?,?)",
-                    nomeComponente, fkTotem);
+            con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
+                    nomeComponente, tipoComponente, fkTotem);
             System.out.println("Componente inserido!");
 
-            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
+            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
 
             return idComponente;
 
-        } else if (Objects.equals(nomeComponente, String.valueOf(TipoEnum.DISCO))){
+        } else if (Objects.equals(tipoComponente, String.valueOf(TipoEnum.DISCO))){
 
-            con.update("INSERT INTO componente (nomeComponente, fkTotem) VALUES (?,?)",
-                    nomeComponente, fkTotem);
+            con.update("INSERT INTO componente (tipoComponente, fkTotem) VALUES (?,?)",
+                    tipoComponente, fkTotem);
 
-            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
+            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
 
             return idComponente;
 
@@ -69,15 +70,15 @@ public class Componente {
 
     }
 
-    protected List<Integer> getListaIdComponente(String nomeComponente) {
-        List<Integer> idComponentes = con.queryForList("SELECT idComponente FROM componente WHERE nomeComponente = ? AND fkTotem = ?",
-                Integer.class, nomeComponente, fkTotem);
+    protected List<Integer> getListaIdComponente(String tipoComponente) {
+        List<Integer> idComponentes = con.queryForList("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
+                Integer.class, tipoComponente, fkTotem);
         return idComponentes;
     }
 
-    protected Integer getIdComponente(String nomeComponente, Integer idTotem) {
-        idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE nomeComponente = ? AND fkTotem = ?",
-                Integer.class, nomeComponente, idTotem);
+    protected Integer getIdComponente(String tipoComponente, Integer idTotem) {
+        idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
+                Integer.class, tipoComponente, idTotem);
         return idComponente;
     }
 
@@ -91,6 +92,13 @@ public class Componente {
 
     public String getNomeComponente() {
         return nomeComponente;
+    }
+
+    public String getNomeComponente(String tipoComponente) {
+        nomeComponente = con.queryForObject("SELECT nomeComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
+                String.class, tipoComponente, fkTotem);
+        return nomeComponente;
+
     }
 
     public void setNomeComponente(String nomeComponente) {
