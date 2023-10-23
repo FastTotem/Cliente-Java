@@ -8,6 +8,7 @@ public class UsbT {
     private String idExclusivo;
     private DispositivoUsb maquininha;
     private DispositivosUsbGrupo usbs;
+    private Boolean conectado;
 
     public UsbT(DispositivoUsb maquininha, DispositivosUsbGrupo usbs) {
         this.maquininha = maquininha;
