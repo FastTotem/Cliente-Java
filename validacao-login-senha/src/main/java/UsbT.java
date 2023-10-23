@@ -10,6 +10,13 @@ public class UsbT extends Componente {
     private DispositivosUsbGrupo usbs;
     private Integer idUsb;
 
+    public UsbT() {
+    }
+
+    public UsbT(DispositivosUsbGrupo usbs) {
+        this.usbs = usbs;
+    }
+
     public UsbT(DispositivoUsb maquininha, DispositivosUsbGrupo usbs) {
         this.maquininha = maquininha;
         this.nome = maquininha.getNome();
@@ -19,6 +26,13 @@ public class UsbT extends Componente {
 
     public void verificarConexao(){
         List<DispositivoUsb> usbsConectados = usbs.getDispositivosUsbConectados();
+        idExclusivo = getNomeComponente(String.valueOf(TipoEnum.USB));
+        idUsb = getIdComponente(String.valueOf(TipoEnum.USB), getFkTotem());
+        for (DispositivoUsb usb : usbsConectados){
+            if (usb.getIdDispositivoUsbExclusivo().equals(idExclusivo)){
+                maquininha = usb;
+            }
+        }
         if (usbsConectados.contains(maquininha)){
             inserirCapturaComponente(1.0, String.valueOf(TipoEnum.USB), idUsb);
         } else{
@@ -27,7 +41,7 @@ public class UsbT extends Componente {
     }
 
     public void inserirDispositivo(){
-        idUsb = inserirComponente(String.valueOf(TipoEnum.USB), nome);
+        idUsb = inserirComponente(String.valueOf(TipoEnum.USB), idExclusivo);
     }
 
     public String getNome() {
@@ -44,6 +58,14 @@ public class UsbT extends Componente {
 
     public void setIdUsb(Integer idUsb) {
         this.idUsb = idUsb;
+    }
+
+    public void setIdUsbTotemValidado() {
+        idUsb = getIdComponente(String.valueOf(TipoEnum.USB), getFkTotem());
+    }
+
+    public void setMaquininha(DispositivoUsb maquininha) {
+        this.maquininha = maquininha;
     }
 
     @Override

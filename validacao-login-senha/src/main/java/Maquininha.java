@@ -1,5 +1,6 @@
 import com.github.britooo.looca.api.group.dispositivos.DispositivoUsb;
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
+import gui.TelaCadastroMaquininha;
 
 import java.util.List;
 import java.util.Scanner;
@@ -15,12 +16,29 @@ public class Maquininha {
     }
 
     public DispositivoUsb cadastrar(){
-        System.out.println("Por favor, garanta que sua maquininha de cartão esteja devidamente conectada. Quando estiver certo disso, pressione ENTER.");
-        String ok = in.nextLine();
+
+        TelaCadastroMaquininha telaCadastroMaquininha = new TelaCadastroMaquininha();
+        telaCadastroMaquininha.desenharTelaMaquininhaConectada(new TelaCadastroMaquininha.ActivationListener() {
+            @Override
+            public void onActivation() {
+                telaCadastroMaquininha.fechar(telaCadastroMaquininha.getTelaChaveAtivacaoFrame());
+            }
+        });
+
         List<DispositivoUsb> comMaquininha = usbs.getDispositivosUsbConectados();
 
-        System.out.println("Por favor Remova a maquininha. Após remover, pressione ENTER");
-        ok = in.nextLine();
+        telaCadastroMaquininha.desenharTelaMaquininhaDesconectada(new TelaCadastroMaquininha.ActivationListener() {
+            @Override
+            public void onActivation() {
+                telaCadastroMaquininha.fechar(telaCadastroMaquininha.getTelaChaveAtivacaoFrame());
+            }
+        });
+
+//        System.out.println("Por favor, garanta que sua maquininha de cartão esteja devidamente conectada. Quando estiver certo disso, pressione ENTER.");
+//        String ok = in.nextLine();
+
+//        System.out.println("Por favor Remova a maquininha. Após remover, pressione ENTER");
+//        ok = in.nextLine();
         List<DispositivoUsb> semMaquininha = usbs.getDispositivosUsbConectados();
 
         for (DispositivoUsb dispositivo : comMaquininha) {

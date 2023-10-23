@@ -70,15 +70,15 @@ public class Componente {
 
     }
 
-    protected List<Integer> getListaIdComponente(String nomeComponente) {
-        List<Integer> idComponentes = con.queryForList("SELECT idComponente FROM componente WHERE nomeComponente = ? AND fkTotem = ?",
-                Integer.class, nomeComponente, fkTotem);
+    protected List<Integer> getListaIdComponente(String tipoComponente) {
+        List<Integer> idComponentes = con.queryForList("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
+                Integer.class, tipoComponente, fkTotem);
         return idComponentes;
     }
 
-    protected Integer getIdComponente(String nomeComponente, Integer idTotem) {
-        idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE nomeComponente = ? AND fkTotem = ?",
-                Integer.class, nomeComponente, idTotem);
+    protected Integer getIdComponente(String tipoComponente, Integer idTotem) {
+        idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
+                Integer.class, tipoComponente, idTotem);
         return idComponente;
     }
 
@@ -92,6 +92,13 @@ public class Componente {
 
     public String getNomeComponente() {
         return nomeComponente;
+    }
+
+    public String getNomeComponente(String tipoComponente) {
+        nomeComponente = con.queryForObject("SELECT nomeComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
+                String.class, tipoComponente, fkTotem);
+        return nomeComponente;
+
     }
 
     public void setNomeComponente(String nomeComponente) {
