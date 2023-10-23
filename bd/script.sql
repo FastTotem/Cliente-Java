@@ -90,9 +90,17 @@ CREATE TABLE IF NOT EXISTS ParametroAlerta (
     FOREIGN KEY (fkComponente) REFERENCES Componente (idComponente)
 );
 
+-- Cria o usuário root se ele não existir
+GRANT CREATE USER ON *.* TO 'root'@'localhost';
+FLUSH PRIVILEGES; 
+
 -- Cria o usuário fastTotemAdmin se ele não existir
 CREATE USER IF NOT EXISTS fastTotemAdmin@localhost IDENTIFIED BY 'fasttotem123';
 -- Concede todas as permissões para o usuário fastTotemAdmin no banco de dados fastTotem
 GRANT ALL PRIVILEGES ON fastTotem.* TO 'fastTotemAdmin'@'localhost';
 -- Atualiza as permissões
 FLUSH PRIVILEGES;
+
+INSERT INTO endereco (logradouro, bairro, numero, complemento, cep) VALUES ('Avenida Hilário Pereira de Souza', 'Centro', '492', 'Piso 2', '06010170');
+INSERT INTO empresa (razaoSocial, cnpj, email, fkEndereco) VALUES ('King Hamburgueria', '12345678978945', 'kinghamburgueria@mail.com', 1);
+INSERT INTO totem (nome, chaveDeAcesso, fkEmpresa) VALUES ('Totem01', '1234', 1);
