@@ -16,7 +16,7 @@ public class UsbT extends Componente {
     public UsbT(DispositivosUsbGrupo usbs) {
         this.usbs = usbs;
     }
-
+  
     public UsbT(DispositivoUsb maquininha, DispositivosUsbGrupo usbs) {
         this.maquininha = maquininha;
         this.nome = maquininha.getNome();
