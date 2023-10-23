@@ -26,6 +26,8 @@ public class Monitoramento {
         ProcessadorT processadorT = new ProcessadorT();
 
         DispositivosUsbGrupo usbs = new DispositivosUsbGrupo();
+        Maquininha cadastroMaquina = new Maquininha(usbs, txtScanner);
+        UsbT maquininha = new UsbT(usbs);
 
         Mensagens mensagem = new Mensagens();
         System.out.println(mensagem.getBoasVindas());
@@ -88,14 +90,14 @@ public class Monitoramento {
             totem.inserirBoardSerialNumber();
 
             // Encontrando a maquininha
-            Maquininha cadastroMaquina = new Maquininha(usbs, txtScanner);
-            UsbT maquininha = new UsbT(cadastroMaquina.cadastrar(),usbs);
+            maquininha.setMaquininha(cadastroMaquina.cadastrar());
             maquininha.setFkTotem(totem.getIdTotem());
             maquininha.inserirDispositivo();
 
         } else {
 
             // fkTotem para inserção na captura
+            maquininha.setFkTotem(totem.getIdTotem());
             discosT.setFkTotem(totem.getIdTotem());
             memoriaT.setFkTotem(totem.getIdTotem());
             processadorT.setFkTotem(totem.getIdTotem());
@@ -120,6 +122,7 @@ public class Monitoramento {
 
         scheduler.scheduleAtFixedRate(() -> {
             maquinaT.inserirTempoDeAtividade();
+            maquininha.verificarConexao();
         }, 0, 1, TimeUnit.HOURS);
 
         //execução contínua do código

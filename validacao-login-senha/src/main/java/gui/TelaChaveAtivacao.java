@@ -15,10 +15,6 @@ public class TelaChaveAtivacao {
     private JFrame telaChaveAtivacaoFrame;
 
     private JTextField inputChaveAtivacao;
-//
-//    public TelaChaveAtivacao(TelaChaveAtivacaoListener listener) {
-//        this.listener = listener;
-//    }
 
     public void desenharTela(ActivationListener listener) {
 
