@@ -12,13 +12,9 @@ import com.github.britooo.looca.api.group.discos.Disco;
         private String nome;
         private String modelo;
         private Long bytesDeLeituras;
-
-
         private Integer tempoInsert;
         private Long lastRead;
         private Long lastWrite;
-
-
         private Long leituras;
 
         public DiscoT(Disco disco) {
@@ -29,16 +25,24 @@ import com.github.britooo.looca.api.group.discos.Disco;
             this.bytesDeEscritas = disco.getBytesDeEscritas();
             this.nome = disco.getNome();
             this.modelo = disco.getModelo();
-            this.tempoInsert = 30;
+            this.tempoInsert = 60;
             this.lastRead = bytesDeEscritas;
             this.lastWrite = bytesDeEscritas;
         }
 
         public Long calcularReadWrite(){
-            Long resposta = (getBytesDeEscritas() - lastWrite) + (getBytesDeLeituras() - lastRead) / tempoInsert;
-            return resposta;
-        }
 
+            bytesDeLeituras = getBytesDeLeituras();
+            bytesDeEscritas = getBytesDeEscritas();
+
+            Long resposta = (bytesDeEscritas - lastWrite) + (bytesDeLeituras - lastRead) / tempoInsert;
+
+            lastWrite = bytesDeLeituras;
+            lastRead = bytesDeLeituras;
+
+            return resposta;
+
+        }
 
 
         public Long getBytesDeEscritas() {

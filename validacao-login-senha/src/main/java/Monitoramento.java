@@ -1,12 +1,8 @@
-import com.github.britooo.looca.api.group.dispositivos.DispositivoUsb;
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
 import gui.TelaChaveAtivacao;
 import oshi.SystemInfo;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
@@ -83,8 +79,8 @@ public class Monitoramento {
             maquinaT.setFkTotem(totem.getIdTotem());
 
             // set id dos componentes para captura
-            memoriaT.setIdMemoria(componente.inserirComponentes(String.valueOf(TipoEnum.MEMORIA)));
-            processadorT.setIdProcessador(componente.inserirComponentes(String.valueOf(TipoEnum.PROCESSADOR)));
+            memoriaT.setIdMemoria(componente.inserirComponente(String.valueOf(TipoEnum.MEMORIA), null));
+            processadorT.setIdProcessador(componente.inserirComponente(String.valueOf(TipoEnum.PROCESSADOR), null));
             discosT.inserirDiscos();
 
             maquinaT.inserirDadosSistema();
@@ -94,6 +90,8 @@ public class Monitoramento {
             // Encontrando a maquininha
             Maquininha cadastroMaquina = new Maquininha(usbs, txtScanner);
             UsbT maquininha = new UsbT(cadastroMaquina.cadastrar(),usbs);
+            maquininha.setFkTotem(totem.getIdTotem());
+            maquininha.inserirDispositivo();
 
         } else {
 
@@ -117,6 +115,7 @@ public class Monitoramento {
             memoriaT.inserirCapturaUsoMemoria();
             processadorT.inserirCapturaUsoProcessador();
             discosT.inserirCapturasDisco();
+            discosT.inserirReadWrite();
         }, 0, 1, TimeUnit.MINUTES);
 
         scheduler.scheduleAtFixedRate(() -> {
