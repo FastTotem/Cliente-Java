@@ -41,4 +41,12 @@
         </dependency>
     </dependencies>
 
+     <!-- Slack-->
+        <!-- https://mvnrepository.com/artifact/com.slack.api/slack-api-client -->
+        <dependency>
+            <groupId>com.slack.api</groupId>
+            <artifactId>slack-api-client</artifactId>
+            <version>1.29.2</version>
+        </dependency>
+
 </project>
