@@ -102,6 +102,7 @@ public class Monitoramento {
             memoriaT.setFkTotem(totem.getIdTotem());
             processadorT.setFkTotem(totem.getIdTotem());
             maquinaT.setFkTotem(totem.getIdTotem());
+            maquininha.setFkTotem(totem.getIdTotem());
 
             // set id dos componentes para captura
             discosT.setIdDiscos();

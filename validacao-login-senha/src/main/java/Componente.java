@@ -39,10 +39,10 @@ public class Componente {
 
         } else if (Objects.equals(tipoComponente, String.valueOf(TipoEnum.DISCO))){
 
-            con.update("INSERT INTO componente (tipoComponente, fkTotem) VALUES (?,?)",
-                    tipoComponente, fkTotem);
+            con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
+                    nomeComponente, tipoComponente, fkTotem);
 
-            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
+            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
 
             return idComponente;
 
