@@ -108,7 +108,6 @@ GRANT ALL PRIVILEGES ON fastTotem.* TO 'fastTotemAdmin'@'localhost';
 -- Atualiza as permissões
 FLUSH PRIVILEGES;
 
-
 INSERT INTO endereco (logradouro, bairro, numero, complemento, cep) VALUES ('Avenida Hilário Pereira de Souza', 'Centro', '492', 'Piso 2', '06010170');
 INSERT INTO empresa (razaoSocial, cnpj, email, fkEndereco) VALUES ('King Hamburgueria', '12345678978945', 'kinghamburgueria@mail.com', 1);
 INSERT INTO totem (nome, chaveDeAcesso, fkEmpresa) VALUES ('Totem01', '1234', 1);
