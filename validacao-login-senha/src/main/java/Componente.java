@@ -42,7 +42,7 @@ public class Componente {
             con.update("INSERT INTO componente (tipoComponente, fkTotem) VALUES (?,?)",
                     tipoComponente, fkTotem);
 
-            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
+            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
 
             return idComponente;
 
