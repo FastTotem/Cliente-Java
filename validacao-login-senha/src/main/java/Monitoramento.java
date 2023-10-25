@@ -66,7 +66,7 @@ public class Monitoramento {
                     System.out.println("Chave de ativação incorreta!");
                     totem = new Totem();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Chave validada com sucesso!", "Sucesso - Chave válida", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Chave validada com sucesso! Aguarde a etapa de cadastro da maquininha.", "Sucesso - Chave válida", JOptionPane.INFORMATION_MESSAGE);
                     telaChaveAtivacao.fechar(telaChaveAtivacao.getTelaChaveAtivacaoFrame());
                     chaveValida = true;
                 }

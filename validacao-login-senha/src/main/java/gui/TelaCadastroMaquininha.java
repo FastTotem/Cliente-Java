@@ -21,7 +21,7 @@ public class TelaCadastroMaquininha {
         Color roxoMedio = new Color(189, 6, 221);
         Color roxoEscuro = new Color(103, 4, 120);
 
-        Font titulo = new Font("Montserrat", Font.BOLD, 30);
+        Font titulo = new Font("Montserrat", Font.BOLD, 20);
         Font label = new Font("Montserrat", Font.BOLD, 15);
 
         Image icon = new ImageIcon("D:\\FastTotem\\Cliente-Java\\validacao-login-senha\\src\\main\\java\\assets\\img\\IconFastTotem.png").getImage();
@@ -42,14 +42,14 @@ public class TelaCadastroMaquininha {
         labelTituloTela.setFont(titulo);
 
         JLabel labelChaveAtivacao = new JLabel();
-        labelChaveAtivacao.setText("Por favor, garanta que sua maquininha de cartão esteja devidamente conectada. Quando estiver certo disso, clique em OK");
-        labelChaveAtivacao.setBounds(20, 90, 450, 30);
+        labelChaveAtivacao.setText("<html>Por favor, garanta que sua maquininha de cartão esteja devidamente conectada. Quando estiver certo disso, clique em OK</html>");
+        labelChaveAtivacao.setBounds(20, 90, 450, 60);
         labelChaveAtivacao.setForeground(Color.WHITE);
         labelChaveAtivacao.setFont(label);
 
         buttonConfirmar = new JButton();
         buttonConfirmar.setText("OK");
-        buttonConfirmar.setBounds(100, 120, 300, 30);
+        buttonConfirmar.setBounds(100, 180, 300, 30);
         buttonConfirmar.setBackground(roxoEscuro);
         buttonConfirmar.setForeground(Color.WHITE);
         buttonConfirmar.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
@@ -94,7 +94,7 @@ public class TelaCadastroMaquininha {
         Color roxoMedio = new Color(189, 6, 221);
         Color roxoEscuro = new Color(103, 4, 120);
 
-        Font titulo = new Font("Montserrat", Font.BOLD, 30);
+        Font titulo = new Font("Montserrat", Font.BOLD, 20);
         Font label = new Font("Montserrat", Font.BOLD, 15);
 
         Image icon = new ImageIcon("D:\\FastTotem\\Cliente-Java\\validacao-login-senha\\src\\main\\java\\assets\\img\\IconFastTotem.png").getImage();
@@ -115,7 +115,7 @@ public class TelaCadastroMaquininha {
         labelTituloTela.setFont(titulo);
 
         JLabel labelChaveAtivacao = new JLabel();
-        labelChaveAtivacao.setText("Por favor Remova a maquininha. Após remover, clique em OK");
+        labelChaveAtivacao.setText("<html>Por favor, remova a maquininha. Após remover, clique em OK<html>");
         labelChaveAtivacao.setBounds(20, 90, 450, 30);
         labelChaveAtivacao.setForeground(Color.WHITE);
         labelChaveAtivacao.setFont(label);
