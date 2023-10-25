@@ -26,7 +26,6 @@ public class Monitoramento {
         DispositivosUsbGrupo usbs = new DispositivosUsbGrupo();
         Maquininha cadastroMaquina = new Maquininha(usbs, txtScanner);
         UsbT maquininha = new UsbT(usbs);
-        TemperaturaT temperaturaT = new TemperaturaT();
 
         Mensagens mensagem = new Mensagens();
         System.out.println(mensagem.getBoasVindas());
@@ -59,7 +58,6 @@ public class Monitoramento {
             memoriaT.setFkTotem(totem.getIdTotem());
             processadorT.setFkTotem(totem.getIdTotem());
             maquinaT.setFkTotem(totem.getIdTotem());
-            temperaturaT.setFkTotem(totem.getIdTotem());
 
             // set id dos componentes para captura
             memoriaT.setIdMemoria(componente.inserirComponente(String.valueOf(TipoEnum.MEMORIA), null));
@@ -83,7 +81,6 @@ public class Monitoramento {
             processadorT.setFkTotem(totem.getIdTotem());
             maquinaT.setFkTotem(totem.getIdTotem());
             maquininha.setFkTotem(totem.getIdTotem());
-            temperaturaT.setFkTotem(totem.getIdTotem());
 
             // set id dos componentes para captura
             discosT.setIdDiscos();
@@ -100,7 +97,6 @@ public class Monitoramento {
             processadorT.inserirCapturaUsoProcessador();
             discosT.inserirCapturasDisco();
             discosT.inserirReadWrite();
-            temperaturaT.inserirCapturaTemperatura();
         }, 0, 1, TimeUnit.MINUTES);
 
         scheduler.scheduleAtFixedRate(() -> {
