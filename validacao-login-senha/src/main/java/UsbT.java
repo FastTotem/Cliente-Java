@@ -41,6 +41,7 @@ public class UsbT extends Componente {
     }
 
     public void inserirDispositivo(){
+        idExclusivo = maquininha.getIdDispositivoUsbExclusivo();
         idUsb = inserirComponente(String.valueOf(TipoEnum.USB), idExclusivo);
     }
 
