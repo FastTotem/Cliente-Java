@@ -44,7 +44,9 @@ public class Maquininha {
         }
 
         if (maquininha != null){
-            JOptionPane.showMessageDialog(null, "Maquininha cadastrada com sucesso!", "Cadastro de maquininha", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Maquininha cadastrada com sucesso! Iniciando captura...", "Cadastro de maquininha", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Não foi possível encontrar a maquininha", "Erro - Maquininha não encontrada", JOptionPane.ERROR_MESSAGE);
         }
 
         return maquininha;

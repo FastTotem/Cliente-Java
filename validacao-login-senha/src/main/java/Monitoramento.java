@@ -39,9 +39,6 @@ public class Monitoramento {
             Boolean chaveValida = false;
             totem = new Totem();
 
-//                System.out.println("Digite a chave de ativação do totem:");
-//                String chaveDeAcesso = txtScanner.nextLine();
-
             do {
 
                 TelaChaveAtivacao telaChaveAtivacao = new TelaChaveAtivacao();
@@ -93,6 +90,8 @@ public class Monitoramento {
             maquininha.setMaquininha(cadastroMaquina.cadastrar());
             maquininha.setFkTotem(totem.getIdTotem());
             maquininha.inserirDispositivo();
+
+            JOptionPane.showMessageDialog(null, "Captura iniciada!", "Sucesso - Captura", JOptionPane.INFORMATION_MESSAGE);
 
         } else {
 
