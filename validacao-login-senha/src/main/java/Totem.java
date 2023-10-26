@@ -4,6 +4,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import oshi.SystemInfo;
 
+import java.util.Scanner;
+
 public class Totem {
 
     private Integer idTotem;
@@ -40,18 +42,36 @@ public class Totem {
     }
 
     public Totem validarTotemJaAtivo() {
+        Scanner in = new Scanner(System.in);
+        if(boardSerialNumber.equals("unknown")){
+            Boolean totemAchado = false;
+            Totem totem = null;
+            do {
+                System.out.println("Verificamos que você está utilizando uma EC2, por favor insira a chave do totem:");
+                String chave = in.nextLine();
+                try {
+                    totem = con.queryForObject("SELECT * FROM totem WHERE chaveDeAcesso = ?",
+                            new BeanPropertyRowMapper<>(Totem.class), chave);
+                    totemAchado = true;
 
-        try {
-            Totem totem = con.queryForObject("SELECT * FROM totem WHERE boardSerialNumber = ?",
-                    new BeanPropertyRowMapper<>(Totem.class), boardSerialNumber);
-
+                } catch (EmptyResultDataAccessException e) {
+                    System.out.println("Chave errada! Insira novamente!");
+                }
+            } while (!totemAchado);
             return totem;
+        } else {
+            try {
+                Totem totem = con.queryForObject("SELECT * FROM totem WHERE boardSerialNumber = ?",
+                        new BeanPropertyRowMapper<>(Totem.class), boardSerialNumber);
 
-        } catch (EmptyResultDataAccessException e) {
-            return null;
+                return totem;
+
+            } catch (EmptyResultDataAccessException e) {
+                return null;
+            }
         }
-
     }
+
 
     public void inserirBoardSerialNumber(){
         con.update("UPDATE totem SET boardSerialNumber = ? WHERE idTotem = ?", boardSerialNumber, idTotem);
