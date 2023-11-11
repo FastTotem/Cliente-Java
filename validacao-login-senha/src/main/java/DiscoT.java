@@ -1,7 +1,5 @@
 import com.github.britooo.looca.api.group.discos.Disco;
 
-import com.github.britooo.looca.api.group.discos.Disco;
-
 
     public class DiscoT {
         private Integer idDisco;

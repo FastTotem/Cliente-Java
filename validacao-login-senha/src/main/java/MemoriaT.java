@@ -20,16 +20,15 @@ public class MemoriaT extends Componente{
         return porcentagem;
     }
 
-    public void inserirCapturaUsoMemoria(){
 
+    public void inserirCapturaUsoMemoria(){
         emUso = memoria.getEmUso();
         this.inserirCapturaComponente(emUso, String.valueOf(TipoEnum.MEMORIA), idMemoria);
 //        disponivel = memoria.getDisponivel();
 //        this.inserirCapturaComponente(disponivel, String.valueOf(TipoCapturaEnum.MEMORIA));
 
     }
-
-    public Long getTotal() {
+     public Long getTotal() {
         return memoria.getTotal();
     }
 
