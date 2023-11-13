@@ -7,41 +7,44 @@ public class ProcessadorT extends Componente {
     private Integer idProcessador;
     private Double emUso;
     private Long frequencia;
+    private HardwareAbstractionLayer hal;
 
     public ProcessadorT() {
         this.hal = new oshi.SystemInfo().getHardware();
         this.processador = new Processador();
     }
 
-    private HardwareAbstractionLayer hal;
-    public void inserirCapturaUsoProcessador(){
-        emUso = processador.getUso();
+    public void inserirCapturaUsoProcessador() {
+        Double emUso = processador.getUso();
 //        frequencia = processador.getFrequencia();
         inserirCapturaComponente(emUso, String.valueOf(TipoEnum.PROCESSADOR), idProcessador);
 //        inserirCapturaComponente(frequencia, String.valueOf(TipoCapturaEnum.PROCESSADOR));
-
     }
+
     public void monitorarUsoProcessador() {
         CentralProcessor processor = hal.getProcessor();
-       // Logger.log(toString(), ProcessadorT.class);
-
         while (true) {
-        double[] systemLoadAverage = processor.getSystemLoadAverage(2); // 3 indica a média dos últimos 3 segundos - aceita de 1 a 3
-            // Se a carga do sistema atingir 100%, registra no log
-            if (processador.getUso() >= 0.1) {
-              Logger.log("Carga do sistema atingiu " + processador.getUso().shortValue()+ "%");
+            double[] systemLoadAverage = processor.getSystemLoadAverage(3); // 3 indica a média dos últimos 3 segundos - aceita de 1 a 3
+            // Se a carga do sistema atingir 80%, registra no log
+            if (processador.getUso() >= 80.0) {
+                Logger.logWarning("Carga do sistema atingiu " + processador.getUso().shortValue() + "%");
+                notificarAdministrador("Carga do sistema atingiu " + processador.getUso().shortValue() + "%");
+            } else if (processador.getUso() >= 99.0) {
+                Logger.logSEVERE("Carga do sistema atingiu " + processador.getUso().shortValue() + "%");
+                notificarAdministrador("Carga do sistema atingiu " + processador.getUso().shortValue() + "%");
+            } else {
+                Logger.logInfo("Carga do sistema está ok!", ProcessadorT.class, "Informações relevantes para o Contexto");
+                Logger.logInfo(toString(), ProcessadorT.class, "Informações relevantes para o Contexto");
             }
-
-        // Adormece por um curto período antes de verificar novamente
-        try {
-            Thread.sleep(1000); // Ajuste o intervalo conforme necessário
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            // Adormece por um curto período antes de verificar novamente
+            try {
+                Thread.sleep(5000); // intervalo
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
-}
 
-    private void log(String s) {}
     private void notificarAdministrador(String mensagem) {
         // Isso pode ser feito por slack.
         System.out.println("Notificação para administrador: " + mensagem);
@@ -64,7 +67,7 @@ public class ProcessadorT extends Componente {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Fabricante: ").append(processador.getFabricante()).append("\n");
         sb.append("Nome: ").append(processador.getNome()).append("\n");
@@ -75,9 +78,7 @@ public class ProcessadorT extends Componente {
 //        sb.append("Número de Pacotes Físicos: ").append(processador.getNumeroPacotesFisicos()).append("\n");
 //        sb.append("Número de CPUs Fisícas: ").append(processador.getNumeroCpusFisicas()).append("\n");
 //        sb.append("Número de CPUs Lógicas: ").append(processador.getNumeroCpusLogicas()).append("\n");
-        sb.append("Em Uso: ").append(String.format("%.1f", processador.getUso())).append("\n");
+        sb.append("Em Uso: ").append(String.format("%d.2", processador.getUso().shortValue())).append("%").append("\n");
         return sb.toString();
     }
-
-
 }
