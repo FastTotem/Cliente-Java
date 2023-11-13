@@ -8,41 +8,27 @@ import java.util.Comparator;
 import java.util.Date;
 
 public class Logger {
-    private static final int tamanhoMaximo = 10;
-    private static final int maximoHistoricoArquivos = 50;
+    private static final int tamanhoMaximo = 5;
+    private static final int maximoHistoricoArquivos = 30;
     private static final String logFile = "SystemComponent.log";
     private static final String logDir = "Diretório de trabalho atual: " + System.getProperty("user.dir");
 
     public static void main(String[] args) {
 
-        logInfo("Versão do programa: 1.0", Logger.class, "Identificação da Versão do programa que está rodando");
+        logInfo("Versão do programa: 1.0", Logger.class);
 
         ProcessadorT processadorT = new ProcessadorT();
-        processadorT.monitorarUsoProcessador();
+        MemoriaT memoriaT = new MemoriaT();
+
+        // Inicia threads separadas para monitorar o uso do processador e da memória
+        new Thread(processadorT::monitorarUsoProcessador).start();
+        new Thread(memoriaT::monitorarUsoMemoria).start();
 
         Componente componentes = new Componente();
     }
 
-    public static <T> void logWarning(String message, Class<T> clazz) {
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        String logEntry = timestamp + " [" + clazz.getSimpleName() + "] - " + message;
-        System.out.println(logEntry);
-
-        // Salva no arquivo de log
-        try {
-            checkLogRotation();
-            try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
-                writer.println(logEntry);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void checkLogRotation() throws IOException {
-        // Verifica o tamanho do arquivo
-        long fileSize = new File(logFile).length();
-        // Se o tamanho do arquivo atingir o limite, faz a rotação
+       private static void checkLogRotation() throws IOException {
+        long fileSize = new File(logFile).length();  // Verifica o tamanho do arquivo, se o tamanho do arquivo atingir o limite, faz a rotação
         /*Quando você define o tamanho máximo do arquivo em megabytes (MB),
         você precisa converter essa unidade para bytes para comparar com o tamanho real do arquivo,
         que geralmente é retornado em bytes.
@@ -82,7 +68,7 @@ public class Logger {
         }
     }
 
-    public static <T> void logSEVERE(String message) {
+    public static <T> void logSEVERE(String message, Class<T> clazz) {
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String logEntry = timestamp + "SEVERE: " + message + Logger.class;
         System.out.println(logEntry); // Imprime no console
@@ -95,19 +81,21 @@ public class Logger {
         }
     }
 
-    public static <T> void logWarning(String message) {
+    public static <T> void logWarning(String message, Class<T> clazz) {
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        String logEntry = timestamp + "ADVERTÊNCIA: " + message + Logger.class;
-        System.out.println(logEntry); // Imprime no console
-
+        String logEntry = timestamp + " [" + clazz.getSimpleName() + "] - " + message;
+        System.out.println(logEntry);
         // Salva no arquivo de log
-        try (PrintWriter writer = new PrintWriter(new FileWriter("SystemComponent.txt", true))) {
-            writer.println(logEntry);
+        try {
+            checkLogRotation();
+            try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
+                writer.println(logEntry);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public static <T> void logInfo(String message, Class<T> clazz, String informaçõesRelevantesParaOContexto) {
+       public static <T> void logInfo(String message, Class<T> clazz) {
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String logEntry = timestamp + " [" + clazz.getSimpleName() + "] " + message;
         System.out.println(logEntry);
