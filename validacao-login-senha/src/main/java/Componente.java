@@ -52,6 +52,11 @@ public class Componente {
 
     };
 
+    void notificarAdministrador(String mensagem) {
+        // Isso pode ser feito por slack.
+        System.out.println("Notificação para administrador: " + mensagem);
+    }
+
     protected void inserirCapturaComponente(Long valor, String tipoCaptura, Integer idComponente){
 
         con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
