@@ -11,6 +11,7 @@ public class MemoriaT extends Componente{
 
     public MemoriaT() {
         this.memoria = new Memoria();
+        this.tipoComponente = String.valueOf(TipoEnum.MEMORIA);
     }
 
     public Double getPorcentagemUsada() {

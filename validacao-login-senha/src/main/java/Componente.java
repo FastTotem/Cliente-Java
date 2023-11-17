@@ -8,14 +8,17 @@ import java.util.Objects;
 
 public class Componente {
 
-    private Integer idComponente;
-    private String nomeComponente;
-    private String tipoComponente;
-    private Integer fkTotem;
+    protected Integer idComponente;
+    protected String nomeComponente;
+    protected String tipoComponente;
+    protected Integer fkTotem;
+    private String status;
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
 
-    public Componente() {}
+    public Componente() {
+        this.status = String.valueOf(ParametroAlertaEnum.IDEAL);
+    }
 
     public List<Componente> verificarComponente(){
         List<Componente> componentes = con.query("SELECT * FROM componente where fkTotem = ? and tipoComponente = ?",
@@ -26,7 +29,6 @@ public class Componente {
 
     public Integer inserirComponente(String tipoComponente, String nomeComponente){
 
-        this.tipoComponente = tipoComponente;
         List<Componente> componentes = verificarComponente();
         if (componentes.isEmpty()){
             con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
@@ -58,6 +60,26 @@ public class Componente {
                 valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
 
         System.out.println("Captura realizada!");
+
+    }
+
+    protected void verificarStatus(Double valor){
+        ParametroAlerta parametroAlerta = con.queryForObject("SELECT * FROM parametroAlerta WHERE componente = ?",
+                new BeanPropertyRowMapper<>(ParametroAlerta.class), tipoComponente);
+
+        if (valor >= parametroAlerta.getNotificacao()){
+            if (valor > parametroAlerta.getIdeal() && valor <= parametroAlerta.getAlerta()){
+                if (!this.status.equals(String.valueOf(ParametroAlertaEnum.ALERTA))){
+                    this.status = String.valueOf(ParametroAlertaEnum.ALERTA);
+                    // mandar mensagem alerta
+                }
+            } else if (valor <= parametroAlerta.getCritico()) {
+                if (!this.status.equals(String.valueOf(ParametroAlertaEnum.CRITICO))){
+                    this.status = String.valueOf(ParametroAlertaEnum.CRITICO);
+                    // mandar mensagem critico
+                }
+            }
+        }
 
     }
 
