@@ -70,6 +70,11 @@ public class Componente {
 
     }
 
+    protected void notificarAdministrador(String mensagem) {
+        // Isso pode ser feito por slack.
+        System.out.println("Notificação para administrador: " + mensagem);
+    }
+
     protected List<Integer> getListaIdComponente(String tipoComponente) {
         List<Integer> idComponentes = con.queryForList("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
                 Integer.class, tipoComponente, fkTotem);
