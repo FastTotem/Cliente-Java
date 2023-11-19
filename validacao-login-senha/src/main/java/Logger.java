@@ -15,7 +15,18 @@ import java.util.List;
 public class Logger {
     private static final int tamanhoMaximo = 5;
     private static final int maximoHistoricoArquivos = 30;
-    private static final String logFile = "SystemComponent.log";
+
+    // Obtenha a data atual
+    static Date dataAtual = new Date();
+
+    // Defina o formato desejado para a data no nome do arquivo
+    static SimpleDateFormat formatoData = new SimpleDateFormat("yyyyMMdd_HHmmss");
+
+    // Formate a data atual conforme o formato desejado
+    static String dataFormatada = formatoData.format(dataAtual);
+
+    // Concatene a data formatada com o nome do arquivo
+    private static final String logFile = "SystemComponent[INFO]" + dataFormatada + ".log";
     private static final String logDir = "Diretório de trabalho atual: " + System.getProperty("user.dir");
 
     public static void main(String[] args) throws Exception {
@@ -69,15 +80,14 @@ public class Logger {
 
     private static void rotateLogs() throws IOException {
         // Renomeia o arquivo atual com um timestamp
-        String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String rotatedFileName = logDir + "/app_" + timestamp + ".log";
+        String rotatedFileName = logDir + "/app_" + dataFormatada + ".log";
         File currentLogFile = new File(logFile);
         File rotatedFile = new File(rotatedFileName);
         currentLogFile.renameTo(rotatedFile);
 
         // Cria um novo arquivo de log
         try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, false))) {
-            writer.println("Log rotated at " + timestamp);
+            writer.println("Log rotated at " + dataFormatada);
         }
         // Remove arquivos antigos se houver muitos
         removeOldLogs();
@@ -116,11 +126,11 @@ public class Logger {
     public static <T> void logSEVERE(String message, Class<T> clazz) {
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String logEntry = timestamp + "SEVERE: " + message + Logger.class;
-        System.out.println(logDir);
         System.out.println(logEntry); // Imprime no console
+        final String warningLogFile = "Component[SEVERE]" + dataFormatada + ".log";
 
         // Salva no arquivo de log
-        try (PrintWriter writer = new PrintWriter(new FileWriter("SystemComponent.txt", true))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(warningLogFile, true))) {
             writer.println(logEntry);
         } catch (IOException e) {
             e.printStackTrace();
@@ -130,12 +140,12 @@ public class Logger {
     public static <T> void logWarning(String message, Class<T> clazz) {
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String logEntry = timestamp + " [" + clazz.getSimpleName() + "] - " + message;
-        System.out.println(logDir);
         System.out.println(logEntry);
+        final String alertLogFile = "Component[WARNING]" + dataFormatada + ".log";
         // Salva no arquivo de log
         try {
             checkLogRotation();
-            try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
+            try (PrintWriter writer = new PrintWriter(new FileWriter(alertLogFile, true))) {
                 writer.println(logEntry);
             }
         } catch (IOException e) {
@@ -146,7 +156,6 @@ public class Logger {
     public static synchronized <T> void logInfo(String message, Class<T> clazz) {
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String logEntry = timestamp + " [" + clazz.getSimpleName() + "] " + message;
-        System.out.println(logDir);
         System.out.println(logEntry);
 
         // Salva no arquivo de log
