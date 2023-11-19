@@ -117,3 +117,102 @@ Nome: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
 Frequência: 2.419 GHz
 Em Uso: 2%
 
+2023-11-19 20:09:19 [Logger] Versão do programa: 1.0
+2023-11-19 20:09:21 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 02:05:38
+
+2023-11-19 20:09:21 [MemoriaT] Memoria
+Em uso: 6,8 GiB
+Disponível: 8,9 GiB
+Total: 15,7 GiB
+
+2023-11-19 20:09:21 [MemoriaT] Memoria
+Em uso: 6,8 GiB
+Disponível: 8,9 GiB
+Total: 15,7 GiB
+
+2023-11-19 20:09:22 [UsbT] Componente não encontrado
+2023-11-19 20:09:29 [ProcessadorT] Carga do sistema está ok!
+2023-11-19 20:09:29 [ProcessadorT] Fabricante: GenuineIntel
+Nome: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 3%
+
+2023-11-19 20:09:31 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 02:05:48
+
+2023-11-19 20:09:31 [MemoriaT] Memoria
+Em uso: 6,9 GiB
+Disponível: 8,8 GiB
+Total: 15,7 GiB
+
+2023-11-19 20:09:39 [ProcessadorT] Carga do sistema está ok!
+2023-11-19 20:09:39 [ProcessadorT] Fabricante: GenuineIntel
+Nome: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 3%
+
+2023-11-19 20:09:41 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 02:05:58
+
+2023-11-19 20:09:41 [MemoriaT] Memoria
+Em uso: 6,9 GiB
+Disponível: 8,8 GiB
+Total: 15,7 GiB
+
+2023-11-19 20:09:50 [ProcessadorT] Carga do sistema está ok!
+2023-11-19 20:09:50 [ProcessadorT] Fabricante: GenuineIntel
+Nome: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 4%
+
+2023-11-19 20:09:51 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 02:06:08
+
+2023-11-19 20:09:51 [MemoriaT] Memoria
+Em uso: 6,6 GiB
+Disponível: 9,1 GiB
+Total: 15,7 GiB
+
+2023-11-19 20:10:00 [ProcessadorT] Carga do sistema está ok!
+2023-11-19 20:10:00 [ProcessadorT] Fabricante: GenuineIntel
+Nome: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 3%
+
+2023-11-19 20:10:01 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 02:06:18
+
+2023-11-19 20:10:01 [MemoriaT] Memoria
+Em uso: 6,7 GiB
+Disponível: 9,1 GiB
+Total: 15,7 GiB
+
+2023-11-19 20:10:10 [ProcessadorT] Carga do sistema está ok!
+2023-11-19 20:10:10 [ProcessadorT] Fabricante: GenuineIntel
+Nome: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 25%
+
+2023-11-19 20:10:11 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 02:06:28
+
+2023-11-19 20:10:11 [MemoriaT] Memoria
+Em uso: 6,6 GiB
+Disponível: 9,1 GiB
+Total: 15,7 GiB
+
+2023-11-19 20:10:20 [ProcessadorT] Carga do sistema está ok!
+2023-11-19 20:10:20 [ProcessadorT] Fabricante: GenuineIntel
+Nome: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 4%
+
+2023-11-19 20:10:21 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 02:06:38
+
+2023-11-19 20:10:21 [MemoriaT] Memoria
+Em uso: 6,7 GiB
+Disponível: 9,1 GiB
+Total: 15,7 GiB
+

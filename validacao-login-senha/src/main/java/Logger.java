@@ -37,7 +37,6 @@ public class Logger {
         MemoriaT memoriaT = new MemoriaT();
         MaquinaT maquinaT = new MaquinaT();
         DiscosT discosT = new DiscosT();
-        Componente componente = new Componente();
         DispositivosUsbGrupo usbs = new DispositivosUsbGrupo();
         UsbT usbT = new UsbT(usbs);
 
@@ -67,6 +66,24 @@ public class Logger {
             }
         }).start();
     }
+
+//    public static <T> void logInfoToDatabase(String message, Class<T> clazz) {
+//        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
+//        // Insere no banco de dados
+//        insertLogToDatabase(logEntry);
+//    }
+
+    // Método para inserir informações no banco de dados usando JdbcTemplate
+//    private static void insertLogToDatabase(String logEntry) {
+//        try {
+//            Conexao conexao = new Conexao();
+//            final JdbcTemplate con = conexao.getConexaoDoBanco();
+//            con.update("INSERT INTO logs (level, entry) VALUES (?, ?)", "INFO", logEntry);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     // Adicionando informações da CPU no log
     public static void logCpuInfo(ProcessadorT processadorT) {
         String cpuInfo = "CPU Info:\n";
