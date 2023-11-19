@@ -67,7 +67,31 @@ public class Logger {
             }
         }).start();
     }
+    // Adicionando informações da CPU no log
+    public static void logCpuInfo(ProcessadorT processadorT) {
+        String cpuInfo = "CPU Info:\n";
+        cpuInfo += "Modelo: " + processadorT.getModelo() + "\n";
+        cpuInfo += "Frequência: " + processadorT.getFrequencia() + "\n";
+        cpuInfo += "Núcleos: " + processadorT.getNumeroCors() + "\n";
+       // cpuInfo += "Temperatura: " + processadorT.getTemperatura() + "\n";
+        logInfo(cpuInfo, Logger.class);
+    }
 
+    // Adicionando informações da memória no log
+    public static void logMemoryInfo(MemoriaT memoriaT) {
+        String memoryInfo = "Memory Info:\n";
+        memoryInfo += "Total: " + memoriaT.getTotal() + "\n";
+        memoryInfo += "Usado: " + memoriaT.getPorcentagemEmUso() + "\n";
+        logInfo(memoryInfo, Logger.class);
+    }
+
+    // Adicionando informações de dispositivos USB no log
+    public static void logUsbDevices(UsbT usbT) {
+        String usbInfo = "Dispositivos USB:\n";
+        usbInfo += "Nome: " + usbT.getNome() + "\n";
+        usbInfo += "ID Exclusivo: " + usbT.getIdExclusivo() + "\n";
+        logInfo(usbInfo, Logger.class);
+    }
     private static void checkLogRotation() throws IOException {
         long fileSize = new File(logFile).length();  // Verifica o tamanho do arquivo, se o tamanho do arquivo atingir o limite, faz a rotação
         /* A razão pela qual você multiplica por 1024 duas vezes
@@ -77,7 +101,6 @@ public class Logger {
             rotateLogs();
         }
     }
-
     private static void rotateLogs() throws IOException {
         // Renomeia o arquivo atual com um timestamp
         String rotatedFileName = logDir + "/app_" + dataFormatada + ".log";

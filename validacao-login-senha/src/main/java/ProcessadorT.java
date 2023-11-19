@@ -8,6 +8,8 @@ public class ProcessadorT extends Componente {
     private Double emUso;
     private Long frequenciaEmHertz;
     private Double frequenciaEmGHz;
+    private String modelo;
+    private Integer NumeroCors;
     private HardwareAbstractionLayer hal;
 
 
@@ -46,6 +48,14 @@ public class ProcessadorT extends Componente {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public Integer getNumeroCors() {
+        return NumeroCors;
     }
 
     public Double getEmUso() {
