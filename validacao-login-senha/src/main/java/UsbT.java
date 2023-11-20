@@ -34,15 +34,16 @@ public class UsbT extends Componente {
             }
         }
         if (usbsConectados.contains(maquininha)){
-            inserirCapturaComponente(1.0, String.valueOf(TipoEnum.USB), idUsb);
+            inserirCapturaComponente(1.0, String.valueOf(TipoEnum.USB));
         } else{
-            inserirCapturaComponente(0.0, String.valueOf(TipoEnum.USB), idUsb);
+            inserirCapturaComponente(0.0, String.valueOf(TipoEnum.USB));
         }
     }
 
     public void inserirDispositivo(){
         idExclusivo = maquininha.getIdDispositivoUsbExclusivo();
-        idUsb = inserirComponente(String.valueOf(TipoEnum.USB), idExclusivo);
+        nomeComponente = idExclusivo;
+        idComponente = inserirComponente();
     }
 
     public String getNome() {
@@ -62,15 +63,15 @@ public class UsbT extends Componente {
     }
 
     public void setIdUsbTotemValidado() {
-        idUsb = getIdComponente(String.valueOf(TipoEnum.USB), getFkTotem());
+        idUsb = getIdComponente(String.valueOf(TipoEnum.USB), fkTotem);
     }
 
     public void setMaquininha(DispositivoUsb maquininha) {
         this.maquininha = maquininha;
     }
 
-    @Override
-    public String toString() {
-        return String.format("\nNome: %s\nId de dispositivo exclusivo: %s\nConectado: %s", this.getNome(), this.getIdExclusivo().toString());
-    }
+//    @Override
+//    public String toString() {
+//        return String.format("\nNome: %s\nId de dispositivo exclusivo: %s\nConectado: %s", this.getNome(), this.getIdExclusivo().toString());
+//    }
 }

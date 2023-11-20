@@ -3,7 +3,6 @@ import com.github.britooo.looca.api.util.Conversor;
 
 public class MemoriaT extends Componente{
     private Memoria memoria;
-    private Integer idMemoria;
     private Long total;
     private Long disponivel;
     private Long emUso;
@@ -22,7 +21,7 @@ public class MemoriaT extends Componente{
     }
 
     public void inserirCapturaUsoMemoria(){
-        this.inserirCapturaComponente(getPorcentagemUsada(), String.valueOf(TipoEnum.MEMORIA), idMemoria);
+        this.inserirCapturaComponente(getPorcentagemUsada(), String.valueOf(TipoEnum.MEMORIA));
 //        disponivel = memoria.getDisponivel();
 //        this.inserirCapturaComponente(disponivel, String.valueOf(TipoCapturaEnum.MEMORIA));
 
@@ -52,12 +51,8 @@ public class MemoriaT extends Componente{
         this.emUso = emUso;
     }
 
-    public void setIdMemoriaTotemValidado(Integer idTotem) {
-        idMemoria = getIdComponente(String.valueOf(TipoEnum.MEMORIA), idTotem);
-    }
-
-    public void setIdMemoria(Integer idMemoria) {
-        this.idMemoria = idMemoria;
+    public void setIdMemoriaTotemValidado() {
+        idComponente = getIdComponente(String.valueOf(TipoEnum.MEMORIA), fkTotem);
     }
 
     @Override

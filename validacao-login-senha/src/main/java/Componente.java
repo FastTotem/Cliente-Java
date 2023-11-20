@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-public class Componente {
+public abstract class Componente {
 
     protected Integer idComponente;
     protected String nomeComponente;
@@ -15,6 +15,7 @@ public class Componente {
     private String status;
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
+    private final JdbcTemplate conSqlServer = conexao.getConexaoSqlServer();
 
     public Componente() {
         this.status = String.valueOf(ParametroAlertaEnum.IDEAL);
@@ -27,17 +28,25 @@ public class Componente {
         return componentes;
     }
 
-    public Integer inserirComponente(String tipoComponente, String nomeComponente){
+    public Integer inserirComponente(){
 
         List<Componente> componentes = verificarComponente();
         if (componentes.isEmpty()){
-            con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
-                    nomeComponente, tipoComponente, fkTotem);
-            System.out.println("Componente inserido!");
+            try {
 
-            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
+                con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
+                        nomeComponente, tipoComponente, fkTotem);
+                conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
+                        nomeComponente, tipoComponente, fkTotem);
+                System.out.println("Componente inserido!");
 
-            return idComponente;
+                Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
+
+                return idComponente;
+
+            } catch (Exception e){
+                System.out.println(LocalDateTime.now() + " Erro ao inserir componente - " + e);
+            }
 
         } else if (Objects.equals(tipoComponente, String.valueOf(TipoEnum.DISCO))){
 
@@ -54,7 +63,7 @@ public class Componente {
 
     };
 
-    protected void inserirCapturaComponente(Long valor, String tipoCaptura, Integer idComponente){
+    protected void inserirCapturaComponente(Long valor, String tipoCaptura){
 
         con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
                 valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
@@ -83,7 +92,7 @@ public class Componente {
 
     }
 
-    protected void inserirCapturaComponente(Double valor, String tipoCaptura, Integer idComponente){
+    protected void inserirCapturaComponente(Double valor, String tipoCaptura){
 
         con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
                 valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
@@ -125,6 +134,14 @@ public class Componente {
 
     public void setNomeComponente(String nomeComponente) {
         this.nomeComponente = nomeComponente;
+    }
+
+    public String getTipoComponente() {
+        return tipoComponente;
+    }
+
+    public void setTipoComponente(String tipoComponente) {
+        this.tipoComponente = tipoComponente;
     }
 
     public Integer getFkTotem() {
