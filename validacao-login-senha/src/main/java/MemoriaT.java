@@ -5,46 +5,49 @@ import oshi.hardware.HardwareAbstractionLayer;
 
 public class MemoriaT extends Componente {
     private Memoria memoria;
-    private Integer idMemoria;
-    private Double emUso;
+    private Long total;
+    private Long disponivel;
+    private Long emUso;
+    private Double porcentagemUsada;
     private HardwareAbstractionLayer hal;
 
     public MemoriaT() {
         this.memoria = new Memoria();
+        this.tipoComponente = String.valueOf(TipoEnum.MEMORIA);
         this.hal = new oshi.SystemInfo().getHardware();
     }
 
     public Double getPorcentagemEmUso() {
         Double totalAtual = Double.valueOf(memoria.getTotal());
         Double emUsoAtual = Double.valueOf(memoria.getEmUso());
-       Double usoMemoriaPorcentagem = (emUsoAtual*100)/totalAtual;
+        Double usoMemoriaPorcentagem = (emUsoAtual * 100) / totalAtual;
         return usoMemoriaPorcentagem;
     }
 
-    public void inserirCapturaUsoMemoria() {
-        emUso = Double.valueOf(memoria.getEmUso());
-        this.inserirCapturaComponente(emUso, String.valueOf(TipoEnum.MEMORIA), idMemoria);
+    public void inserirCapturaUsoMemoria(){
+        this.inserirCapturaComponente(getPorcentagemUsada(), String.valueOf(TipoEnum.MEMORIA));
 //        disponivel = memoria.getDisponivel();
 //        this.inserirCapturaComponente(disponivel, String.valueOf(TipoCapturaEnum.MEMORIA));
-    }
+     }
 
     public void monitorarUsoMemoria() {
         GlobalMemory memoriaG = hal.getMemory();
         Logger.logInfo(toString(), MemoriaT.class);
         while (true) {
+            String memoriaInfo = "Memoria Info:\n";
+            memoriaInfo += "Total: " + memoria.getTotal() + "\n";
+            memoriaInfo += "Usado: " + memoria.getEmUso() + "\n";
+            memoriaInfo += "Disponível : " + memoria.getDisponivel() + "\n";
+
             long systemLoadAverage = memoriaG.getTotal();
             // Se a memoria atingir 80% ou mais, registra no log
             if (memoria.getEmUso() >= 80.0) {
                 Logger.logWarning("[ALERTA] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
-                notificarAdministrador("Memória atingiu " + getPorcentagemEmUso().shortValue()  + "% de sua utilização");
             } else if (memoria.getEmUso() >= 99.0) {
-                Logger.logSEVERE("[SEVERO] Memória atingiu " + getPorcentagemEmUso().shortValue()  + "%", MemoriaT.class);
-                notificarAdministrador("Capacidade da Memória " + getPorcentagemEmUso().shortValue()  + "%");
+                Logger.logSevere("[SEVERO] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
             } else {
-                Logger.logInfo("Cpacidade da Memória esta ok!", MemoriaT.class);
-                Logger.logInfo(toString(), MemoriaT.class);
+               Logger.logInfo(memoriaInfo, Logger.class);
             }
-            SharedLogger.logInfo(toString(), MemoriaT.class);
             // Adormece por um curto período antes de verificar novamente
             try {
                 Thread.sleep(10000); // Ajuste o intervalo conforme necessário
@@ -53,8 +56,7 @@ public class MemoriaT extends Componente {
             }
         }
     }
-
-       public Long getTotal() {
+    public Long getTotal() {
         return memoria.getTotal();
     }
 
@@ -66,12 +68,20 @@ public class MemoriaT extends Componente {
         return memoria.getEmUso();
     }
 
-    public void setIdMemoriaTotemValidado(Integer idTotem) {
-        idMemoria = getIdComponente(String.valueOf(TipoEnum.MEMORIA), idTotem);
+    public void setTotal(Long total) {
+        this.total = total;
     }
 
-    public void setIdMemoria(Integer idMemoria) {
-        this.idMemoria = idMemoria;
+    public void setDisponivel(Long disponivel) {
+        this.disponivel = disponivel;
+    }
+
+    public void setEmUso(Long emUso) {
+        this.emUso = emUso;
+    }
+
+    public void setIdMemoriaTotemValidado() {
+        idComponente = getIdComponente(String.valueOf(TipoEnum.MEMORIA), fkTotem);
     }
 
     @Override

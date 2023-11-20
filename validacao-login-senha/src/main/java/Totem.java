@@ -4,6 +4,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import oshi.SystemInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Totem {
@@ -13,10 +16,12 @@ public class Totem {
     private String chaveDeAcesso;
     private Integer fkEmpresa;
     private String boardSerialNumber;
+    private List<Componente> componentes;
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
 
     public Totem() {
+        this.componentes = new ArrayList<>();
     }
 
     public Totem(Integer idTotem, String nome, String chaveDeAcesso, Integer fkEmpresa, String boardSerialNumber) {
@@ -43,7 +48,7 @@ public class Totem {
 
     public Totem validarTotemJaAtivo() {
         Scanner in = new Scanner(System.in);
-        if(boardSerialNumber.equals("unknown")){
+        if (boardSerialNumber.equals("unknown")) {
             Boolean totemAchado = false;
             Totem totem = null;
             do {
@@ -72,8 +77,7 @@ public class Totem {
         }
     }
 
-
-    public void inserirBoardSerialNumber(){
+    public void inserirBoardSerialNumber() {
         con.update("UPDATE totem SET boardSerialNumber = ? WHERE idTotem = ?", boardSerialNumber, idTotem);
     }
 
@@ -115,5 +119,13 @@ public class Totem {
 
     public void setBoardSerialNumber(String boardSerialNumber) {
         this.boardSerialNumber = boardSerialNumber;
+    }
+
+    public List<Componente> getComponentes() {
+        return componentes;
+    }
+
+    public void setComponentes(List<Componente> componentes) {
+        this.componentes = componentes;
     }
 }
