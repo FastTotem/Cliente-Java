@@ -40,7 +40,7 @@ public class MemoriaT extends Componente{
                 Logger.logWarning("[ALERTA] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
                 notificarAdministrador("Memória atingiu " + getPorcentagemEmUso().shortValue() + "% de sua utilização");
             } else if (memoria.getEmUso() >= 99.0) {
-                Logger.logSEVERE("[SEVERO] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
+                Logger.logSevere("[SEVERO] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
                 notificarAdministrador("Capacidade da Memória " + getPorcentagemEmUso().shortValue() + "%");
             } else {
                 Logger.logInfo("Cpacidade da Memória esta ok!", MemoriaT.class);

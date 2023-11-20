@@ -22,15 +22,11 @@ public class DiscosT extends Componente {
             discosT.add(novoDisco);
         }
     }
-
-    public void inserirDiscos(){
-
-        for (DiscoT discoT : discosT){
+    public void inserirDiscos() {
+        for (DiscoT discoT : discosT) {
             idDiscos.add(inserirComponente(String.valueOf(TipoEnum.DISCO), discoT.getNome()));
         }
-
     }
-
     public void inserirCapturasDisco(){
 
         if (idDiscos.isEmpty()){
@@ -53,7 +49,6 @@ public class DiscosT extends Componente {
     }
 
     public void inserirReadWrite(){
-
         if (idDiscos.isEmpty()){
             setIdDiscos();
         }

@@ -1,3 +1,5 @@
+import com.github.britooo.looca.api.group.discos.Disco;
+import com.github.britooo.looca.api.group.discos.DiscoGrupo;
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
 import conexao.Conexao;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,8 +15,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Logger {
-    private static final int tamanhoMaximo = 5;
-    private static final int maximoHistoricoArquivos = 30;
+    private static final int tamanhoMaximo = 30;
+    private static final int maximoHistoricoArquivos = 100;
 
     // Obtenha a data atual
     static Date dataAtual = new Date();
@@ -25,7 +27,7 @@ public class Logger {
     // Formate a data atual conforme o formato desejado
     static String dataFormatada = formatoData.format(dataAtual);
 
-    // Concatene a data formatada com o nome do arquivo
+    // Concatena a data formatada com o nome do arquivo
     private static final String logFile = "SystemComponent[INFO]" + dataFormatada + ".log";
     private static final String logDir = "Diretório de trabalho atual: " + System.getProperty("user.dir");
 
@@ -36,7 +38,7 @@ public class Logger {
         ProcessadorT processadorT = new ProcessadorT();
         MemoriaT memoriaT = new MemoriaT();
         MaquinaT maquinaT = new MaquinaT();
-        DiscosT discosT = new DiscosT();
+        DiscoGrupo discoGrupo = new DiscoGrupo();
         DispositivosUsbGrupo usbs = new DispositivosUsbGrupo();
         UsbT usbT = new UsbT(usbs);
 
@@ -51,21 +53,20 @@ public class Logger {
         new Thread(memoriaT::monitorarUsoMemoria).start();
         new Thread(maquinaT::monitorarTempoAtividade).start();
         new Thread(usbT::verificarConexao).start();
+       // new Thread(discoGrupo::getTamanhoTotal).start();
         new Thread(() -> {
             try {
-                discosT.inserirDiscos();
-                while (true) {
-                    discosT.inserirCapturasDisco();
-                    discosT.inserirReadWrite();
-                    logDiscoInfo(discosT.getDiscosT());
-                    logReadWrite(discosT.getDiscosT());
-                    Thread.sleep(10000); // Aguarda 10 segundos antes de verificar novamente
+                 while (true) {
+                     List<Disco> discos = discoGrupo.getDiscos(); // Obtém a lista de discos
+                     logDiscoInfo(discos); // Chama o método passando a lista de discos
+                     Thread.sleep(10000);// Aguarda 10 segundos antes de verificar novamente
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();
     }
+
 
 //    public static <T> void logInfoToDatabase(String message, Class<T> clazz) {
 //        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
@@ -85,30 +86,35 @@ public class Logger {
 //    }
 
     // Adicionando informações da CPU no log
-    public static void logCpuInfo(ProcessadorT processadorT) {
+    public static synchronized void logCpuInfo(ProcessadorT processadorT) {
         String cpuInfo = "CPU Info:\n";
         cpuInfo += "Modelo: " + processadorT.getModelo() + "\n";
         cpuInfo += "Frequência: " + processadorT.getFrequencia() + "\n";
         cpuInfo += "Núcleos: " + processadorT.getNumeroCors() + "\n";
-       // cpuInfo += "Temperatura: " + processadorT.getTemperatura() + "\n";
         logInfo(cpuInfo, Logger.class);
     }
 
     // Adicionando informações da memória no log
-    public static void logMemoryInfo(MemoriaT memoriaT) {
+    public static synchronized void logMemoryInfo(MemoriaT memoriaT) {
         String memoryInfo = "Memory Info:\n";
         memoryInfo += "Total: " + memoriaT.getTotal() + "\n";
         memoryInfo += "Usado: " + memoriaT.getPorcentagemEmUso() + "\n";
         logInfo(memoryInfo, Logger.class);
     }
+    public static synchronized void logDiscoInfo(List<Disco> discos) {
+        for (Disco discoT : discos) {
+            logInfo(discoT.toString(), Logger.class); // Registra informações individuais dos discos
+          }
+    }
 
     // Adicionando informações de dispositivos USB no log
-    public static void logUsbDevices(UsbT usbT) {
+    public static synchronized void logUsbDevices(UsbT usbT) {
         String usbInfo = "Dispositivos USB:\n";
         usbInfo += "Nome: " + usbT.getNome() + "\n";
         usbInfo += "ID Exclusivo: " + usbT.getIdExclusivo() + "\n";
         logInfo(usbInfo, Logger.class);
     }
+
     private static void checkLogRotation() throws IOException {
         long fileSize = new File(logFile).length();  // Verifica o tamanho do arquivo, se o tamanho do arquivo atingir o limite, faz a rotação
         /* A razão pela qual você multiplica por 1024 duas vezes
@@ -119,11 +125,12 @@ public class Logger {
         }
     }
     private static void rotateLogs() throws IOException {
-        // Renomeia o arquivo atual com um timestamp
-        String rotatedFileName = logDir + "/app_" + dataFormatada + ".log";
-        File currentLogFile = new File(logFile);
-        File rotatedFile = new File(rotatedFileName);
-        currentLogFile.renameTo(rotatedFile);
+        System.out.println("EU BBBBBBB");
+        // Renomeia o arquivo atual com a dataAtual
+        String rotatedFileName = logDir + dataFormatada + ".log";
+        File currentLogFile = new File(logFile); //Cria um objeto File referente ao arquivo de log atual.
+        File rotatedFile = new File(rotatedFileName); //Cria um novo objeto File com o nome do arquivo de log rotacionado.
+        currentLogFile.renameTo(rotatedFile); //Renomeia o arquivo atual com o nome do arquivo rotacionado.
 
         // Cria um novo arquivo de log
         try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, false))) {
@@ -145,41 +152,25 @@ public class Logger {
         }
     }
 
-    //recebe lista de Disco e adiciona como String no log
-    public static void logDiscoInfo(List<DiscoT> discosT) {
-        for (DiscoT discoT : discosT) {
-            logInfo(discoT.toString(), Logger.class);
-        }
-    }
 
-    // calculo e registro das taxas de leitura e escrita dos discos no arquivo de log.
-    public static void logReadWrite(List<DiscoT> discosT) {
-        for (DiscoT discoT : discosT) {
-            logInfo("[ReadWrite] " + discoT.calcularReadWrite(), Logger.class);
-        }
-    }
-
-    public static void logUsbInfo(UsbT usbT) {
-        logInfo(usbT.toString(), Logger.class);
-    }
-
-    public static <T> void logSEVERE(String message, Class<T> clazz) {
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        String logEntry = timestamp + "SEVERE: " + message + Logger.class;
+    // calculo e registro das taxas de leitura e escrita dos discos além do espaço total.
+    public static <T> void logSevere(String message, Class<T> clazz) {
+        String logEntry = dataFormatada + "SEVERE: " + message + Logger.class;
         System.out.println(logEntry); // Imprime no console
         final String warningLogFile = "Component[SEVERE]" + dataFormatada + ".log";
 
         // Salva no arquivo de log
-        try (PrintWriter writer = new PrintWriter(new FileWriter(warningLogFile, true))) {
-            writer.println(logEntry);
-        } catch (IOException e) {
+        try {
+            checkLogRotation();
+            try (PrintWriter writer = new PrintWriter(new FileWriter(warningLogFile, true))) {
+                writer.println(logEntry);
+            }
+        }catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    public static <T> void logWarning(String message, Class<T> clazz) {
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        String logEntry = timestamp + " [" + clazz.getSimpleName() + "] - " + message;
+     public static <T> void logWarning(String message, Class<T> clazz) {
+        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] - " + message;
         System.out.println(logEntry);
         final String alertLogFile = "Component[WARNING]" + dataFormatada + ".log";
         // Salva no arquivo de log
@@ -192,16 +183,16 @@ public class Logger {
             e.printStackTrace();
         }
     }
-
     public static synchronized <T> void logInfo(String message, Class<T> clazz) {
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        String logEntry = timestamp + " [" + clazz.getSimpleName() + "] " + message;
+        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
         System.out.println(logEntry);
-
         // Salva no arquivo de log
-        try (PrintWriter writer = new PrintWriter(new FileWriter("SystemComponent.txt", true))) {
-            writer.println(logEntry);
-        } catch (IOException e) {
+        try {
+            checkLogRotation();
+            try (PrintWriter writer = new PrintWriter(new FileWriter("SystemComponent[INFO].log", true))) {
+                writer.println(logEntry);
+            }
+        }catch (IOException e) {
             e.printStackTrace();
         }
     }
