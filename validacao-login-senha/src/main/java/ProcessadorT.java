@@ -9,8 +9,10 @@ public class ProcessadorT extends Componente {
     private Double frequenciaEmGHz;
     private String modelo;
     private Integer NumeroCors;
+    private HardwareAbstractionLayer hal;
 
     public ProcessadorT() {
+        this.hal = new oshi.SystemInfo().getHardware();
         this.processador = new Processador();
         this.tipoComponente = String.valueOf(TipoEnum.PROCESSADOR);
     }
@@ -20,7 +22,6 @@ public class ProcessadorT extends Componente {
 //        frequencia = processador.getFrequencia();
         inserirCapturaComponente(emUso, String.valueOf(TipoEnum.PROCESSADOR));
 //        inserirCapturaComponente(frequencia, String.valueOf(TipoCapturaEnum.PROCESSADOR));
-
     }
 
     public void monitorarUsoProcessador() {
@@ -54,7 +55,6 @@ public class ProcessadorT extends Componente {
     public Integer getNumeroCors() {
         return NumeroCors;
     }
-
     public Double getEmUso() {
         Double usoProcessador = processador.getUso();
         Double usoProcessadorPorcentagem = (usoProcessador / 100) * 100;

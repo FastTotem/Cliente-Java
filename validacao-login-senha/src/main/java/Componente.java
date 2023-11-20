@@ -16,7 +16,7 @@ public abstract class Componente {
     private String status;
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
-    private final JdbcTemplate conSqlServer = conexao.getConexaoSqlServer();
+    // private final JdbcTemplate conSqlServer = conexao.getConexaoSqlServer();
 
     public Componente() {
         this.status = String.valueOf(ParametroAlertaEnum.IDEAL);
@@ -37,8 +37,8 @@ public abstract class Componente {
 
                 con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
                         nomeComponente, tipoComponente, fkTotem);
-                conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
-                        nomeComponente, tipoComponente, fkTotem);
+                // conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
+                //        nomeComponente, tipoComponente, fkTotem);
                 System.out.println("Componente inserido!");
 
                 Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);

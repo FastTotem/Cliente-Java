@@ -3,7 +3,7 @@ import com.github.britooo.looca.api.util.Conversor;
 import oshi.hardware.GlobalMemory;
 import oshi.hardware.HardwareAbstractionLayer;
 
-public class MemoriaT extends Componente{
+public class MemoriaT extends Componente {
     private Memoria memoria;
     private Long total;
     private Long disponivel;
@@ -28,7 +28,7 @@ public class MemoriaT extends Componente{
         this.inserirCapturaComponente(getPorcentagemUsada(), String.valueOf(TipoEnum.MEMORIA));
 //        disponivel = memoria.getDisponivel();
 //        this.inserirCapturaComponente(disponivel, String.valueOf(TipoCapturaEnum.MEMORIA));
-}
+     }
 
     public void monitorarUsoMemoria() {
         GlobalMemory memoriaG = hal.getMemory();
@@ -85,7 +85,7 @@ public class MemoriaT extends Componente{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = (new StringBuilder("Memoria")).append("\n");
         sb.append("Em uso: ").append(Conversor.formatarBytes(this.getEmUso())).append("\n");
         sb.append("Disponível: ").append(Conversor.formatarBytes(this.getDisponivel())).append("\n");

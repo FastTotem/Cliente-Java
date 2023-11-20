@@ -3,7 +3,6 @@ import com.github.britooo.looca.api.group.discos.DiscoGrupo;
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
 import conexao.Conexao;
 import org.springframework.jdbc.core.JdbcTemplate;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -127,7 +126,6 @@ public class Logger {
         }
     }
 
-
     // calculo e registro das taxas de leitura e escrita dos discos além do espaço total.
     public static <T> void logSevere(String message, Class<T> clazz) {
         String logEntry = dataFormatada + "SEVERE: " + message + Logger.class;
@@ -152,6 +150,7 @@ public class Logger {
         try {
             checkLogRotation();
             try (PrintWriter writer = new PrintWriter(new FileWriter(alertLogFile, true))) {
+
                 writer.println(logEntry);
             }
         } catch (IOException e) {
