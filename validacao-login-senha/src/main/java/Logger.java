@@ -52,8 +52,7 @@ public class Logger {
         new Thread(processadorT::monitorarUsoProcessador).start();
         new Thread(memoriaT::monitorarUsoMemoria).start();
         new Thread(maquinaT::monitorarTempoAtividade).start();
-        new Thread(usbT::verificarConexao).start();
-       // new Thread(discoGrupo::getTamanhoTotal).start();
+        new Thread(usbT::logUsbDevices).start();
         new Thread(() -> {
             try {
                  while (true) {
@@ -85,34 +84,10 @@ public class Logger {
 //        }
 //    }
 
-    // Adicionando informações da CPU no log
-    public static synchronized void logCpuInfo(ProcessadorT processadorT) {
-        String cpuInfo = "CPU Info:\n";
-        cpuInfo += "Modelo: " + processadorT.getModelo() + "\n";
-        cpuInfo += "Frequência: " + processadorT.getFrequencia() + "\n";
-        cpuInfo += "Núcleos: " + processadorT.getNumeroCors() + "\n";
-        logInfo(cpuInfo, Logger.class);
-    }
-
-    // Adicionando informações da memória no log
-    public static synchronized void logMemoryInfo(MemoriaT memoriaT) {
-        String memoryInfo = "Memory Info:\n";
-        memoryInfo += "Total: " + memoriaT.getTotal() + "\n";
-        memoryInfo += "Usado: " + memoriaT.getPorcentagemEmUso() + "\n";
-        logInfo(memoryInfo, Logger.class);
-    }
     public static synchronized void logDiscoInfo(List<Disco> discos) {
         for (Disco discoT : discos) {
             logInfo(discoT.toString(), Logger.class); // Registra informações individuais dos discos
           }
-    }
-
-    // Adicionando informações de dispositivos USB no log
-    public static synchronized void logUsbDevices(UsbT usbT) {
-        String usbInfo = "Dispositivos USB:\n";
-        usbInfo += "Nome: " + usbT.getNome() + "\n";
-        usbInfo += "ID Exclusivo: " + usbT.getIdExclusivo() + "\n";
-        logInfo(usbInfo, Logger.class);
     }
 
     private static void checkLogRotation() throws IOException {

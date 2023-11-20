@@ -34,19 +34,20 @@ public class MemoriaT extends Componente{
         GlobalMemory memoriaG = hal.getMemory();
         Logger.logInfo(toString(), MemoriaT.class);
         while (true) {
+            String memoriaInfo = "Memoria Info:\n";
+            memoriaInfo += "Total: " + memoria.getTotal() + "\n";
+            memoriaInfo += "Usado: " + memoria.getEmUso() + "\n";
+            memoriaInfo += "Disponível : " + memoria.getDisponivel() + "\n";
+
             long systemLoadAverage = memoriaG.getTotal();
             // Se a memoria atingir 80% ou mais, registra no log
             if (memoria.getEmUso() >= 80.0) {
                 Logger.logWarning("[ALERTA] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
-                notificarAdministrador("Memória atingiu " + getPorcentagemEmUso().shortValue() + "% de sua utilização");
             } else if (memoria.getEmUso() >= 99.0) {
                 Logger.logSevere("[SEVERO] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
-                notificarAdministrador("Capacidade da Memória " + getPorcentagemEmUso().shortValue() + "%");
             } else {
-                Logger.logInfo("Cpacidade da Memória esta ok!", MemoriaT.class);
-                Logger.logInfo(toString(), MemoriaT.class);
+               Logger.logInfo(memoriaInfo, Logger.class);
             }
-            Logger.logInfo(toString(), MemoriaT.class);
             // Adormece por um curto período antes de verificar novamente
             try {
                 Thread.sleep(10000); // Ajuste o intervalo conforme necessário

@@ -42,7 +42,12 @@ public class UsbT extends Componente {
             inserirCapturaComponente(0.0, String.valueOf(TipoEnum.USB), idUsb);
         }
     }
-
+    public void logUsbDevices() {
+        String usbInfo = "Dispositivos USB:\n";
+        usbInfo += "Dispositivos Conectados: " + usbs.getDispositivosUsbConectados() + "\n";
+        usbInfo += "Total de Dispositivos USBs: " + usbs.getTotalDispositvosUsb() + "\n";
+        Logger.logInfo(usbInfo, Logger.class);
+    }
     public void inserirDispositivo() {
         idExclusivo = maquininha.getIdDispositivoUsbExclusivo();
         idUsb = inserirComponente(String.valueOf(TipoEnum.USB), idExclusivo);

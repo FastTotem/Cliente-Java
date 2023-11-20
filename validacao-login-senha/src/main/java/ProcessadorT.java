@@ -10,12 +10,9 @@ public class ProcessadorT extends Componente {
     private Double frequenciaEmGHz;
     private String modelo;
     private Integer NumeroCors;
-    private HardwareAbstractionLayer hal;
-
 
     public ProcessadorT() {
         this.processador = new Processador();
-        this.hal = new oshi.SystemInfo().getHardware();
     }
 
     public void inserirCapturaUsoProcessador() {
@@ -27,23 +24,23 @@ public class ProcessadorT extends Componente {
     }
 
     public void monitorarUsoProcessador() {
-        CentralProcessor processor = hal.getProcessor();
         while (true) {
-            double[] systemLoadAverage = processor.getSystemLoadAverage(3); // 3 indica a média dos últimos 3 segundos - aceita de 1 a 3
+            String cpuInfo = "CPU Info:\n";
+            cpuInfo += "Modelo: " + processador.getNome() + "\n";
+            cpuInfo += "Frequência: " + processador.getFrequencia() + "\n";
+            cpuInfo += "Uso Atual: " + processador.getUso() + "\n";
+            cpuInfo +=  "Fabricante: "  + processador.getFabricante() + "\n";
             // Se a carga do sistema atingir 80%, registra no log
             if (processador.getUso() >= 80.0) {
                 Logger.logWarning("[ALERTA] Carga do sistema atingiu " + processador.getUso().shortValue() + "%", ProcessadorT.class);
-                notificarAdministrador("Carga do sistema atingiu " + processador.getUso().shortValue() + "%");
             } else if (processador.getUso() >= 99.0) {
                 Logger.logSevere("[SEVERO] Carga do sistema atingiu " + processador.getUso().shortValue() + "%", ProcessadorT.class);
-                notificarAdministrador("Carga do sistema atingiu " + processador.getUso().shortValue() + "%");
             } else {
-                Logger.logInfo("Carga do sistema está ok!", ProcessadorT.class);
+                Logger.logInfo(cpuInfo, ProcessadorT.class);
             }
-            Logger.logInfo(toString(), ProcessadorT.class);
             // Adormece por um curto período antes de verificar novamente
             try {
-                Thread.sleep(10000); // intervalo
+                Thread.sleep(10000);// Aguarda 10 segundos antes de verificar novamente
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
