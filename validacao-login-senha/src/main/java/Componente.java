@@ -1,4 +1,5 @@
 import conexao.Conexao;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -101,6 +102,11 @@ public abstract class Componente {
 
     }
 
+    protected void notificarAdministrador(String mensagem) {
+        // Isso pode ser feito por slack.
+        System.out.println("Notificação para administrador: " + mensagem);
+    }
+
     protected List<Integer> getListaIdComponente(String tipoComponente) {
         List<Integer> idComponentes = con.queryForList("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
                 Integer.class, tipoComponente, fkTotem);
@@ -108,12 +114,19 @@ public abstract class Componente {
     }
 
     protected Integer getIdComponente(String tipoComponente, Integer idTotem) {
-        idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
-                Integer.class, tipoComponente, idTotem);
-        return idComponente;
-    }
-
-    public Integer getIdComponente() {
+        Integer idComponente = null;
+        try {
+            idComponente = con.queryForObject(
+                  "SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
+                  Integer.class, tipoComponente, idTotem
+            );
+        } catch (EmptyResultDataAccessException e) {
+            // Tratamento para caso não encontre nenhum resultado
+            // Por exemplo, você pode definir um valor padrão para id ou lançar uma exceção personalizada
+            System.out.println("Nenhum resultado encontrado para a consulta.");
+            // Ou então, defina um valor padrão para o ID ou lance uma exceção personalizada
+            // Exemplo: idComponente = 0; ou throw new MinhaExcecao("Nenhum resultado encontrado");
+        }
         return idComponente;
     }
 

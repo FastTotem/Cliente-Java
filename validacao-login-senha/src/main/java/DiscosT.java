@@ -30,9 +30,8 @@ public class DiscosT extends Componente {
             nomeComponente = discoT.getNome();
             idDiscos.add(inserirComponente());
         }
-
     }
-
+  
     public void inserirCapturasDisco(){
 
         if (idDiscos.isEmpty()){
@@ -55,7 +54,6 @@ public class DiscosT extends Componente {
     }
 
     public void inserirReadWrite(){
-
         if (idDiscos.isEmpty()){
             setIdDiscos();
         }
