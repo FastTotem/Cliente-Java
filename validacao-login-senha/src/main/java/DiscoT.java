@@ -24,18 +24,20 @@ import com.github.britooo.looca.api.group.discos.Disco;
             this.nome = disco.getNome();
             this.modelo = disco.getModelo();
             this.tempoInsert = 60;
-            this.lastRead = bytesDeEscritas;
+            this.lastRead = bytesDeLeituras;
             this.lastWrite = bytesDeEscritas;
         }
 
         public Long calcularReadWrite(){
 
-            bytesDeLeituras = getBytesDeLeituras();
-            bytesDeEscritas = getBytesDeEscritas();
+            bytesDeLeituras = disco.getBytesDeLeitura();
+            bytesDeEscritas = disco.getBytesDeEscritas();
 
-            Long resposta = (bytesDeEscritas - lastWrite) + (bytesDeLeituras - lastRead) / tempoInsert;
+            Long resposta = ((bytesDeEscritas - lastWrite) + (bytesDeLeituras - lastRead)) / tempoInsert;
 
-            lastWrite = bytesDeLeituras;
+            // System.out.println(String.format("((bytesDeEscritas[%d] - lastWrite[%d]) + (bytesDeLeituras[%d] - lastRead[%d])) / tempoInsert[%d];",bytesDeEscritas,lastWrite,bytesDeLeituras,lastRead,tempoInsert));
+
+            lastWrite = bytesDeEscritas;
             lastRead = bytesDeLeituras;
 
             return resposta;
