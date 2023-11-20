@@ -47,7 +47,6 @@ import com.github.britooo.looca.api.group.discos.Disco;
             return disco.getBytesDeEscritas();
         }
 
-
         public Long getBytesDeLeituras() { return disco.getBytesDeLeitura(); }
 
         public Integer getIdDisco() {
