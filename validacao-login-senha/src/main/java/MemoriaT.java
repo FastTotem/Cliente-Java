@@ -5,7 +5,6 @@ import oshi.hardware.HardwareAbstractionLayer;
 
 public class MemoriaT extends Componente{
     private Memoria memoria;
-    private Integer idMemoria;
     private Long total;
     private Long disponivel;
     private Long emUso;
@@ -14,6 +13,7 @@ public class MemoriaT extends Componente{
 
     public MemoriaT() {
         this.memoria = new Memoria();
+        this.tipoComponente = String.valueOf(TipoEnum.MEMORIA);
         this.hal = new oshi.SystemInfo().getHardware();
     }
 
@@ -25,7 +25,7 @@ public class MemoriaT extends Componente{
     }
 
     public void inserirCapturaUsoMemoria(){
-        this.inserirCapturaComponente(getPorcentagemEmUso(), String.valueOf(TipoEnum.MEMORIA), idMemoria);
+        this.inserirCapturaComponente(getPorcentagemUsada(), String.valueOf(TipoEnum.MEMORIA));
 //        disponivel = memoria.getDisponivel();
 //        this.inserirCapturaComponente(disponivel, String.valueOf(TipoCapturaEnum.MEMORIA));
 }
@@ -80,12 +80,8 @@ public class MemoriaT extends Componente{
         this.emUso = emUso;
     }
 
-    public void setIdMemoriaTotemValidado(Integer idTotem) {
-        idMemoria = getIdComponente(String.valueOf(TipoEnum.MEMORIA), idTotem);
-    }
-
-    public void setIdMemoria(Integer idMemoria) {
-        this.idMemoria = idMemoria;
+    public void setIdMemoriaTotemValidado() {
+        idComponente = getIdComponente(String.valueOf(TipoEnum.MEMORIA), fkTotem);
     }
 
     @Override
