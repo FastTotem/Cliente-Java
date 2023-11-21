@@ -31,7 +31,7 @@ public class Monitoramento {
         totem = totem.validarTotemJaAtivo();
         Integer idTotem;
 
-        if (totem == null){
+        if (totem == null) {
 
             Boolean chaveValida = false;
             totem = new Totem();
@@ -42,7 +42,7 @@ public class Monitoramento {
 
                 totem.setChaveDeAcesso(chaveDeAcesso);
                 totem = totem.getTotem();
-                if (totem == null){
+                if (totem == null) {
                     System.out.println("Chave de ativação incorreta!");
                     totem = new Totem();
                 } else {

@@ -79,7 +79,7 @@ public class Logger {
 
     public static synchronized void logDiscoInfo(List<Disco> discos) {
         for (Disco discoT : discos) {
-            logInfo("Disco Info: \n" + discoT.toString() , DiscoT.class);
+            logInfo("Disco Info: \n" + discoT.toString(), DiscoT.class);
         }
     }
 

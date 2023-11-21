@@ -1,7 +1,6 @@
 import com.github.britooo.looca.api.group.discos.Disco;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import oshi.hardware.HWDiskStore;
 
 import java.io.File;
 import java.text.DecimalFormat;

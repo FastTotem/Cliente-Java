@@ -1,6 +1,5 @@
 import com.github.britooo.looca.api.group.dispositivos.DispositivoUsb;
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
@@ -36,18 +35,20 @@ public class UsbT extends Componente {
                 maquininha = usb;
             }
         }
-        if (usbsConectados.contains(maquininha)){
+        if (usbsConectados.contains(maquininha)) {
             inserirCapturaComponente(1.0, String.valueOf(TipoEnum.USB));
-        } else{
+        } else {
             inserirCapturaComponente(0.0, String.valueOf(TipoEnum.USB));
         }
     }
+
     public void logUsbDevices() {
         String usbInfo = "Dispositivos USB:\n";
         usbInfo += "Dispositivos Conectados: " + usbs.getDispositivosUsbConectados() + "\n";
         usbInfo += "Total de Dispositivos USBs: " + usbs.getTotalDispositvosUsb() + "\n";
         Logger.logInfo(usbInfo, Logger.class);
     }
+
     public void inserirDispositivo() {
         idExclusivo = maquininha.getIdDispositivoUsbExclusivo();
         nomeComponente = idExclusivo;
@@ -86,7 +87,7 @@ public class UsbT extends Componente {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-   @Override
+    @Override
     public String toString() {
         return String.format("\nNome: %s\nId de dispositivo exclusivo: %s\nConectado: %s", this.getNome(), this.getIdExclusivo().toString());
     }

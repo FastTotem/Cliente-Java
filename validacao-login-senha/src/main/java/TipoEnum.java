@@ -11,6 +11,7 @@ public enum TipoEnum {
     TAXA_TRANSFERENCIA("taxaTransferencia");
 
     private String tipoCaptura;
+
     TipoEnum(String tipo) {
         tipoCaptura = tipo;
     }

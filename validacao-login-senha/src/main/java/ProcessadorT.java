@@ -1,6 +1,4 @@
 import com.github.britooo.looca.api.group.processador.Processador;
-import oshi.hardware.CentralProcessor;
-import oshi.hardware.HardwareAbstractionLayer;
 
 public class ProcessadorT extends Componente {
     private Processador processador;

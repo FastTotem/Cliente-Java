@@ -1,9 +1,8 @@
 import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.util.Conversor;
-import oshi.hardware.GlobalMemory;
 import oshi.hardware.HardwareAbstractionLayer;
 
-public class MemoriaT extends Componente{
+public class MemoriaT extends Componente {
     private Memoria memoria;
     private Long total;
     private Long disponivel;
@@ -24,18 +23,18 @@ public class MemoriaT extends Componente{
         return usoMemoriaPorcentagem;
     }
 
-    public void inserirCapturaUsoMemoria(){
+    public void inserirCapturaUsoMemoria() {
         this.inserirCapturaComponente(getPorcentagemEmUso(), String.valueOf(TipoEnum.MEMORIA));
 //        disponivel = memoria.getDisponivel();
 //        this.inserirCapturaComponente(disponivel, String.valueOf(TipoCapturaEnum.MEMORIA));
-}
+    }
 
     public void monitorarUsoMemoria() {
-MemoriaT memoriaT = new MemoriaT();
+        MemoriaT memoriaT = new MemoriaT();
         Logger.logInfo(toString(), MemoriaT.class);
         while (true) {
-         // Se a memoria atingir 80% ou mais, registra no log
-            if (memoriaT.getPorcentagemEmUso()>= 80.0) {
+            // Se a memoria atingir 80% ou mais, registra no log
+            if (memoriaT.getPorcentagemEmUso() >= 80.0) {
                 Logger.logWarning("[ALERTA] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
             } else if (memoriaT.getPorcentagemEmUso() >= 99.0) {
                 Logger.logSevere("[SEVERO] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
@@ -50,6 +49,7 @@ MemoriaT memoriaT = new MemoriaT();
             }
         }
     }
+
     public Long getTotal() {
         return memoria.getTotal();
     }
@@ -79,7 +79,7 @@ MemoriaT memoriaT = new MemoriaT();
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Em uso: ").append(Conversor.formatarBytes(this.getEmUso())).append("\n");
         sb.append("Disponível: ").append(Conversor.formatarBytes(this.getDisponivel())).append("\n");

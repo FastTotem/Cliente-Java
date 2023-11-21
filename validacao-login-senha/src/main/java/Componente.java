@@ -22,37 +22,37 @@ public abstract class Componente {
         this.status = String.valueOf(ParametroAlertaEnum.IDEAL);
     }
 
-    public List<Componente> verificarComponente(){
+    public List<Componente> verificarComponente() {
         List<Componente> componentes = con.query("SELECT * FROM componente where fkTotem = ? and tipoComponente = ?",
-                new BeanPropertyRowMapper<>(Componente.class), fkTotem, tipoComponente);
+              new BeanPropertyRowMapper<>(Componente.class), fkTotem, tipoComponente);
 
         return componentes;
     }
 
-    public Integer inserirComponente(){
+    public Integer inserirComponente() {
 
         List<Componente> componentes = verificarComponente();
-        if (componentes.isEmpty()){
+        if (componentes.isEmpty()) {
             try {
 
                 con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
-                        nomeComponente, tipoComponente, fkTotem);
+                      nomeComponente, tipoComponente, fkTotem);
                 conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
-                        nomeComponente, tipoComponente, fkTotem);
+                      nomeComponente, tipoComponente, fkTotem);
                 System.out.println("Componente inserido!");
 
                 Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
 
                 return idComponente;
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println(LocalDateTime.now() + " Erro ao inserir componente - " + e);
             }
 
-        } else if (Objects.equals(tipoComponente, String.valueOf(TipoEnum.DISCO))){
+        } else if (Objects.equals(tipoComponente, String.valueOf(TipoEnum.DISCO))) {
 
             con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
-                    nomeComponente, tipoComponente, fkTotem);
+                  nomeComponente, tipoComponente, fkTotem);
 
             Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
 
@@ -62,29 +62,31 @@ public abstract class Componente {
 
         return null;
 
-    };
+    }
 
-    protected void inserirCapturaComponente(Long valor, String tipoCaptura){
+    ;
+
+    protected void inserirCapturaComponente(Long valor, String tipoCaptura) {
 
         con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
-                valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
+              valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
 
         System.out.println("Captura realizada!");
 
     }
 
-    protected void verificarStatus(Double valor){
+    protected void verificarStatus(Double valor) {
         ParametroAlerta parametroAlerta = con.queryForObject("SELECT * FROM parametroAlerta WHERE componente = ?",
-                new BeanPropertyRowMapper<>(ParametroAlerta.class), tipoComponente);
+              new BeanPropertyRowMapper<>(ParametroAlerta.class), tipoComponente);
 
-        if (valor >= parametroAlerta.getNotificacao()){
-            if (valor > parametroAlerta.getIdeal() && valor <= parametroAlerta.getAlerta()){
-                if (!this.status.equals(String.valueOf(ParametroAlertaEnum.ALERTA))){
+        if (valor >= parametroAlerta.getNotificacao()) {
+            if (valor > parametroAlerta.getIdeal() && valor <= parametroAlerta.getAlerta()) {
+                if (!this.status.equals(String.valueOf(ParametroAlertaEnum.ALERTA))) {
                     this.status = String.valueOf(ParametroAlertaEnum.ALERTA);
                     // mandar mensagem alerta
                 }
             } else if (valor <= parametroAlerta.getCritico()) {
-                if (!this.status.equals(String.valueOf(ParametroAlertaEnum.CRITICO))){
+                if (!this.status.equals(String.valueOf(ParametroAlertaEnum.CRITICO))) {
                     this.status = String.valueOf(ParametroAlertaEnum.CRITICO);
                     // mandar mensagem critico
                 }
@@ -93,10 +95,10 @@ public abstract class Componente {
 
     }
 
-    protected void inserirCapturaComponente(Double valor, String tipoCaptura){
+    protected void inserirCapturaComponente(Double valor, String tipoCaptura) {
 
         con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
-                valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
+              valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
 
         System.out.println("Captura realizada!");
 
@@ -109,7 +111,7 @@ public abstract class Componente {
 
     protected List<Integer> getListaIdComponente(String tipoComponente) {
         List<Integer> idComponentes = con.queryForList("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
-                Integer.class, tipoComponente, fkTotem);
+              Integer.class, tipoComponente, fkTotem);
         return idComponentes;
     }
 

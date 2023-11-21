@@ -2,11 +2,9 @@ import conexao.Conexao;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import oshi.SystemInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Totem {
@@ -36,7 +34,7 @@ public class Totem {
 
         try {
             Totem totem = con.queryForObject("SELECT * FROM totem WHERE chaveDeAcesso = ?",
-                    new BeanPropertyRowMapper<>(Totem.class), chaveDeAcesso);
+                  new BeanPropertyRowMapper<>(Totem.class), chaveDeAcesso);
 
             return totem;
 
@@ -56,7 +54,7 @@ public class Totem {
                 String chave = in.nextLine();
                 try {
                     totem = con.queryForObject("SELECT * FROM totem WHERE chaveDeAcesso = ?",
-                            new BeanPropertyRowMapper<>(Totem.class), chave);
+                          new BeanPropertyRowMapper<>(Totem.class), chave);
                     totemAchado = true;
 
                 } catch (EmptyResultDataAccessException e) {
@@ -67,7 +65,7 @@ public class Totem {
         } else {
             try {
                 Totem totem = con.queryForObject("SELECT * FROM totem WHERE boardSerialNumber = ?",
-                        new BeanPropertyRowMapper<>(Totem.class), boardSerialNumber);
+                      new BeanPropertyRowMapper<>(Totem.class), boardSerialNumber);
 
                 return totem;
 
