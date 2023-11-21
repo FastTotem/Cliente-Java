@@ -59,6 +59,10 @@ public class UsbT extends Componente {
     }
 
     public String getIdExclusivo() {
+
+        if (jdbcTemplate == null) {
+            throw new IllegalStateException("JdbcTemplate não foi configurado corretamente");
+        }
         return idExclusivo;
     }
 
@@ -82,39 +86,7 @@ public class UsbT extends Componente {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public String getNomeComponente(String tipoComponente) {
-        String nomeComponente; // Valor padrão caso não seja encontrado nenhum componente
-
-        // Verifica se o jdbcTemplate foi configurado antes de fazer a consulta
-        if (jdbcTemplate == null) {
-            throw new IllegalStateException("JdbcTemplate não foi configurado corretamente");
-        }
-
-        try {
-            // consulta para obter o nome do componente com base no tipoComponente
-            nomeComponente = jdbcTemplate.queryForObject("SELECT nomeComponente FROM componente WHERE tipoComponente = ?", String.class, tipoComponente);
-        } catch (EmptyResultDataAccessException e) {
-            // Se resultado vazio definir uma mensagem de log ou lançar uma exceção
-            Logger.logInfo("Componente não encontrado", UsbT.class); // Valor padrão ou mensagem de erro
-            throw new RuntimeException("Componente não encontrado para o tipo: " + tipoComponente);
-        }
-        return nomeComponente;
-    }
-
-    public Integer getIdComponente(String tipoComponente, Integer fkTotem) {
-        Integer idComponente = null;
-
-        try {
-            idComponente = jdbcTemplate.queryForObject("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?", Integer.class, tipoComponente, fkTotem);
-        } catch (EmptyResultDataAccessException e) {
-            Logger.logInfo("Componente não encontrado", UsbT.class);
-            throw new RuntimeException("Componente não encontrado para o tipo: " + tipoComponente);
-        }
-
-        return idComponente;
-    }
-
-    @Override
+   @Override
     public String toString() {
         return String.format("\nNome: %s\nId de dispositivo exclusivo: %s\nConectado: %s", this.getNome(), this.getIdExclusivo().toString());
     }

@@ -121,11 +121,8 @@ public abstract class Componente {
                   Integer.class, tipoComponente, idTotem
             );
         } catch (EmptyResultDataAccessException e) {
-            // Tratamento para caso não encontre nenhum resultado
-            // Por exemplo, você pode definir um valor padrão para id ou lançar uma exceção personalizada
-            System.out.println("Nenhum resultado encontrado para a consulta.");
-            // Ou então, defina um valor padrão para o ID ou lance uma exceção personalizada
-            // Exemplo: idComponente = 0; ou throw new MinhaExcecao("Nenhum resultado encontrado");
+            Logger.logInfo("Componente não encontrado", Componente.class);
+            throw new RuntimeException("Componente não encontrado para o tipo: " + tipoComponente);
         }
         return idComponente;
     }
@@ -139,10 +136,15 @@ public abstract class Componente {
     }
 
     public String getNomeComponente(String tipoComponente) {
-        nomeComponente = con.queryForObject("SELECT nomeComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
-                String.class, tipoComponente, fkTotem);
+        try {
+            nomeComponente = con.queryForObject("SELECT nomeComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
+                  String.class, tipoComponente, fkTotem);
+        } catch (EmptyResultDataAccessException e) {
+            // Se resultado vazio definir uma mensagem de log ou lançar uma exceção
+            Logger.logInfo("Componente não encontrado", UsbT.class); // Valor padrão ou mensagem de erro
+            throw new RuntimeException("Componente não encontrado para o tipo: " + tipoComponente);
+        }
         return nomeComponente;
-
     }
 
     public void setNomeComponente(String nomeComponente) {

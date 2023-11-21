@@ -25,28 +25,22 @@ public class MemoriaT extends Componente{
     }
 
     public void inserirCapturaUsoMemoria(){
-        this.inserirCapturaComponente(getPorcentagemUsada(), String.valueOf(TipoEnum.MEMORIA));
+        this.inserirCapturaComponente(getPorcentagemEmUso(), String.valueOf(TipoEnum.MEMORIA));
 //        disponivel = memoria.getDisponivel();
 //        this.inserirCapturaComponente(disponivel, String.valueOf(TipoCapturaEnum.MEMORIA));
 }
 
     public void monitorarUsoMemoria() {
-        GlobalMemory memoriaG = hal.getMemory();
+MemoriaT memoriaT = new MemoriaT();
         Logger.logInfo(toString(), MemoriaT.class);
         while (true) {
-            String memoriaInfo = "Memoria Info:\n";
-            memoriaInfo += "Total: " + memoria.getTotal() + "\n";
-            memoriaInfo += "Usado: " + memoria.getEmUso() + "\n";
-            memoriaInfo += "Disponível : " + memoria.getDisponivel() + "\n";
-
-            long systemLoadAverage = memoriaG.getTotal();
-            // Se a memoria atingir 80% ou mais, registra no log
-            if (memoria.getEmUso() >= 80.0) {
+         // Se a memoria atingir 80% ou mais, registra no log
+            if (memoriaT.getPorcentagemEmUso()>= 80.0) {
                 Logger.logWarning("[ALERTA] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
-            } else if (memoria.getEmUso() >= 99.0) {
+            } else if (memoriaT.getPorcentagemEmUso() >= 99.0) {
                 Logger.logSevere("[SEVERO] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
             } else {
-               Logger.logInfo(memoriaInfo, Logger.class);
+                Logger.logInfo("Memoria Info: \n" + this, Logger.class);
             }
             // Adormece por um curto período antes de verificar novamente
             try {
@@ -86,7 +80,7 @@ public class MemoriaT extends Componente{
 
     @Override
     public String toString(){
-        StringBuilder sb = (new StringBuilder("Memoria")).append("\n");
+        StringBuilder sb = new StringBuilder();
         sb.append("Em uso: ").append(Conversor.formatarBytes(this.getEmUso())).append("\n");
         sb.append("Disponível: ").append(Conversor.formatarBytes(this.getDisponivel())).append("\n");
         sb.append("Total: ").append(Conversor.formatarBytes(this.getTotal())).append("\n");
