@@ -1,5 +1,6 @@
 import conexao.Conexao;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -22,23 +23,28 @@ public abstract class Componente {
         this.status = String.valueOf(ParametroAlertaEnum.IDEAL);
     }
 
-    public List<Componente> verificarComponente() {
-        List<Componente> componentes = con.query("SELECT * FROM componente where fkTotem = ? and tipoComponente = ?",
-              new BeanPropertyRowMapper<>(Componente.class), fkTotem, tipoComponente);
+    public Boolean componenteJaExistente(){
 
-        return componentes;
+        try {
+            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
+            return true;
+        } catch (EmptyResultDataAccessException e) {
+           return false;
+        } catch (IncorrectResultSizeDataAccessException exception) {
+            return true;
+        }
+
     }
 
     public Integer inserirComponente() {
 
-        List<Componente> componentes = verificarComponente();
-        if (componentes.isEmpty()) {
+        if (!componenteJaExistente()){
             try {
 
                 con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
                       nomeComponente, tipoComponente, fkTotem);
-                conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
-                      nomeComponente, tipoComponente, fkTotem);
+//                conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
+//                      nomeComponente, tipoComponente, fkTotem);
                 System.out.println("Componente inserido!");
 
                 Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
@@ -51,12 +57,19 @@ public abstract class Componente {
 
         } else if (Objects.equals(tipoComponente, String.valueOf(TipoEnum.DISCO))) {
 
-            con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
-                  nomeComponente, tipoComponente, fkTotem);
+            try {
 
-            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
+                con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
+                        nomeComponente, tipoComponente, fkTotem);
 
-            return idComponente;
+                Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
+
+                return idComponente;
+            } catch (Exception e) {
+                System.out.println("Erro ao inserir componente - Disco");
+                e.printStackTrace();
+            }
+
 
         }
 
