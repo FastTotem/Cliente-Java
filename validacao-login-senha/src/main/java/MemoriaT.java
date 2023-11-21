@@ -25,7 +25,7 @@ public class MemoriaT extends Componente{
     }
 
     public void inserirCapturaUsoMemoria(){
-        this.inserirCapturaComponente(getPorcentagemUsada(), String.valueOf(TipoEnum.MEMORIA));
+        this.inserirCapturaComponente(getPorcentagemEmUso(), String.valueOf(TipoEnum.MEMORIA));
 //        disponivel = memoria.getDisponivel();
 //        this.inserirCapturaComponente(disponivel, String.valueOf(TipoCapturaEnum.MEMORIA));
 }
