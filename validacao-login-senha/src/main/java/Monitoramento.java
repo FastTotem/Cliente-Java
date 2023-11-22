@@ -1,6 +1,11 @@
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
+import com.sun.net.httpserver.HttpServer;
+import funcoes.*;
 import oshi.SystemInfo;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
@@ -9,12 +14,25 @@ import java.util.concurrent.TimeUnit;
 
 
 public class Monitoramento {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        int serverPort = 8080;
+
+        InetAddress localHost = InetAddress.getLocalHost();
+
+        HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 0);
+        server.createContext("/inovacao/desligarTotem", new DesligarTotem());
+        server.createContext("/inovacao/reiniciarTotem", new ReiniciarTotem());
+        server.createContext("/inovacao/limparCache", new LimparCacheTotem());
+        server.setExecutor(null);
+        server.start();
 
         Scanner txtScanner = new Scanner(System.in);
 
         Totem totem = new Totem();
         String serialNumber = new SystemInfo().getHardware().getComputerSystem().getBaseboard().getSerialNumber();
+        String enderecoIpTotem = localHost.getHostAddress() + ":" + serverPort;
+
+        totem.setIpTotem(enderecoIpTotem);
         totem.setBoardSerialNumber(serialNumber);
 
         DiscosT discosT = new DiscosT();
@@ -66,7 +84,9 @@ public class Monitoramento {
 
             maquinaT.inserirDadosSistema();
             totem.setBoardSerialNumber(serialNumber);
+            totem.setIpTotem(enderecoIpTotem);
             totem.inserirBoardSerialNumber();
+            totem.inserirIpTotem();
 
             // Encontrando a maquininha
             maquininha.setMaquininha(cadastroMaquina.cadastrar());

@@ -11,6 +11,7 @@ public class Totem {
 
     private Integer idTotem;
     private String nome;
+    private String ipTotem;
     private String chaveDeAcesso;
     private Integer fkEmpresa;
     private String boardSerialNumber;
@@ -22,12 +23,13 @@ public class Totem {
         this.componentes = new ArrayList<>();
     }
 
-    public Totem(Integer idTotem, String nome, String chaveDeAcesso, Integer fkEmpresa, String boardSerialNumber) {
+    public Totem(Integer idTotem, String nome, String chaveDeAcesso, Integer fkEmpresa, String boardSerialNumber, String ipTotem) {
         this.idTotem = idTotem;
         this.nome = nome;
         this.chaveDeAcesso = chaveDeAcesso;
         this.fkEmpresa = fkEmpresa;
         this.boardSerialNumber = boardSerialNumber;
+        this.ipTotem = ipTotem;
     }
 
     public Totem getTotem() {
@@ -79,6 +81,10 @@ public class Totem {
         con.update("UPDATE totem SET boardSerialNumber = ? WHERE idTotem = ?", boardSerialNumber, idTotem);
     }
 
+    public void inserirIpTotem() {
+        con.update("UPDATE totem SET totemIP = ? WHERE idTotem = ?", ipTotem, idTotem);
+    }
+
     public Integer getIdTotem() {
         return idTotem;
     }
@@ -125,5 +131,13 @@ public class Totem {
 
     public void setComponentes(List<Componente> componentes) {
         this.componentes = componentes;
+    }
+
+    public String getIpTotem() {
+        return ipTotem;
+    }
+
+    public void setIpTotem(String ipTotem) {
+        this.ipTotem = ipTotem;
     }
 }
