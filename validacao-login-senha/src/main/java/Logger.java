@@ -67,15 +67,15 @@ public class Logger {
     }
 
     // Método para inserir informações no banco de dados usando JdbcTemplate
-//    private static void insertLogToDatabase(String logEntry) {
-//        try {
-//            Conexao conexao = new Conexao();
-//            final JdbcTemplate con = conexao.getConexaoDoBanco();
-//            con.update("INSERT INTO log (level, entry) VALUES (?, ?)", "INFO", logEntry);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private static void insertLogToDatabase(String logEntry) {
+        try {
+            Conexao conexao = new Conexao();
+            final JdbcTemplate con = conexao.getConexaoDoBanco();
+            con.update("INSERT INTO log (dtCriacao, infos) VALUES (?, ?)", "INFO", logEntry);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static synchronized void logDiscoInfo(List<Disco> discos) {
         for (Disco discoT : discos) {
