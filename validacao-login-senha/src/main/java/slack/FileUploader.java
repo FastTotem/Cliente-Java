@@ -5,12 +5,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class FileUploader {
-    private static final String SLACK_API_TOKEN = "";
+    private static final String SLACK_API_TOKEN = OauthCript.getOauthToken();
     private static final String CHANNEL_ID = "C066MKGGPBR";
 
-    public static void main(String[] args) {
-        enviarArquivoParaSlack("");
-    }
 
     public static void enviarArquivoParaSlack(String caminhoArquivo) {
         OkHttpClient client = new OkHttpClient();
@@ -31,10 +28,9 @@ public class FileUploader {
 
         try {
             Response response = client.newCall(request).execute();
-            System.out.println(response.body().string());
+            System.out.println("Log enviado no slack");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
-
