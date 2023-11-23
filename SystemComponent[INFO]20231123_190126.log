@@ -1,0 +1,77 @@
+20231123_190126 [Logger] Versão do programa: 1.0
+20231123_190126 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:07:56
+
+20231123_190126 [MemoriaT] Em uso: 7,5 GiB
+Disponível: 8,2 GiB
+Total: 15,7 GiB
+
+20231123_190126 [Logger] Memoria Info: 
+Em uso: 7,5 GiB
+Disponível: 8,2 GiB
+Total: 15,7 GiB
+
+20231123_190126 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0xa0ed
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&457D673&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+, 
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9a13
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&3CE02D8&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+20231123_190126 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 633526
+Bytes de leitura: 22961176576
+Escritas: 512515
+Bytes de escritas: 23140547072
+Tamanho atual da fila: 0
+Tempo de transferência: 1684073
+
+20231123_190126 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 3%
+
+20231123_190126 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:08:06
+
+20231123_190126 [Logger] Memoria Info: 
+Em uso: 7,5 GiB
+Disponível: 8,2 GiB
+Total: 15,7 GiB
+
+20231123_190126 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 633526
+Bytes de leitura: 22961176576
+Escritas: 512662
+Bytes de escritas: 23165446656
+Tamanho atual da fila: 0
+Tempo de transferência: 1684579
+
+20231123_190126 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 3%
+

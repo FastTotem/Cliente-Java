@@ -1,0 +1,28 @@
+20231123_191053 [MaquinaT] - [ALERTA] Totem em muito tempo de atividade
+20231123_191053 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:17:33
+
+20231123_191053 [Logger] Memoria Info: 
+Em uso: 7,8 GiB
+Disponível: 7,9 GiB
+Total: 15,7 GiB
+
+20231123_191053 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 634809
+Bytes de leitura: 23008522752
+Escritas: 525334
+Bytes de escritas: 24319621632
+Tamanho atual da fila: 0
+Tempo de transferência: 1707138
+
+20231123_191053 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 3%
+

@@ -1,0 +1,131 @@
+20231123_185940 [Logger] Versão do programa: 1.0
+20231123_185940 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:06:10
+
+20231123_185940 [MemoriaT] Em uso: 7,5 GiB
+Disponível: 8,2 GiB
+Total: 15,7 GiB
+
+20231123_185940 [Logger] Memoria Info: 
+Em uso: 7,5 GiB
+Disponível: 8,2 GiB
+Total: 15,7 GiB
+
+20231123_185940 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0xa0ed
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&457D673&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+, 
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9a13
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&3CE02D8&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+20231123_185940 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 633468
+Bytes de leitura: 22959307264
+Escritas: 510346
+Bytes de escritas: 22941935616
+Tamanho atual da fila: 0
+Tempo de transferência: 1680118
+
+20231123_185940 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 4%
+
+20231123_185940 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:06:20
+
+20231123_185940 [Logger] Memoria Info: 
+Em uso: 7,5 GiB
+Disponível: 8,2 GiB
+Total: 15,7 GiB
+
+20231123_185940 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 633479
+Bytes de leitura: 22959542272
+Escritas: 510865
+Bytes de escritas: 22965905408
+Tamanho atual da fila: 0
+Tempo de transferência: 1680791
+
+20231123_185940 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 4%
+
+20231123_185940 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:06:30
+
+20231123_185940 [Logger] Memoria Info: 
+Em uso: 7,6 GiB
+Disponível: 8,1 GiB
+Total: 15,7 GiB
+
+20231123_185940 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 633512
+Bytes de leitura: 22960796160
+Escritas: 510983
+Bytes de escritas: 22968567808
+Tamanho atual da fila: 0
+Tempo de transferência: 1680982
+
+20231123_185940 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 3%
+
+20231123_185940 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:06:40
+
+20231123_185940 [Logger] Memoria Info: 
+Em uso: 7,5 GiB
+Disponível: 8,2 GiB
+Total: 15,7 GiB
+
+20231123_185940 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 633523
+Bytes de leitura: 22961067520
+Escritas: 511085
+Bytes de escritas: 22969866240
+Tamanho atual da fila: 0
+Tempo de transferência: 1681141
+
+20231123_185940 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 2%
+
