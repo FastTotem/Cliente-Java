@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS Totem (
     idTotem INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255),
     chaveDeAcesso VARCHAR(255),
+    totemID VARCHAR(255),
     boardSerialNumber VARCHAR(255),
     fkEmpresa INT,
     FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa)
