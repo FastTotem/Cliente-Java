@@ -25,9 +25,9 @@ public class ProcessadorT extends Componente {
         while (true) {
             // Se a carga do sistema atingir 80%, registra no log
             if (processador.getUso() >= 80.0) {
-                Logger.logWarning("[ALERTA] Carga do sistema atingiu " + processador.getUso().shortValue() + "%", ProcessadorT.class);
+                Logger.logInfo("[ALERTA] Carga do sistema atingiu " + processador.getUso().shortValue() + "%", ProcessadorT.class);
             } else if (processador.getUso() >= 99.0) {
-                Logger.logSevere("[SEVERO] Carga do sistema atingiu " + processador.getUso().shortValue() + "%", ProcessadorT.class);
+                Logger.logInfo("[SEVERO] Carga do sistema atingiu " + processador.getUso().shortValue() + "%", ProcessadorT.class);
             } else {
                 Logger.logInfo("CPU Info: \n" + this, ProcessadorT.class);
             }
