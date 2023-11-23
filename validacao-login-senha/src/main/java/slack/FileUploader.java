@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class FileUploader {
     private static final String SLACK_API_TOKEN = "";
-    private static final String CHANNEL_ID = "";
+    private static final String CHANNEL_ID = "C066MKGGPBR";
 
     public static void main(String[] args) {
         enviarArquivoParaSlack("");

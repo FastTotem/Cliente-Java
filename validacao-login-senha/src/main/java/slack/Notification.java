@@ -10,7 +10,7 @@ import java.io.IOException;
 public class Notification {
 
     private static final String SLACK_API_TOKEN = "";
-    private static final String CHANNEL_ID = "";
+    private static final String CHANNEL_ID = "C066MKENS87";
 
     public static void enviarNotificacao(String mensagem) {
         Slack slack = Slack.getInstance();

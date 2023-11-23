@@ -16,7 +16,6 @@ import java.util.Collections;
 public class Bot {
 
     private static final String SLACK_API_TOKEN = "";
-    private static final String BOT_ID = "";
     private static final String CHANNEL_ID = "";
 
     public static void main(String[] args) {
@@ -26,7 +25,8 @@ public class Bot {
         if (authTestResponse != null && authTestResponse.isOk()) {
             String botId = authTestResponse.getBotId();
 
-            // Adicionar o bot ao canal
+            System.out.println(botId);
+
             addBotToChannel(SLACK_API_TOKEN, botId, CHANNEL_ID);
         } else {
             System.out.println("Erro ao obter informações de autenticação: " + (authTestResponse != null ? authTestResponse.getError() : ""));
