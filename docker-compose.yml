@@ -1,0 +1,22 @@
+version: '3'
+services:
+  # Serviço para o aplicativo Java
+  java-app:
+    image: openjdk:latest
+    volumes:
+      - ./out/artifacts/validacao_login_senha_jar/validacao-login-senha.jar:/app/validacao-login-senha.jar
+    command: java -jar /app/validacao-login-senha.jar
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+
+  # Serviço para o banco de dados MySQL
+  mysql-db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: urubu100
+    volumes:
+      - ./bd:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
