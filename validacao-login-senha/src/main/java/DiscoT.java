@@ -55,6 +55,10 @@ public class DiscoT {
         }
     }
 
+    public Long calcularPorcentagemArmazenada(){
+        return (bytesDeEscritas/tamanho)*100;
+    }
+
     public Double showTotal() {
         File disk = new File("/"); // diretório raiz do disco
         long totalSpace = disk.getTotalSpace(); // tamanho total do disco em bytes

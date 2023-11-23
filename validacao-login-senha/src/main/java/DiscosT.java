@@ -67,6 +67,24 @@ public class DiscosT extends Componente {
 
     }
 
+    public void inserirPorcentagemArmazenada(){
+        if (idDiscos.isEmpty()){
+            setIdDiscos();
+        }
+
+        if (discosT.get(0).getIdDisco() == null){
+            Integer idDisco;
+            for (int i = 0; i < idDiscos.size(); i++) {
+                idDisco = idDiscos.get(i);
+                discosT.get(i).setIdDisco(idDisco);
+            }
+        }
+
+        for(DiscoT discoT: discosT){
+            inserirCapturaComponente(discoT.calcularPorcentagemArmazenada(), String.valueOf(TipoEnum.ESCRITA), discoT.getIdDisco());
+        }
+    }
+
     public void setIdDiscos(){
         idDiscos = getListaIdComponente(String.valueOf(TipoEnum.DISCO));
     }

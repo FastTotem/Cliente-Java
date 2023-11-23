@@ -8,7 +8,8 @@ public enum TipoEnum {
     TEMPO_ATIVIDADE("tempoAtividade"),
     ESCRITA("escrita"),
     LEITURA("leitura"),
-    TAXA_TRANSFERENCIA("taxaTransferencia");
+    TAXA_TRANSFERENCIA("taxaTransferencia"),
+    ARMAZENAMENTO("porcentagemArmazenamento");
 
     private String tipoCaptura;
     TipoEnum(String tipo) {
