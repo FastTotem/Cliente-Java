@@ -1,10 +1,7 @@
 import com.github.britooo.looca.api.group.processador.Processador;
-import oshi.hardware.CentralProcessor;
-import oshi.hardware.HardwareAbstractionLayer;
 
 public class ProcessadorT extends Componente {
     private Processador processador;
-    private Integer idProcessador;
     private Double emUso;
     private Long frequenciaEmHertz;
     private Double frequenciaEmGHz;
@@ -13,30 +10,26 @@ public class ProcessadorT extends Componente {
 
     public ProcessadorT() {
         this.processador = new Processador();
+        this.tipoComponente = String.valueOf(TipoEnum.PROCESSADOR);
     }
 
     public void inserirCapturaUsoProcessador() {
         emUso = processador.getUso();
 //        frequencia = processador.getFrequencia();
-        inserirCapturaComponente(emUso, String.valueOf(TipoEnum.PROCESSADOR), idProcessador);
+        inserirCapturaComponente(emUso, String.valueOf(TipoEnum.PROCESSADOR));
 //        inserirCapturaComponente(frequencia, String.valueOf(TipoCapturaEnum.PROCESSADOR));
 
     }
 
     public void monitorarUsoProcessador() {
         while (true) {
-            String cpuInfo = "CPU Info:\n";
-            cpuInfo += "Modelo: " + processador.getNome() + "\n";
-            cpuInfo += "Frequência: " + processador.getFrequencia() + "\n";
-            cpuInfo += "Uso Atual: " + processador.getUso() + "\n";
-            cpuInfo +=  "Fabricante: "  + processador.getFabricante() + "\n";
             // Se a carga do sistema atingir 80%, registra no log
             if (processador.getUso() >= 80.0) {
-                Logger.logWarning("[ALERTA] Carga do sistema atingiu " + processador.getUso().shortValue() + "%", ProcessadorT.class);
+                Logger.logInfo("[ALERTA] Carga do sistema atingiu " + processador.getUso().shortValue() + "%", ProcessadorT.class);
             } else if (processador.getUso() >= 99.0) {
-                Logger.logSevere("[SEVERO] Carga do sistema atingiu " + processador.getUso().shortValue() + "%", ProcessadorT.class);
+                Logger.logInfo("[SEVERO] Carga do sistema atingiu " + processador.getUso().shortValue() + "%", ProcessadorT.class);
             } else {
-                Logger.logInfo(cpuInfo, ProcessadorT.class);
+                Logger.logInfo("CPU Info: \n" + this, ProcessadorT.class);
             }
             // Adormece por um curto período antes de verificar novamente
             try {
@@ -68,18 +61,14 @@ public class ProcessadorT extends Componente {
     }
 
     public void setIdProcessadorTotemValidado(Integer idTotem) {
-        idProcessador = getIdComponente(String.valueOf(TipoEnum.PROCESSADOR), idTotem);
-    }
-
-    public void setIdProcessador(Integer idProcessador) {
-        this.idProcessador = idProcessador;
+        idComponente = getIdComponente(String.valueOf(TipoEnum.PROCESSADOR), idTotem);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Fabricante: ").append(processador.getFabricante()).append("\n");
-        sb.append("Nome: ").append(processador.getNome()).append("\n");
+        sb.append("Modelo: ").append(processador.getNome()).append("\n");
 //        sb.append("ID: ").append(processador.getId()).append("\n");
 //        sb.append("Identificador: ").append(processador.getIdentificador()).append("\n");
 //        sb.append("Microarquitetura: ").append(processador.getMicroarquitetura()).append("\n");

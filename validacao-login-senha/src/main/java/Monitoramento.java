@@ -17,12 +17,10 @@ public class Monitoramento {
         String serialNumber = new SystemInfo().getHardware().getComputerSystem().getBaseboard().getSerialNumber();
         totem.setBoardSerialNumber(serialNumber);
 
-        Componente componente = new Componente();
         DiscosT discosT = new DiscosT();
         MaquinaT maquinaT = new MaquinaT();
         MemoriaT memoriaT = new MemoriaT();
         ProcessadorT processadorT = new ProcessadorT();
-
         DispositivosUsbGrupo usbs = new DispositivosUsbGrupo();
         Maquininha cadastroMaquina = new Maquininha(usbs, txtScanner);
         UsbT maquininha = new UsbT(usbs);
@@ -31,8 +29,9 @@ public class Monitoramento {
         System.out.println(mensagem.getBoasVindas());
 
         totem = totem.validarTotemJaAtivo();
+        Integer idTotem;
 
-        if (totem == null){
+        if (totem == null) {
 
             Boolean chaveValida = false;
             totem = new Totem();
@@ -43,7 +42,7 @@ public class Monitoramento {
 
                 totem.setChaveDeAcesso(chaveDeAcesso);
                 totem = totem.getTotem();
-                if (totem == null){
+                if (totem == null) {
                     System.out.println("Chave de ativação incorreta!");
                     totem = new Totem();
                 } else {
@@ -52,16 +51,17 @@ public class Monitoramento {
 
             } while (!chaveValida);
 
+            idTotem = totem.getIdTotem();
+
             // fkTotem para inserção na captura
-            componente.setFkTotem(totem.getIdTotem());
-            discosT.setFkTotem(totem.getIdTotem());
-            memoriaT.setFkTotem(totem.getIdTotem());
-            processadorT.setFkTotem(totem.getIdTotem());
-            maquinaT.setFkTotem(totem.getIdTotem());
+            discosT.setFkTotem(idTotem);
+            memoriaT.setFkTotem(idTotem);
+            processadorT.setFkTotem(idTotem);
+            maquinaT.setFkTotem(idTotem);
 
             // set id dos componentes para captura
-            memoriaT.setIdMemoria(componente.inserirComponente(String.valueOf(TipoEnum.MEMORIA), null));
-            processadorT.setIdProcessador(componente.inserirComponente(String.valueOf(TipoEnum.PROCESSADOR), null));
+            memoriaT.setIdComponente(memoriaT.inserirComponente());
+            processadorT.setIdComponente(processadorT.inserirComponente());
             discosT.inserirDiscos();
 
             maquinaT.inserirDadosSistema();
@@ -75,18 +75,21 @@ public class Monitoramento {
 
         } else {
 
+            idTotem = totem.getIdTotem();
+
             // fkTotem para inserção na captura
-            discosT.setFkTotem(totem.getIdTotem());
-            memoriaT.setFkTotem(totem.getIdTotem());
-            processadorT.setFkTotem(totem.getIdTotem());
-            maquinaT.setFkTotem(totem.getIdTotem());
-            maquininha.setFkTotem(totem.getIdTotem());
+            discosT.setFkTotem(idTotem);
+            memoriaT.setFkTotem(idTotem);
+            processadorT.setFkTotem(idTotem);
+            maquinaT.setFkTotem(idTotem);
+            maquininha.setFkTotem(idTotem);
 
             // set id dos componentes para captura
             discosT.setIdDiscos();
-            memoriaT.setIdMemoriaTotemValidado(totem.getIdTotem());
-            memoriaT.setFkTotem(totem.getIdTotem());
-            processadorT.setIdProcessadorTotemValidado(totem.getIdTotem());
+            memoriaT.setIdMemoriaTotemValidado();
+            processadorT.setIdProcessadorTotemValidado(idTotem);
+            maquininha.setIdUsbTotemValidado();
+
 
         }
 

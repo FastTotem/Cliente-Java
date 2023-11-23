@@ -83,8 +83,7 @@ public class MaquinaT {
             } else if (tempoDeAtividade >= 95.0) {
                 Logger.logSevere("[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
             } else {
-                Logger.logInfo("Tempo de atividade do Totem está ok!", MaquinaT.class);
-                Logger.logInfo(toString(), MaquinaT.class);
+                Logger.logInfo("Maquina Info: \n" + this, MaquinaT.class);
             }
             Logger.logInfo(toString(), MaquinaT.class);
             // Adormece por um curto período antes de verificar novamente

@@ -14,7 +14,7 @@ public class Maquininha {
         this.in = in;
     }
 
-    public DispositivoUsb cadastrar(){
+    public DispositivoUsb cadastrar() {
 
         List<DispositivoUsb> comMaquininha = usbs.getDispositivosUsbConectados();
 

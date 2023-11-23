@@ -12,6 +12,7 @@ public enum TipoEnum {
     ARMAZENAMENTO("porcentagemArmazenamento");
 
     private String tipoCaptura;
+
     TipoEnum(String tipo) {
         tipoCaptura = tipo;
     }

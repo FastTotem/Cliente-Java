@@ -1,7 +1,6 @@
 import com.github.britooo.looca.api.group.discos.Disco;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import oshi.hardware.HWDiskStore;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -38,10 +37,10 @@ public class DiscoT {
         try {
             bytesDeLeituras = disco.getBytesDeLeitura();
             bytesDeEscritas = disco.getBytesDeEscritas();
-            Integer idComponente = getIdDisco(); // Substitua idTotem pelo ID correspondente
+            Integer idComponente = getIdDisco();
             if (idComponente == null) {
                 System.out.println("Componente DISCO não encontrado para o totem ");
-                return null; // Ou qualquer outra ação apropriada ao seu caso
+                return null;
             }
 //         System.out.println(String.format("((bytesDeEscritas[%d] - lastWrite[%d]) + (bytesDeLeituras[%d] - lastRead[%d])) / tempoInsert[%d];",bytesDeEscritas,lastWrite,bytesDeLeituras,lastRead,tempoInsert));
             Long resposta = ((bytesDeEscritas - lastWrite) + (bytesDeLeituras - lastRead)) / tempoInsert;
@@ -50,8 +49,8 @@ public class DiscoT {
             return resposta;
         } catch (EmptyResultDataAccessException e) {
             System.out.println("Erro ao buscar o componente DISCO.");
-            e.printStackTrace(); // Trate a exceção conforme necessário ou lance-a para ser tratada em um nível superior
-            return null; // Ou outra ação apropriada ao seu caso
+            e.printStackTrace();
+            return null;
         }
     }
 
