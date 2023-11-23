@@ -1,0 +1,4 @@
+[INFO] Primeira linha de log.
+[ICON] Segunda linha de log com um ícone: 👍
+[RED] Terceira linha de log em vermelho.
+[GREEN] Quarta linha de log em verde.

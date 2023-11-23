@@ -1,0 +1,219 @@
+20231123_192858 [Logger] Versão do programa: 1.1
+20231123_192858 [MaquinaT] - [ALERTA] Totem em muito tempo de atividade
+20231123_192858 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:35:28
+
+20231123_192858 [MemoriaT] Em uso: 10,7 GiB
+Disponível: 5,0 GiB
+Total: 15,7 GiB
+
+20231123_192858 [Logger] Memoria Info: 
+Em uso: 10,7 GiB
+Disponível: 5,0 GiB
+Total: 15,7 GiB
+
+20231123_192858 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0xa0ed
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&457D673&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+, 
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9a13
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&3CE02D8&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+20231123_192858 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 651638
+Bytes de leitura: 23511723008
+Escritas: 571280
+Bytes de escritas: 26941371392
+Tamanho atual da fila: 0
+Tempo de transferência: 1770020
+
+20231123_192858 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 3%
+
+20231123_192858 [MaquinaT] - [ALERTA] Totem em muito tempo de atividade
+20231123_192858 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:35:39
+
+20231123_192858 [Logger] Memoria Info: 
+Em uso: 10,6 GiB
+Disponível: 5,1 GiB
+Total: 15,7 GiB
+
+20231123_192858 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 651638
+Bytes de leitura: 23511723008
+Escritas: 571532
+Bytes de escritas: 26972288000
+Tamanho atual da fila: 0
+Tempo de transferência: 1770881
+
+20231123_192858 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 3%
+
+20231123_192858 [MaquinaT] - [ALERTA] Totem em muito tempo de atividade
+20231123_192858 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:35:49
+
+20231123_192858 [Logger] Memoria Info: 
+Em uso: 10,7 GiB
+Disponível: 5,1 GiB
+Total: 15,7 GiB
+
+20231123_192858 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 651639
+Bytes de leitura: 23511755776
+Escritas: 571669
+Bytes de escritas: 26988790784
+Tamanho atual da fila: 0
+Tempo de transferência: 1771164
+
+20231123_192858 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 18%
+
+20231123_192858 [MaquinaT] - [ALERTA] Totem em muito tempo de atividade
+20231123_192858 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:35:59
+
+20231123_192858 [Logger] Memoria Info: 
+Em uso: 10,7 GiB
+Disponível: 5,1 GiB
+Total: 15,7 GiB
+
+20231123_192858 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 651639
+Bytes de leitura: 23511755776
+Escritas: 571833
+Bytes de escritas: 27017253888
+Tamanho atual da fila: 0
+Tempo de transferência: 1771621
+
+20231123_192858 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 3%
+
+20231123_192858 [MaquinaT] - [ALERTA] Totem em muito tempo de atividade
+20231123_192858 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:36:09
+
+20231123_192858 [Logger] Memoria Info: 
+Em uso: 10,7 GiB
+Disponível: 5,0 GiB
+Total: 15,7 GiB
+
+20231123_192858 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 651640
+Bytes de leitura: 23511759872
+Escritas: 571941
+Bytes de escritas: 27018142720
+Tamanho atual da fila: 0
+Tempo de transferência: 1771763
+
+20231123_192858 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 1%
+
+20231123_192858 [MaquinaT] - [ALERTA] Totem em muito tempo de atividade
+20231123_192858 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:36:19
+
+20231123_192858 [Logger] Memoria Info: 
+Em uso: 10,7 GiB
+Disponível: 5,0 GiB
+Total: 15,7 GiB
+
+20231123_192858 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 651675
+Bytes de leitura: 23512751104
+Escritas: 572082
+Bytes de escritas: 27033134080
+Tamanho atual da fila: 0
+Tempo de transferência: 1772113
+
+20231123_192858 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 2%
+
+20231123_192858 [MaquinaT] - [ALERTA] Totem em muito tempo de atividade
+20231123_192858 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 20:36:29
+
+20231123_192858 [Logger] Memoria Info: 
+Em uso: 10,7 GiB
+Disponível: 5,0 GiB
+Total: 15,7 GiB
+
+20231123_192858 [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 651680
+Bytes de leitura: 23512861696
+Escritas: 572351
+Bytes de escritas: 27089847296
+Tamanho atual da fila: 0
+Tempo de transferência: 1772792
+
+20231123_192858 [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 7%
+

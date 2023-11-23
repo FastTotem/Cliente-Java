@@ -7,7 +7,10 @@ import conexao.Conexao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import oshi.hardware.HardwareAbstractionLayer;
 
+import java.awt.*;
 import java.time.LocalDateTime;
+
+import static java.awt.Color.red;
 
 public class MaquinaT {
     private Sistema sistema;
@@ -18,7 +21,12 @@ public class MaquinaT {
     private Long capacidadeDisco;
     private Long tempoDeAtividade;
     private Integer fkTotem;
-    private HardwareAbstractionLayer hal;
+
+    // Códigos de escape ANSI para cores
+    static String reset = "\u001B[0m";
+    static String red = "\u001B[31m";
+    private static String green = "\u001B[32m";
+    private static String yellow = "\u001B[33m";
 
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
@@ -29,7 +37,6 @@ public class MaquinaT {
         Memoria memoria = new Memoria();
         DiscoGrupo grupoDeDiscos = new DiscoGrupo();
 
-        this.hal = new oshi.SystemInfo().getHardware();
 
         this.sistemaOperacional = sistema.getSistemaOperacional();
         this.fabricante = sistema.getFabricante();
@@ -79,7 +86,8 @@ public class MaquinaT {
         while (true) {
             // Se o tempo de atividade atingir 80%, registra no log
             if (tempoDeAtividade >= 75.0) {
-                Logger.logWarning("[ALERTA] Totem em muito tempo de atividade", MaquinaT.class);
+                Logger.logWarning("[ALERTA] Totem em muito tempo de atividade",  MaquinaT.class);
+
             } else if (tempoDeAtividade >= 95.0) {
                 Logger.logSevere("[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
             } else {

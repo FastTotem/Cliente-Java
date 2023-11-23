@@ -8,7 +8,6 @@ import com.slack.api.methods.response.auth.AuthTestResponse;
 import com.slack.api.methods.response.channels.ChannelsInviteResponse;
 import com.slack.api.methods.response.conversations.ConversationsInviteResponse;
 import com.slack.api.methods.response.conversations.ConversationsJoinResponse;
-import org.springframework.web.ErrorResponse;
 
 import java.io.IOException;
 import java.util.Collections;

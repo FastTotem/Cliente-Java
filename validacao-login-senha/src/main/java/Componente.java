@@ -19,6 +19,8 @@ public abstract class Componente {
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
     private final JdbcTemplate conSqlServer = conexao.getConexaoSqlServer();
 
+
+
     public Componente() {
         this.status = String.valueOf(ParametroAlertaEnum.IDEAL);
     }

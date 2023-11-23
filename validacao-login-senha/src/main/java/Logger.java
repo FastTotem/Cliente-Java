@@ -28,12 +28,23 @@ public class Logger {
     static String dataFormatada = formatoData.format(dataAtual);
 
     // Concatena a data formatada com o nome do arquivo
-    private static final String logFile = "SystemComponent[INFO]" + dataFormatada + ".log";
-    private static final String logDir = "Diretório de trabalho atual: " + System.getProperty("user.dir");
+    private static final String logFile = "SystemComponent-[INFO] " + dataFormatada + ".log";
+    private static final String logDir = System.getProperty("user.dir") + File.separator + "logs";
 
     public static void main(String[] args) throws Exception {
 
-        logInfo("Versão do programa: 1.0", Logger.class);
+       logInfo("Versão do programa: 1.1", Logger.class);
+        File file = new File(logDir);
+
+        try {
+            if (file.createNewFile()) {
+                System.out.println("Arquivo de log criado em: " + file.getAbsolutePath());
+            } else {
+                System.out.println("O arquivo de log já existe.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         ProcessadorT processadorT = new ProcessadorT();
         MemoriaT memoriaT = new MemoriaT();
@@ -42,13 +53,7 @@ public class Logger {
         DispositivosUsbGrupo usbs = new DispositivosUsbGrupo();
         UsbT usbT = new UsbT(usbs);
 
-        // Cria uma instância de Conexao para obter o JdbcTemplate
-        Conexao conexao = new Conexao();
-        JdbcTemplate jdbcTemplate = conexao.getConexaoDoBanco();
-
-        usbT.setJdbcTemplate(jdbcTemplate);
-
-        // Inicia threads separadas para monitorar cada componente
+             // Inicia threads separadas para monitorar cada componente
         new Thread(processadorT::monitorarUsoProcessador).start();
         new Thread(memoriaT::monitorarUsoMemoria).start();
         new Thread(maquinaT::monitorarTempoAtividade).start();
@@ -66,17 +71,16 @@ public class Logger {
         }).start();
     }
 
-    // Método para inserir informações no banco de dados usando JdbcTemplate
-    private static void insertLogToDatabase(String logEntry) {
-        try {
-            Conexao conexao = new Conexao();
-            final JdbcTemplate con = conexao.getConexaoDoBanco();
-            con.update("INSERT INTO log (dtCriacao, infos) VALUES (?, ?)", "INFO", logEntry);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static void createLogDirectoryIfNeeded() {
+        File logDirectory = new File(logDir);
+        if (!logDirectory.exists()) {
+            if (logDirectory.mkdir()) {
+                System.out.println("Diretório de logs criado em: " + logDirectory.getAbsolutePath());
+            } else {
+                System.err.println("Não foi possível criar o diretório de logs.");
+            }
         }
     }
-
     public static synchronized void logDiscoInfo(List<Disco> discos) {
         for (Disco discoT : discos) {
             logInfo("Disco Info: \n" + discoT.toString(), DiscoT.class);
@@ -120,17 +124,14 @@ public class Logger {
         }
     }
 
-
     // calculo e registro das taxas de leitura e escrita dos discos além do espaço total.
     public static <T> void logSevere(String message, Class<T> clazz) {
-        String logEntry = dataFormatada + "SEVERE: " + message + Logger.class;
+        String logEntry = dataFormatada  + "☠" + message + " [" + clazz.getSimpleName() + "] ";
         System.out.println(logEntry); // Imprime no console
-        final String warningLogFile = "Component[SEVERE]" + dataFormatada + ".log";
-
         // Salva no arquivo de log
         try {
             checkLogRotation();
-            try (PrintWriter writer = new PrintWriter(new FileWriter(warningLogFile, true))) {
+            try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
                 writer.println(logEntry);
             }
         } catch (IOException e) {
@@ -139,13 +140,11 @@ public class Logger {
     }
 
     public static <T> void logWarning(String message, Class<T> clazz) {
-        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] - " + message;
-        System.out.println(logEntry);
-        final String alertLogFile = "Component[WARNING]" + dataFormatada + ".log";
+        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " +  "✘" +  message;
         // Salva no arquivo de log
         try {
             checkLogRotation();
-            try (PrintWriter writer = new PrintWriter(new FileWriter(alertLogFile, true))) {
+            try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
                 writer.println(logEntry);
             }
         } catch (IOException e) {
@@ -154,12 +153,12 @@ public class Logger {
     }
 
     public static synchronized <T> void logInfo(String message, Class<T> clazz) {
-        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
+        String logEntry = dataFormatada + "✅" + " [" + clazz.getSimpleName() + "] " + message;
         System.out.println(logEntry);
         // Salva no arquivo de log
         try {
             checkLogRotation();
-            try (PrintWriter writer = new PrintWriter(new FileWriter("SystemComponent[INFO].log", true))) {
+            try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
                 writer.println(logEntry);
             }
         } catch (IOException e) {

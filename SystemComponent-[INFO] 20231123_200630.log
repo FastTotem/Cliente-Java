@@ -1,0 +1,79 @@
+20231123_200630✅ [Logger] Versão do programa: 1.1
+20231123_200630✘WARNING: [ALERTA] Totem em muito tempo de atividade [MaquinaT] 
+20231123_200630✅ [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 21:13:00
+
+20231123_200630✅ [MemoriaT] Em uso: 7,4 GiB
+Disponível: 8,3 GiB
+Total: 15,7 GiB
+
+20231123_200630✅ [Logger] Memoria Info: 
+Em uso: 7,4 GiB
+Disponível: 8,3 GiB
+Total: 15,7 GiB
+
+20231123_200630✅ [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0xa0ed
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&457D673&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+, 
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9a13
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&3CE02D8&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+20231123_200630✅ [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 724954
+Bytes de leitura: 24118819840
+Escritas: 618808
+Bytes de escritas: 32574474752
+Tamanho atual da fila: 0
+Tempo de transferência: 1875582
+
+20231123_200630✅ [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 1%
+
+20231123_200630✘WARNING: [ALERTA] Totem em muito tempo de atividade [MaquinaT] 
+20231123_200630✅ [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 2 days, 21:13:10
+
+20231123_200630✅ [Logger] Memoria Info: 
+Em uso: 7,4 GiB
+Disponível: 8,3 GiB
+Total: 15,7 GiB
+
+20231123_200630✅ [DiscoT] Disco Info: 
+
+Nome: \\.\PHYSICALDRIVE0
+Modelo: SAMSUNG MZVLQ256HAJD-000 (Unidades de disco padrão)
+Serial: 3539_3130_5282_1624_0025_3858_0000_0001.
+Tamanho: 256052966400
+Leituras: 724956
+Bytes de leitura: 24118828032
+Escritas: 619065
+Bytes de escritas: 32598485504
+Tamanho atual da fila: 0
+Tempo de transferência: 1876270
+
+20231123_200630✅ [ProcessadorT] CPU Info: 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 1%
+
