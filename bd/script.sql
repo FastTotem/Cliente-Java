@@ -101,10 +101,10 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
 -- Cria o usuário fastTotemAdmin se ele não existir
-CREATE USER IF NOT EXISTS 'fastTotemAdmin'@'localhost' IDENTIFIED BY 'fasttotem123';
+CREATE USER IF NOT EXISTS 'fastTotemAdmin'@'%' IDENTIFIED BY 'fasttotem123';
 
 -- Concede todas as permissões para o usuário fastTotemAdmin no banco de dados fastTotem
-GRANT ALL PRIVILEGES ON fastTotem.* TO 'fastTotemAdmin'@'localhost';
+GRANT ALL PRIVILEGES ON fastTotem.* TO 'fastTotemAdmin'@'%';
 
 -- Atualiza as permissões
 FLUSH PRIVILEGES;
