@@ -1,5 +1,14 @@
 version: '3'
 services:
+  # Serviço para o banco de dados MySQL
+  mysql-db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: urubu100
+    volumes:
+      - ./bd:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
   # Serviço para o aplicativo Java
   java-app:
     image: openjdk:latest
@@ -10,13 +19,3 @@ services:
       - "8080:8080"
     depends_on:
       - mysql-db
-
-  # Serviço para o banco de dados MySQL
-  mysql-db:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: urubu100
-    volumes:
-      - ./bd:/docker-entrypoint-initdb.d
-    ports:
-      - "3306:3306"
