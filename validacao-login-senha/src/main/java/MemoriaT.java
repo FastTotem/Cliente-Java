@@ -37,7 +37,7 @@ public class MemoriaT extends Componente {
             } else if (memoriaT.getPorcentagemEmUso() >= 99.0) {
                 Logger.logInfo("[SEVERO] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
             } else {
-                Logger.logInfo("Memoria Info: \n" + this, Logger.class);
+                Logger.logInfo("[INFO] Memoria: \n" + this, Logger.class);
             }
             // Adormece por um curto período antes de verificar novamente
             try {

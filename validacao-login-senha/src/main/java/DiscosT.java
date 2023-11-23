@@ -33,7 +33,6 @@ public class DiscosT extends Componente {
     }
   
     public void inserirCapturasDisco(){
-
         if (idDiscos.isEmpty()){
             setIdDiscos();
         }
@@ -50,7 +49,6 @@ public class DiscosT extends Componente {
             inserirCapturaComponente(discoT.getEscritas(), String.valueOf(TipoEnum.ESCRITA));
             inserirCapturaComponente(discoT.getLeituras(), String.valueOf(TipoEnum.LEITURA));
         }
-
     }
 
     public void inserirReadWrite(){

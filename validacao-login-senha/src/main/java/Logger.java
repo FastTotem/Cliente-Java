@@ -83,7 +83,7 @@ public class Logger {
     }
     public static synchronized void logDiscoInfo(List<Disco> discos) {
         for (Disco discoT : discos) {
-            logInfo("Disco Info: \n" + discoT.toString(), DiscoT.class);
+            logInfo(" [INFO] Disco: \n" + discoT.toString(), DiscoT.class);
         }
     }
 
@@ -140,7 +140,7 @@ public class Logger {
     }
 
     public static <T> void logWarning(String message, Class<T> clazz) {
-        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " +  "✘" +  message;
+        String logEntry = dataFormatada +  "✘"  + " [" + clazz.getSimpleName() + "] " + message;
         // Salva no arquivo de log
         try {
             checkLogRotation();
