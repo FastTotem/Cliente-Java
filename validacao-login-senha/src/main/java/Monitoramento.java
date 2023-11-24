@@ -1,4 +1,3 @@
-import com.github.britooo.looca.api.group.discos.Disco;
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
 import oshi.SystemInfo;
 import slack.FileUploader;
@@ -25,7 +24,7 @@ public class Monitoramento {
         MemoriaT memoriaT = new MemoriaT();
         ProcessadorT processadorT = new ProcessadorT();
         DispositivosUsbGrupo usbs = new DispositivosUsbGrupo();
-        Maquininha cadastroMaquina = new Maquininha(usbs, txtScanner);
+        Maquininha cadastroMaquina = new Maquininha(usbs);
         UsbT maquininha = new UsbT(usbs);
 
         Mensagens mensagem = new Mensagens();
@@ -49,6 +48,7 @@ public class Monitoramento {
                     System.out.println("Chave de ativação incorreta!");
                     totem = new Totem();
                 } else {
+                    totem.inserirTotem();
                     chaveValida = true;
                 }
 
@@ -89,9 +89,9 @@ public class Monitoramento {
 
             // set id dos componentes para captura
             discosT.setIdDiscos();
-            memoriaT.setIdMemoriaTotemValidado();
-            processadorT.setIdProcessadorTotemValidado(idTotem);
-            maquininha.setIdUsbTotemValidado();
+            memoriaT.setIdComponenteTotemValidado();
+            processadorT.setIdComponenteTotemValidado();
+            maquininha.setIdComponenteTotemValidado();
 
             Logger logger = new Logger();
 

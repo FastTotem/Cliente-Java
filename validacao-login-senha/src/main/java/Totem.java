@@ -1,4 +1,6 @@
+import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
 import conexao.Conexao;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,66 +19,76 @@ public class Totem {
     private List<Componente> componentes;
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
+    private final JdbcTemplate conSqlServer = conexao.getConexaoSqlServer();
 
     public Totem() {
         this.componentes = new ArrayList<>();
     }
 
-    public Totem(Integer idTotem, String nome, String chaveDeAcesso, Integer fkEmpresa, String boardSerialNumber) {
-        this.idTotem = idTotem;
-        this.nome = nome;
-        this.chaveDeAcesso = chaveDeAcesso;
-        this.fkEmpresa = fkEmpresa;
-        this.boardSerialNumber = boardSerialNumber;
-    }
-
     public Totem getTotem() {
 
         try {
-            Totem totem = con.queryForObject("SELECT * FROM totem WHERE chaveDeAcesso = ?",
+            Totem totem = conSqlServer.queryForObject("SELECT * FROM totem WHERE chaveDeAcesso = ?",
                   new BeanPropertyRowMapper<>(Totem.class), chaveDeAcesso);
 
             return totem;
 
         } catch (EmptyResultDataAccessException e) {
             return null;
+        } catch (DataAccessException dataAccessException) {
+            Logger.logSevere(String.format("Erro de Conexão - %s", dataAccessException.toString()), Totem.class);
+            throw dataAccessException;
         }
 
     }
 
     public Totem validarTotemJaAtivo() {
-        Scanner in = new Scanner(System.in);
-        if (boardSerialNumber.equals("unknown")) {
-            Boolean totemAchado = false;
-            Totem totem = null;
-            do {
-                System.out.println("Verificamos que você está utilizando uma EC2, por favor insira a chave do totem:");
-                String chave = in.nextLine();
-                try {
-                    totem = con.queryForObject("SELECT * FROM totem WHERE chaveDeAcesso = ?",
-                          new BeanPropertyRowMapper<>(Totem.class), chave);
-                    totemAchado = true;
 
-                } catch (EmptyResultDataAccessException e) {
-                    System.out.println("Chave errada! Insira novamente!");
-                }
-            } while (!totemAchado);
-            return totem;
+        if (boardSerialNumber.equals("unknown")) {
+            System.out.println("Verificamos que você está utilizando uma EC2");
+            return null;
         } else {
             try {
-                Totem totem = con.queryForObject("SELECT * FROM totem WHERE boardSerialNumber = ?",
+                Totem totem = conSqlServer.queryForObject("SELECT * FROM totem WHERE boardSerialNumber = ?",
                       new BeanPropertyRowMapper<>(Totem.class), boardSerialNumber);
 
                 return totem;
 
             } catch (EmptyResultDataAccessException e) {
                 return null;
+            } catch (DataAccessException dataAccessException) {
+                Logger.logSevere(String.format("Erro de Conexão - %s", dataAccessException.toString()), Totem.class);
+                dataAccessException.printStackTrace();
+                try {
+                    Totem totem = con.queryForObject("SELECT * FROM totem WHERE boardSerialNumber = ?",
+                            new BeanPropertyRowMapper<>(Totem.class), boardSerialNumber);
+
+                    return totem;
+                } catch (EmptyResultDataAccessException e) {
+                    return null;
+                }
             }
         }
     }
 
     public void inserirBoardSerialNumber() {
-        con.update("UPDATE totem SET boardSerialNumber = ? WHERE idTotem = ?", boardSerialNumber, idTotem);
+        try {
+            conSqlServer.update("UPDATE totem SET boardSerialNumber = ? WHERE idTotem = ?", boardSerialNumber, idTotem);
+            con.update("UPDATE totem SET boardSerialNumber = ? WHERE idTotem = 1", boardSerialNumber);
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Erro ao inserir boardSerialNumber - %s", e), Totem.class);
+            e.printStackTrace();
+        }
+    }
+
+    public void inserirTotem() {
+        try {
+            con.update("INSERT INTO totem (nome, chaveDeAcesso) VALUES (?,?);",
+                    nome, chaveDeAcesso);
+        } catch (Exception e) {
+            Logger.logWarning(String.format("Erro ao inserir totem na conexão MySQL - %s", e), Totem.class);
+            e.printStackTrace();
+        }
     }
 
     public Integer getIdTotem() {

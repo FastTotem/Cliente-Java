@@ -61,10 +61,6 @@ public class ProcessadorT extends Componente {
         return frequenciaEmGHz;
     }
 
-    public void setIdProcessadorTotemValidado(Integer idTotem) {
-        idComponente = getIdComponente(String.valueOf(TipoEnum.PROCESSADOR), idTotem);
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

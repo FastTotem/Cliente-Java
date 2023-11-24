@@ -1,6 +1,5 @@
 import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.util.Conversor;
-import oshi.hardware.HardwareAbstractionLayer;
 
 public class MemoriaT extends Componente {
     private Memoria memoria;
@@ -71,10 +70,6 @@ public class MemoriaT extends Componente {
 
     public void setEmUso(Long emUso) {
         this.emUso = emUso;
-    }
-
-    public void setIdMemoriaTotemValidado() {
-        idComponente = getIdComponente(String.valueOf(TipoEnum.MEMORIA), fkTotem);
     }
 
     @Override

@@ -88,7 +88,7 @@ public class DiscosT extends Componente {
 //    }
 
     public void setIdDiscos(){
-        idDiscos = getListaIdComponente(String.valueOf(TipoEnum.DISCO));
+        idDiscos = getListaIdComponente();
     }
 
 

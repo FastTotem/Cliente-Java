@@ -3,6 +3,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import slack.Notification;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,7 +29,7 @@ public abstract class Componente {
     public Boolean componenteJaExistente(){
 
         try {
-            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
+            Integer idComponente = conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
             return true;
         } catch (EmptyResultDataAccessException e) {
            return false;
@@ -43,13 +44,13 @@ public abstract class Componente {
         if (!componenteJaExistente()){
             try {
 
-                con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
-                      nomeComponente, tipoComponente, fkTotem);
-//                conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
-//                      nomeComponente, tipoComponente, fkTotem);
+                conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
+                        nomeComponente, tipoComponente, fkTotem);
+                con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,1)",
+                      nomeComponente, tipoComponente);
                 System.out.println("Componente inserido!");
 
-                Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
+                Integer idComponente = conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
 
                 return idComponente;
 
@@ -62,10 +63,12 @@ public abstract class Componente {
 
             try {
 
-                con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
+                conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
                         nomeComponente, tipoComponente, fkTotem);
+                con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,1)",
+                        nomeComponente, tipoComponente);
 
-                Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
+                Integer idComponente = conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
 
                 return idComponente;
             } catch (Exception e) {
@@ -74,19 +77,28 @@ public abstract class Componente {
             }
 
 
+        } else {
+            if (!Objects.equals(tipoComponente, String.valueOf(TipoEnum.DISCO))) {
+                return setIdComponenteTotemValidado();
+            }
         }
 
         return null;
 
     }
 
-    ;
-
     protected void inserirCapturaComponente(Long valor, String tipoCaptura) {
-
-        con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
-              valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
-        System.out.println("Captura realizada!");
+        try {
+            conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
+                    valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
+            con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
+                    valor, tipoCaptura, LocalDateTime.now(), idComponente);
+            verificarStatus(Double.valueOf(valor));
+            System.out.println("Captura realizada!");
+        } catch (Exception e) {
+            Logger.logWarning(String.format("Falha na inserção de captura - %s", e), Componente.class);
+            e.printStackTrace();
+        }
     }
 
     protected void verificarStatus(Double valor) {
@@ -97,47 +109,57 @@ public abstract class Componente {
             if (valor > parametroAlerta.getIdeal() && valor <= parametroAlerta.getAlerta()) {
                 if (!this.status.equals(String.valueOf(ParametroAlertaEnum.ALERTA))) {
                     this.status = String.valueOf(ParametroAlertaEnum.ALERTA);
-                    // mandar mensagem alerta
+                    try {
+                        Notification.enviarNotificacao(String.format("%s está em alerta!"));
+                    } catch (Exception e) {
+                        Logger.logInfo(String.format("Notificação de alerta não enviada - %s", e), Componente.class);
+                    }
                 }
             } else if (valor <= parametroAlerta.getCritico()) {
                 if (!this.status.equals(String.valueOf(ParametroAlertaEnum.CRITICO))) {
                     this.status = String.valueOf(ParametroAlertaEnum.CRITICO);
-                    // mandar mensagem critico
+                    try {
+                        Notification.enviarNotificacao(String.format("%s está em crítico!"));
+                    } catch (Exception e) {
+                        Logger.logInfo(String.format("Notificação de critico não enviada - %s", e), Componente.class);
+                    }
                 }
             }
         }
     }
 
     protected void inserirCapturaComponente(Double valor, String tipoCaptura) {
+        try {
+            conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
+                    valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
+            con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
+                    valor, tipoCaptura, LocalDateTime.now(), idComponente);
+            verificarStatus(valor);
+            System.out.println("Captura realizada!");
+        } catch (Exception e) {
+            Logger.logWarning(String.format("Falha na inserção de captura - %s", e), Componente.class);
+            e.printStackTrace();
+        }
 
-        con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
-              valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
-        System.out.println("Captura realizada!");
     }
 
-    protected void notificarAdministrador(String mensagem) {
-        // Isso pode ser feito por slack.
-        System.out.println("Notificação para administrador: " + mensagem);
-    }
-
-    protected List<Integer> getListaIdComponente(String tipoComponente) {
-        List<Integer> idComponentes = con.queryForList("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
+    protected List<Integer> getListaIdComponente() {
+        List<Integer> idComponentes = conSqlServer.queryForList("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
               Integer.class, tipoComponente, fkTotem);
         return idComponentes;
     }
 
-    protected Integer getIdComponente(String tipoComponente, Integer idTotem) {
-        Integer idComponente = null;
+    protected Integer setIdComponenteTotemValidado() {
         try {
-            idComponente = con.queryForObject(
+            idComponente = conSqlServer.queryForObject(
                   "SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
-                  Integer.class, tipoComponente, idTotem
+                  Integer.class, tipoComponente, fkTotem
             );
+            return idComponente;
         } catch (EmptyResultDataAccessException e) {
             Logger.logInfo("Componente não encontrado" + e, Componente.class);
             throw new RuntimeException("Componente não encontrado para o tipo: " + tipoComponente);
         }
-        return idComponente;
     }
 
     public void setIdComponente(Integer idComponente) {
@@ -148,16 +170,16 @@ public abstract class Componente {
         return nomeComponente;
     }
 
-    public String getNomeComponente(String tipoComponente) {
+    public String searchNomeComponente() {
         try {
-            nomeComponente = con.queryForObject("SELECT nomeComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
+            nomeComponente = conSqlServer.queryForObject("SELECT nomeComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
                   String.class, tipoComponente, fkTotem);
+            return nomeComponente;
         } catch (EmptyResultDataAccessException e) {
             // Se resultado vazio definir uma mensagem de log ou lançar uma exceção
-            Logger.logInfo("Componente não encontrado" + e, UsbT.class); // Valor padrão ou mensagem de erro
+            Logger.logInfo("Componente não encontrado" + e, UsbT.class);
             throw new RuntimeException("Componente não encontrado para o tipo: " + tipoComponente);
         }
-        return nomeComponente;
     }
 
     public void setNomeComponente(String nomeComponente) {

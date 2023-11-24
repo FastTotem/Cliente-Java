@@ -9,11 +9,7 @@ public class UsbT extends Componente {
     private String idExclusivo;
     private DispositivoUsb maquininha;
     private DispositivosUsbGrupo usbs;
-    private Integer idUsb;
     private JdbcTemplate jdbcTemplate; // Adicione o JdbcTemplate como um membro da classe
-
-    public UsbT() {
-    }
 
     public UsbT(DispositivosUsbGrupo usbs) {
         this.usbs = usbs;
@@ -24,12 +20,12 @@ public class UsbT extends Componente {
         this.nome = maquininha.getNome();
         this.idExclusivo = maquininha.getIdDispositivoUsbExclusivo();
         this.usbs = usbs;
+        this.tipoComponente = String.valueOf(TipoEnum.USB);
     }
 
     public void verificarConexao() {
         List<DispositivoUsb> usbsConectados = usbs.getDispositivosUsbConectados();
-        idExclusivo = getNomeComponente(String.valueOf(TipoEnum.USB));
-        idUsb = getIdComponente(String.valueOf(TipoEnum.USB), getFkTotem());
+        idExclusivo = searchNomeComponente();
         for (DispositivoUsb usb : usbsConectados) {
             if (usb.getIdDispositivoUsbExclusivo().equals(idExclusivo)) {
                 maquininha = usb;
@@ -65,18 +61,6 @@ public class UsbT extends Componente {
             throw new IllegalStateException("JdbcTemplate não foi configurado corretamente");
         }
         return idExclusivo;
-    }
-
-    public Integer getIdUsb() {
-        return idUsb;
-    }
-
-    public void setIdUsb(Integer idUsb) {
-        this.idUsb = idUsb;
-    }
-
-    public void setIdUsbTotemValidado() {
-        idUsb = getIdComponente(String.valueOf(TipoEnum.USB), fkTotem);
     }
 
     public void setMaquininha(DispositivoUsb maquininha) {

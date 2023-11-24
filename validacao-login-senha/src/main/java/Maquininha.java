@@ -6,15 +6,15 @@ import java.util.Scanner;
 
 public class Maquininha {
     private DispositivosUsbGrupo usbs;
-    private Scanner in;
     private DispositivoUsb maquininha;
 
-    public Maquininha(DispositivosUsbGrupo usbs, Scanner in) {
+    public Maquininha(DispositivosUsbGrupo usbs) {
         this.usbs = usbs;
-        this.in = in;
     }
 
     public DispositivoUsb cadastrar() {
+
+        Scanner in = new Scanner(System.in);
 
         List<DispositivoUsb> comMaquininha = usbs.getDispositivosUsbConectados();
 

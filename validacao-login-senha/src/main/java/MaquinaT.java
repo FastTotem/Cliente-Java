@@ -30,6 +30,7 @@ public class MaquinaT {
 
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
+    private final JdbcTemplate conSqlServer = conexao.getConexaoSqlServer();
 
     public MaquinaT() {
         this.sistema = new Sistema();
@@ -47,19 +48,36 @@ public class MaquinaT {
     }
 
     public void inserirDadosSistema() {
-        con.update("INSERT INTO infoMaquina " +
-              "(sistemaOperacional, fabricante, nomeProcessador, " +
-              "capacidadeRam, capacidadeDisco, fkTotem) " +
-              "VALUES (?,?,?,?,?,?)", sistemaOperacional, fabricante, nomeProcessador, capacidadeRam, capacidadeDisco, fkTotem);
+        try {
+            conSqlServer.update("INSERT INTO infoMaquina " +
+                    "(sistemaOperacional, fabricante, nomeProcessador, " +
+                    "capacidadeRam, capacidadeDisco, fkTotem) " +
+                    "VALUES (?,?,?,?,?,?)", sistemaOperacional, fabricante, nomeProcessador, capacidadeRam, capacidadeDisco, fkTotem);
+            con.update("INSERT INTO infoMaquina " +
+                    "(sistemaOperacional, fabricante, nomeProcessador, " +
+                    "capacidadeRam, capacidadeDisco, fkTotem) " +
+                    "VALUES (?,?,?,?,?,1)", sistemaOperacional, fabricante, nomeProcessador, capacidadeRam, capacidadeDisco);
 
-        System.out.println("Dados do sistema inseridos!");
+            System.out.println("Dados do sistema inseridos!");
+        } catch (Exception e) {
+            Logger.logWarning(String.format("Erro ao inserir dados do sistema - %s", e), MaquinaT.class);
+            e.printStackTrace();
+        }
     }
 
     public void inserirTempoDeAtividade() {
-        con.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,?)",
-              tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now(), fkTotem);
+        try {
+            conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,?)",
+                    tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now(), fkTotem);
 
-        System.out.println("Captura realizada!");
+            con.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,1)",
+                    tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now());
+
+            System.out.println("Captura realizada!");
+        } catch (Exception e) {
+            Logger.logWarning(String.format("Erro ao inserir tempo de atividade - %s", e), MaquinaT.class);
+            e.printStackTrace();
+        }
     }
 
     public Sistema getSistema() {
