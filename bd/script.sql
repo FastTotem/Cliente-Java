@@ -1,3 +1,4 @@
+-- DROP DATABASE fasttotem;
 -- Verifica se o banco de dados 'fastTotem' existe
 CREATE DATABASE IF NOT EXISTS fasttotem;
 USE fasttotem;
