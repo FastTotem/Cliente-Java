@@ -197,16 +197,10 @@ public class DiscoT {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-//        sb.append("Nome: ").append(disco.getNome()).append("\n");
-//        sb.append("Modelo: ").append(disco.getModelo()).append("\n");
-//        sb.append("Serial: ").append(disco.getSerial()).append("\n");
-        sb.append("Tamanho: ").append(tamanho).append("\n");
-//        sb.append("Leituras: ").append(disco.getLeituras()).append("\n");
-//        sb.append("Bytes de leitura: ").append(disco.getBytesDeLeitura()).append("\n");
-        sb.append("Escritas: ").append(escritas).append("\n");
-        sb.append("Bytes de escritas: ").append(bytesDeEscritas).append("\n");
-//        sb.append("Tamanho atual da fila: ").append(disco.getTamanhoAtualDaFila()).append("\n");
-//        sb.append("Tempo de transferência: ").append(disco.getTempoDeTransferencia()).append("\n");
+        sb.append("\nTamanho Total: ").append(showTotal()).append("\n");
+        sb.append("Espaço Usado: ").append( showUsado()).append("\n");
+        sb.append("Espaço Disponível: ").append( showDisponivel()).append("\n");
+        sb.append("Tempo de transferência: ").append(disco.getTempoDeTransferencia().shortValue()).append("\n");
         return sb.toString();
     }
 }
