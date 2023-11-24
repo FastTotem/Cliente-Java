@@ -61,3 +61,53 @@ Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
 Frequência: 2.419 GHz
 Em Uso: 7%
 
+20231124 [DiscoT] Disco Info: 
+
+Tamanho Total: 237.69
+Espaço Usado: 125.96
+Espaço Disponível: 111.73
+Tempo de transferência: -20423
+
+20231124 [MaquinaT] ⚠️[ALERTA] Totem em muito tempo de atividade
+20231124 [MaquinaT] Sistema operacional: Windows
+Tempo de atividade: 3 days, 19:37:01
+
+20231124 [MemoriaT] Em uso: 8,5 GiB
+Disponível: 7,2 GiB
+Total: 15,7 GiB
+
+20231124 [Logger] ✅[INFO] Memoria: 
+Em uso: 8,5 GiB
+Disponível: 7,2 GiB
+Total: 15,7 GiB
+
+20231124 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0xa0ed
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&457D673&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+, 
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9a13
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&3CE02D8&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+20231124 [ProcessadorT] ✅[INFO] 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 8%
+
+20231124 [ProcessadorT] ✅[INFO] 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 8%
+

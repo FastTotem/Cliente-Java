@@ -1,4 +1,5 @@
-public class ParametroAlerta {
+public class
+ParametroAlerta {
 
     private Integer idParametroAlerta;
     private String componente;
