@@ -20,7 +20,7 @@ public class Conexao {
         dataSource.setUsername("fastTotemAdmin");
         dataSource.setPassword("fasttotem123");
 
-        dataSourceSqlServer.setUrl("jdbc:sqlserver://ec2-54-144-141-96.compute-1.amazonaws.com:1433;database=fasttotem;encrypt=true;trustServerCertificate=true;");
+        dataSourceSqlServer.setUrl("jdbc:sqlserver://localhost:1433;database=fasttotem;encrypt=true;trustServerCertificate=true;");
         dataSourceSqlServer.setUsername("fastTotemAdmin");
         dataSourceSqlServer.setPassword("fasttotem123");
 
