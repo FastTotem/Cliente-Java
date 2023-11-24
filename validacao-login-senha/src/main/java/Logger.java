@@ -82,7 +82,6 @@ public class Logger {
     // calculo e registro das taxas de leitura e escrita dos discos além do espaço total.
     public static <T> void logSevere(String message, Class<T> clazz) {
         String logEntry = dataFormatada + "SEVERE: " + message + Logger.class;
-
         // Salva no arquivo de log
         try {
             checkLogRotation();
@@ -96,7 +95,6 @@ public class Logger {
 
     public static <T> void logWarning(String message, Class<T> clazz) {
         String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
-
         try {
             checkLogRotation();
             try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
@@ -106,7 +104,6 @@ public class Logger {
             e.printStackTrace();
         }
     }
-
 
     public static synchronized void logDiscoInfo(List<DiscoT> discos) {
         for (DiscoT discoT : discos) {

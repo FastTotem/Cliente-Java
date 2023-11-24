@@ -43,6 +43,7 @@ public class MemoriaT extends Componente {
             try {
                 Thread.sleep(10000); // Ajuste o intervalo conforme necessário
             } catch (InterruptedException e) {
+                Logger.logInfo("Erro para monitorar uso da Memória.\" " + e, Componente.class);
                 e.printStackTrace();
             }
         }

@@ -48,8 +48,8 @@ public class DiscoT {
             lastRead = bytesDeLeituras;
             return resposta;
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("Erro ao buscar o componente DISCO.");
-            e.printStackTrace();
+           e.printStackTrace();
+            Logger.logInfo("Erro ao buscar o componente DISCO.\" " + e, Componente.class);
             return null;
         }
     }

@@ -98,6 +98,7 @@ public class MaquinaT {
             try {
                 Thread.sleep(10000); // intervalo
             } catch (InterruptedException e) {
+                Logger.logInfo("Erro no monitoramento do tempo de Atividade da Maquina.\" " + e, Componente.class);
                 e.printStackTrace();
             }
         }

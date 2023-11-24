@@ -54,7 +54,8 @@ public abstract class Componente {
                 return idComponente;
 
             } catch (Exception e) {
-                System.out.println(LocalDateTime.now() + " Erro ao inserir componente - " + e);
+                Logger.logInfo("Erro ao inserir componente - " + e, Componente.class);
+
             }
 
         } else if (Objects.equals(tipoComponente, String.valueOf(TipoEnum.DISCO))) {
@@ -68,8 +69,8 @@ public abstract class Componente {
 
                 return idComponente;
             } catch (Exception e) {
-                System.out.println("Erro ao inserir componente - Disco");
                 e.printStackTrace();
+                Logger.logInfo("Erro ao inserir componente - Disco" + e, Componente.class);
             }
 
 
@@ -85,9 +86,7 @@ public abstract class Componente {
 
         con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
               valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
-
         System.out.println("Captura realizada!");
-
     }
 
     protected void verificarStatus(Double valor) {
@@ -107,16 +106,13 @@ public abstract class Componente {
                 }
             }
         }
-
     }
 
     protected void inserirCapturaComponente(Double valor, String tipoCaptura) {
 
         con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
               valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
-
         System.out.println("Captura realizada!");
-
     }
 
     protected void notificarAdministrador(String mensagem) {
@@ -138,7 +134,7 @@ public abstract class Componente {
                   Integer.class, tipoComponente, idTotem
             );
         } catch (EmptyResultDataAccessException e) {
-            Logger.logInfo("Componente não encontrado", Componente.class);
+            Logger.logInfo("Componente não encontrado" + e, Componente.class);
             throw new RuntimeException("Componente não encontrado para o tipo: " + tipoComponente);
         }
         return idComponente;
@@ -158,7 +154,7 @@ public abstract class Componente {
                   String.class, tipoComponente, fkTotem);
         } catch (EmptyResultDataAccessException e) {
             // Se resultado vazio definir uma mensagem de log ou lançar uma exceção
-            Logger.logInfo("Componente não encontrado", UsbT.class); // Valor padrão ou mensagem de erro
+            Logger.logInfo("Componente não encontrado" + e, UsbT.class); // Valor padrão ou mensagem de erro
             throw new RuntimeException("Componente não encontrado para o tipo: " + tipoComponente);
         }
         return nomeComponente;

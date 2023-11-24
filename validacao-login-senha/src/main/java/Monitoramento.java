@@ -103,6 +103,7 @@ public class Monitoramento {
                         Thread.sleep(10000);// Aguarda 10 segundos antes de verificar novamente
                     }
                 } catch (Exception e) {
+                    Logger.logInfo("Erro Thread DISCO.\" " + e, Componente.class);
                     e.printStackTrace();
                 }
             }).start();
