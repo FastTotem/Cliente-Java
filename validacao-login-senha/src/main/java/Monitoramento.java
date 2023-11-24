@@ -1,12 +1,15 @@
+import com.github.britooo.looca.api.group.discos.Disco;
 import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
 import oshi.SystemInfo;
+import slack.FileUploader;
 
+import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
 
 public class Monitoramento {
     public static void main(String[] args) {
@@ -90,12 +93,38 @@ public class Monitoramento {
             processadorT.setIdProcessadorTotemValidado(idTotem);
             maquininha.setIdUsbTotemValidado();
 
+            Logger logger = new Logger();
 
+            new Thread(() -> {
+                try {
+                    while (true) {
+                        List<DiscoT> discos = discosT.getDiscosT(); // Obtém a lista de discos
+                        logger.logDiscoInfo(discos); // Chama o método passando a lista de discos
+                        Thread.sleep(10000);// Aguarda 10 segundos antes de verificar novamente
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+            Timer timer = new Timer();
+            long delay = 0;
+            long interval = 24 * 60 * 60 * 1000;
+
+            timer.scheduleAtFixedRate(new TimerTask() {
+                public void run() {
+                    FileUploader.enviarArquivoParaSlack(logger.getLogFile());
+                }
+            }, delay, interval);
         }
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
         scheduler.scheduleAtFixedRate(() -> {
+            processadorT.monitorarUsoProcessador();
+            memoriaT.monitorarUsoMemoria();
+            maquinaT.monitorarTempoAtividade();
+            maquininha.logUsbDevices();
             memoriaT.inserirCapturaUsoMemoria();
             processadorT.inserirCapturaUsoProcessador();
             discosT.inserirCapturasDisco();
@@ -108,16 +137,12 @@ public class Monitoramento {
         }, 0, 1, TimeUnit.HOURS);
 
         //execução contínua do código
-        CountDownLatch latch = new CountDownLatch(1);
         try {
-            latch.await();
+            Thread.currentThread().join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             scheduler.shutdown();
         }
-
-
     }
-
 }
