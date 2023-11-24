@@ -79,7 +79,6 @@ public class Logger {
         }
     }
 
-
     // calculo e registro das taxas de leitura e escrita dos discos além do espaço total.
     public static <T> void logSevere(String message, Class<T> clazz) {
         String logEntry = dataFormatada + "SEVERE: " + message + Logger.class;

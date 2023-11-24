@@ -8,12 +8,10 @@ public class MemoriaT extends Componente {
     private Long disponivel;
     private Long emUso;
     private Double porcentagemUsada;
-    private HardwareAbstractionLayer hal;
 
     public MemoriaT() {
         this.memoria = new Memoria();
         this.tipoComponente = String.valueOf(TipoEnum.MEMORIA);
-        this.hal = new oshi.SystemInfo().getHardware();
     }
 
     public Double getPorcentagemEmUso() {
@@ -35,11 +33,11 @@ public class MemoriaT extends Componente {
         while (true) {
             // Se a memoria atingir 80% ou mais, registra no log
             if (memoriaT.getPorcentagemEmUso() >= 80.0) {
-                Logger.logWarning("[ALERTA] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
+                Logger.logInfo("[ALERTA] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%" , MemoriaT.class);
             } else if (memoriaT.getPorcentagemEmUso() >= 99.0) {
-                Logger.logSevere("[SEVERO] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
+                Logger.logInfo("[SEVERO] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
             } else {
-                Logger.logInfo("Memoria Info: \n" + this, Logger.class);
+                Logger.logInfo("[INFO] Memoria: \n" + this, Logger.class);
             }
             // Adormece por um curto período antes de verificar novamente
             try {
