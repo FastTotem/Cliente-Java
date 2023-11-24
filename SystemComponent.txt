@@ -1,6 +1,0 @@
-2023-11-13 16:58:01 [ProcessadorT] Carga do sistema está ok!
-2023-11-13 16:58:01 [ProcessadorT] Fabricante: GenuineIntel
-Nome: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
-Frequência: 2.419 GHz
-Em Uso: 2%
-
