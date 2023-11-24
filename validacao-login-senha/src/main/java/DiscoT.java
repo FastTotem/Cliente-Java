@@ -41,6 +41,7 @@ public class DiscoT {
             if (idComponente == null) {
                 System.out.println("Componente DISCO não encontrado para o totem ");
                 return null;
+
             }
 //         System.out.println(String.format("((bytesDeEscritas[%d] - lastWrite[%d]) + (bytesDeLeituras[%d] - lastRead[%d])) / tempoInsert[%d];",bytesDeEscritas,lastWrite,bytesDeLeituras,lastRead,tempoInsert));
             Long resposta = ((bytesDeEscritas - lastWrite) + (bytesDeLeituras - lastRead)) / tempoInsert;

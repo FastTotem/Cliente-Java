@@ -96,7 +96,7 @@ public class MaquinaT {
             Logger.logInfo(toString(), MaquinaT.class);
             // Adormece por um curto período antes de verificar novamente
             try {
-                Thread.sleep(10000); // intervalo
+                Thread.sleep(1800000);// Aguarda 2 minutos antes de verificar novamente
             } catch (InterruptedException e) {
                 Logger.logInfo("Erro no monitoramento do tempo de Atividade da Maquina.\" " + e, Componente.class);
                 e.printStackTrace();

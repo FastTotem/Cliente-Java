@@ -27,6 +27,8 @@ public class Monitoramento {
         DispositivosUsbGrupo usbs = new DispositivosUsbGrupo();
         Maquininha cadastroMaquina = new Maquininha(usbs, txtScanner);
         UsbT maquininha = new UsbT(usbs);
+        UsbT usbT = new UsbT(usbs);
+
 
         Mensagens mensagem = new Mensagens();
         System.out.println(mensagem.getBoasVindas());
@@ -95,12 +97,17 @@ public class Monitoramento {
 
             Logger logger = new Logger();
 
+            // Inicia threads separadas para monitorar cada componente
+            new Thread(processadorT::monitorarUsoProcessador).start();
+            new Thread(memoriaT::monitorarUsoMemoria).start();
+            new Thread(maquinaT::monitorarTempoAtividade).start();
+            new Thread(usbT::logUsbDevices).start();
             new Thread(() -> {
                 try {
                     while (true) {
                         List<DiscoT> discos = discosT.getDiscosT(); // Obtém a lista de discos
                         logger.logDiscoInfo(discos); // Chama o método passando a lista de discos
-                        Thread.sleep(10000);// Aguarda 10 segundos antes de verificar novamente
+                        Thread.sleep(1800000);// Aguarda 2 minutos antes de verificar novamente
                     }
                 } catch (Exception e) {
                     Logger.logInfo("Erro Thread DISCO.\" " + e, Componente.class);

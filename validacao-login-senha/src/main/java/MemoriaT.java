@@ -41,7 +41,7 @@ public class MemoriaT extends Componente {
             }
             // Adormece por um curto período antes de verificar novamente
             try {
-                Thread.sleep(10000); // Ajuste o intervalo conforme necessário
+                Thread.sleep(1800000);// Aguarda 2 minutos antes de verificar novamente
             } catch (InterruptedException e) {
                 Logger.logInfo("Erro para monitorar uso da Memória.\" " + e, Componente.class);
                 e.printStackTrace();

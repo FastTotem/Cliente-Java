@@ -33,7 +33,7 @@ public class ProcessadorT extends Componente {
             }
             // Adormece por um curto período antes de verificar novamente
             try {
-                Thread.sleep(10000);// Aguarda 10 segundos antes de verificar novamente
+                Thread.sleep(1800000);// Aguarda 2 minutos antes de verificar novamente
             } catch (InterruptedException e) {
                 Logger.logInfo("Erro para monitorar uso do Processador.\" " + e, Componente.class);
                 e.printStackTrace();
