@@ -1,0 +1,100 @@
+20231124 [MaquinaT] INFO: ⚠️ [ALERTA] Totem em muito tempo de atividade
+20231124 [DiscoT] INFO: Disco Info: 
+
+Tamanho Total: 237.69
+Espaço Usado: 126.04
+Espaço Disponível: 111.66
+Tempo de transferência: 16430
+
+20231124 [MemoriaT] INFO: Em uso: 8,0 GiB
+Disponível: 7,7 GiB
+Total: 15,7 GiB
+
+20231124 [MaquinaT] INFO: Sistema operacional: Windows
+Tempo de atividade: 3 days, 20:36:16
+
+20231124 [Logger] INFO: ✅[INFO] Memória: 
+Em uso: 8,0 GiB
+Disponível: 7,7 GiB
+Total: 15,7 GiB
+
+20231124 [Logger] INFO: Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0xa0ed
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&457D673&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+, 
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9a13
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&3CE02D8&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+20231124 [ProcessadorT] INFO: ✅ [INFO] 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 4%
+
+20231124 [ProcessadorT] INFO: ✅ [INFO] 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 4%
+
+20231124 [MaquinaT] INFO: ⚠️ [ALERTA] Totem em muito tempo de atividade
+20231124 [DiscoT] INFO: Disco Info: 
+
+Tamanho Total: 237.69
+Espaço Usado: 126.04
+Espaço Disponível: 111.65
+Tempo de transferência: 9912
+
+20231124 [MaquinaT] INFO: Sistema operacional: Windows
+Tempo de atividade: 3 days, 21:04:13
+
+20231124 [MemoriaT] INFO: Em uso: 7,5 GiB
+Disponível: 8,2 GiB
+Total: 15,7 GiB
+
+20231124 [Logger] INFO: ✅[INFO] Memória: 
+Em uso: 7,5 GiB
+Disponível: 8,2 GiB
+Total: 15,7 GiB
+
+20231124 [Logger] INFO: Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0xa0ed
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&457D673&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+, 
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9a13
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&3CE02D8&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+20231124 [ProcessadorT] INFO: ✅ [INFO] 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 4%
+
+20231124 [ProcessadorT] INFO: ✅ [INFO] 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 4%
+

@@ -17,7 +17,6 @@ import java.util.List;
 public class Logger {
     private static final int tamanhoMaximo = 30;
     private static final int maximoHistoricoArquivos = 100;
-
     // Obtenha a data atual
     static Date dataAtual = new Date();
 
@@ -29,7 +28,8 @@ public class Logger {
 
     // Concatena a data formatada com o nome do arquivo
     private static final String logDir = "logs" + File.separator;
-    private static final String logFile = logDir + "SystemComponent[INFO]" + dataFormatada + ".log";
+    private static final String logFile = logDir + "HardwareMonitoring[INFO]" + dataFormatada + ".log";
+
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
 
@@ -79,10 +79,10 @@ public class Logger {
         }
     }
 
-    // calculo e registro das taxas de leitura e escrita dos discos além do espaço total.
-    public static <T> void logSevere(String message, Class<T> clazz) {
-        String logEntry = dataFormatada + "SEVERE: " + message + Logger.class;
-        // Salva no arquivo de log
+    private static synchronized void log(String level, String message, Class<?> clazz) {
+        SimpleDateFormat dataFormatada = new SimpleDateFormat("yyyyMMdd"); // Mova a definição para dentro do método
+        String logFile = logDir + "HardwareMonitoring[INFO]" + dataFormatada.format(new Date()) + ".log"; // Atualize o nome do arquivo
+        String logEntry = dataFormatada.format(new Date()) + " [" + clazz.getSimpleName() + "] " + level + ": " + message;
         try {
             checkLogRotation();
             try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
@@ -92,17 +92,12 @@ public class Logger {
             e.printStackTrace();
         }
     }
+    public static <T> void logSevere(String message, Class<T> clazz) {
+        log("SEVERE", message, clazz);
+    }
 
     public static <T> void logWarning(String message, Class<T> clazz) {
-        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
-        try {
-            checkLogRotation();
-            try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
-                writer.println(logEntry);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        log("WARNING", message, clazz);
     }
 
     public static synchronized void logDiscoInfo(List<DiscoT> discos) {
@@ -110,17 +105,7 @@ public class Logger {
             logInfo("Disco Info: \n" + discoT.toString(), DiscoT.class);
         }
     }
-
     public static synchronized <T> void logInfo(String message, Class<T> clazz) {
-        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
-        // Salva no arquivo de log
-        try {
-            checkLogRotation();
-            try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
-                writer.println(logEntry);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        log("INFO", message, clazz);
     }
 }

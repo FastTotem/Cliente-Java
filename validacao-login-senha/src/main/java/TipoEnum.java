@@ -11,14 +11,13 @@ public enum TipoEnum {
     TAXA_TRANSFERENCIA("taxaTransferencia"),
     ARMAZENAMENTO("porcentagemArmazenamento");
 
-    private String tipoCaptura;
+    private final String tipoCaptura;
 
     TipoEnum(String tipo) {
-        tipoCaptura = tipo;
+        this.tipoCaptura = tipo;
     }
 
     public String getTipoCaptura() {
         return tipoCaptura;
     }
-
 }

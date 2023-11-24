@@ -33,7 +33,7 @@ public class DiscoT {
         this.lastWrite = bytesDeEscritas;
     }
 
-    public Long calcularReadWrite() {
+    public Double calcularReadWrite() {
         try {
             bytesDeLeituras = disco.getBytesDeLeitura();
             bytesDeEscritas = disco.getBytesDeEscritas();
@@ -44,19 +44,19 @@ public class DiscoT {
 
             }
 //         System.out.println(String.format("((bytesDeEscritas[%d] - lastWrite[%d]) + (bytesDeLeituras[%d] - lastRead[%d])) / tempoInsert[%d];",bytesDeEscritas,lastWrite,bytesDeLeituras,lastRead,tempoInsert));
-            Long resposta = ((bytesDeEscritas - lastWrite) + (bytesDeLeituras - lastRead)) / tempoInsert;
+            Double resposta = (double) (((bytesDeEscritas - lastWrite) + (bytesDeLeituras - lastRead)) / tempoInsert);
             lastWrite = bytesDeEscritas;
             lastRead = bytesDeLeituras;
             return resposta;
         } catch (EmptyResultDataAccessException e) {
-           e.printStackTrace();
+            e.printStackTrace();
             Logger.logInfo("Erro ao buscar o componente DISCO.\" " + e, Componente.class);
             return null;
         }
     }
 
-    public Long calcularPorcentagemArmazenada(){
-        return (bytesDeEscritas/tamanho)*100;
+    public Double calcularPorcentagemArmazenada() {
+        return ((double) bytesDeEscritas / tamanho) * 100;
     }
 
     public Double showTotal() {
@@ -147,14 +147,6 @@ public class DiscoT {
         return disco.getEscritas();
     }
 
-    public Long getLeituras() {
-        return disco.getLeituras();
-    }
-
-    public void setLeituras(Long leituras) {
-        this.leituras = leituras;
-    }
-
     public Integer getTempoInsert() {
         return tempoInsert;
     }
@@ -199,8 +191,8 @@ public class DiscoT {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\nTamanho Total: ").append(showTotal()).append("\n");
-        sb.append("Espaço Usado: ").append( showUsado()).append("\n");
-        sb.append("Espaço Disponível: ").append( showDisponivel()).append("\n");
+        sb.append("Espaço Usado: ").append(showUsado()).append("\n");
+        sb.append("Espaço Disponível: ").append(showDisponivel()).append("\n");
         sb.append("Tempo de transferência: ").append(disco.getTempoDeTransferencia().shortValue()).append("\n");
         return sb.toString();
     }

@@ -22,12 +22,6 @@ public class MaquinaT {
     private Long tempoDeAtividade;
     private Integer fkTotem;
 
-    // Códigos de escape ANSI para cores
-    static String reset = "\u001B[0m";
-    static String red = "\u001B[31m";
-    private static String green = "\u001B[32m";
-    private static String yellow = "\u001B[33m";
-
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
 
@@ -48,17 +42,14 @@ public class MaquinaT {
 
     public void inserirDadosSistema() {
         con.update("INSERT INTO infoMaquina " +
-              "(sistemaOperacional, fabricante, nomeProcessador, " +
+              "(sistemaOperacional, nomeProcessador, " +
               "capacidadeRam, capacidadeDisco, fkTotem) " +
-              "VALUES (?,?,?,?,?,?)", sistemaOperacional, fabricante, nomeProcessador, capacidadeRam, capacidadeDisco, fkTotem);
-
+              "VALUES (?,?,?,?,?)", sistemaOperacional, nomeProcessador, capacidadeRam, capacidadeDisco, fkTotem);
         System.out.println("Dados do sistema inseridos!");
     }
-
     public void inserirTempoDeAtividade() {
         con.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,?)",
               tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now(), fkTotem);
-
         System.out.println("Captura realizada!");
     }
 
@@ -86,10 +77,10 @@ public class MaquinaT {
         while (true) {
             // Se o tempo de atividade atingir 75%, registra no log
             if (tempoDeAtividade >= 75.0) {
-                Logger.logWarning("⚠\uFE0F" +"[ALERTA] Totem em muito tempo de atividade",  MaquinaT.class);
+                Logger.logInfo("⚠️ [ALERTA] Totem em muito tempo de atividade",  MaquinaT.class);
 
             } else if (tempoDeAtividade >= 95.0) {
-                Logger.logSevere("❌" + "[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
+                Logger.logInfo("❌" + "[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
             } else {
                 Logger.logInfo("✅" + "[INFO] Maquina: \n" + this, MaquinaT.class);
             }

@@ -10,7 +10,7 @@ public class UsbT extends Componente {
     private DispositivoUsb maquininha;
     private DispositivosUsbGrupo usbs;
     private Integer idUsb;
-    private JdbcTemplate jdbcTemplate; // Adicione o JdbcTemplate como um membro da classe
+    private JdbcTemplate jdbcTemplate;
 
     public UsbT() {
     }
@@ -26,6 +26,43 @@ public class UsbT extends Componente {
         this.usbs = usbs;
     }
 
+    // Getters e Setters
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getIdExclusivo() {
+        if (jdbcTemplate == null) {
+            throw new IllegalStateException("JdbcTemplate não foi configurado corretamente");
+        }
+        return idExclusivo;
+    }
+
+    public Integer getIdUsb() {
+        return idUsb;
+    }
+
+    public void setIdUsb(Integer idUsb) {
+        this.idUsb = idUsb;
+    }
+
+    public void setMaquininha(DispositivoUsb maquininha) {
+        this.maquininha = maquininha;
+    }
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void setIdUsbTotemValidado() {
+        idUsb = getIdComponente(String.valueOf(TipoEnum.USB), fkTotem);
+    }
+
+    // Métodos
     public void verificarConexao() {
         List<DispositivoUsb> usbsConectados = usbs.getDispositivosUsbConectados();
         idExclusivo = getNomeComponente(String.valueOf(TipoEnum.USB));
@@ -53,38 +90,6 @@ public class UsbT extends Componente {
         idExclusivo = maquininha.getIdDispositivoUsbExclusivo();
         nomeComponente = idExclusivo;
         idComponente = inserirComponente();
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getIdExclusivo() {
-
-        if (jdbcTemplate == null) {
-            throw new IllegalStateException("JdbcTemplate não foi configurado corretamente");
-        }
-        return idExclusivo;
-    }
-
-    public Integer getIdUsb() {
-        return idUsb;
-    }
-
-    public void setIdUsb(Integer idUsb) {
-        this.idUsb = idUsb;
-    }
-
-    public void setIdUsbTotemValidado() {
-        idUsb = getIdComponente(String.valueOf(TipoEnum.USB), fkTotem);
-    }
-
-    public void setMaquininha(DispositivoUsb maquininha) {
-        this.maquininha = maquininha;
-    }
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override

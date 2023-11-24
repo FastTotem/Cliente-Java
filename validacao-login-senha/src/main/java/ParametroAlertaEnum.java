@@ -1,8 +1,9 @@
 public enum ParametroAlertaEnum {
 
-    ALERTA("alerta"),
-    CRITICO("critico"),
-    IDEAL("ideal");
+    IDEAL("Ideal"),
+    ALERTA("Alerta"),
+    CRITICO("Critico"),
+    NOTIFICACAO("Notificacao");
 
     private String status;
 
@@ -10,4 +11,7 @@ public enum ParametroAlertaEnum {
         this.status = status;
     }
 
+    public String getStatus() {
+        return status;
+    }
 }

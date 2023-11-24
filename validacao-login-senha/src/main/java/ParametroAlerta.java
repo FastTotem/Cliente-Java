@@ -4,67 +4,50 @@ ParametroAlerta {
     private Integer idParametroAlerta;
     private String componente;
     private Integer fkEmpresa;
-    private Integer ideal;
-    private Integer alerta;
-    private Integer critico;
-    private Integer notificacao;
+    private Double ideal;
+    private Double alerta;
+    private Double critico;
+    private Double notificacao;
 
-    public ParametroAlerta() {
-    }
-
-    public Integer getIdParametroAlerta() {
-        return idParametroAlerta;
-    }
-
-    public void setIdParametroAlerta(Integer idParametroAlerta) {
+    public ParametroAlerta(Integer idParametroAlerta, String componente, Integer fkEmpresa, Double ideal, Double alerta, Double critico, Double notificacao) {
         this.idParametroAlerta = idParametroAlerta;
-    }
-
-    public String getComponente() {
-        return componente;
-    }
-
-    public void setComponente(String componente) {
         this.componente = componente;
-    }
-
-    public Integer getFkEmpresa() {
-        return fkEmpresa;
-    }
-
-    public void setFkEmpresa(Integer fkEmpresa) {
         this.fkEmpresa = fkEmpresa;
+        this.ideal = ideal;
+        this.alerta = alerta;
+        this.critico = critico;
+        this.notificacao = notificacao;
     }
 
-    public Integer getIdeal() {
+    public Double getIdeal() {
         return ideal;
     }
 
-    public void setIdeal(Integer ideal) {
+    public void setIdeal(Double ideal) {
         this.ideal = ideal;
     }
 
-    public Integer getAlerta() {
+    public Double getAlerta() {
         return alerta;
     }
 
-    public void setAlerta(Integer alerta) {
+    public void setAlerta(Double alerta) {
         this.alerta = alerta;
     }
 
-    public Integer getCritico() {
+    public Double getCritico() {
         return critico;
     }
 
-    public void setCritico(Integer critico) {
+    public void setCritico(Double critico) {
         this.critico = critico;
     }
 
-    public Integer getNotificacao() {
+    public Double getNotificacao() {
         return notificacao;
     }
 
-    public void setNotificacao(Integer notificacao) {
+    public void setNotificacao(Double notificacao) {
         this.notificacao = notificacao;
     }
 }

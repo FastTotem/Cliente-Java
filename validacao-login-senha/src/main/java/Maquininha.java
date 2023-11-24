@@ -14,22 +14,42 @@ public class Maquininha {
         this.in = in;
     }
 
-    public DispositivoUsb cadastrar() {
+//    public DispositivoUsb cadastrar() {
+//
+//        List<DispositivoUsb> comMaquininha = usbs.getDispositivosUsbConectados();
+//
+//        System.out.println("Por favor, garanta que sua maquininha de cartão esteja devidamente conectada. Quando estiver certo disso, pressione ENTER.");
+//        String ok = in.nextLine();
+//
+//        System.out.println("Por favor Remova a maquininha. Após remover, pressione ENTER");
+//        ok = in.nextLine();
+//
+//        List<DispositivoUsb> semMaquininha = usbs.getDispositivosUsbConectados();
+//
+//        for (DispositivoUsb dispositivo : comMaquininha) {
+//            if (!semMaquininha.contains(dispositivo)) {
+//                maquininha = dispositivo;
+//            }
+//        }
+//        return maquininha;
+//    }
+//}
+public DispositivoUsb cadastrar() {
+    System.out.println("Por favor, garanta que sua maquininha de cartão esteja devidamente conectada. Quando estiver certo disso, pressione ENTER.");
+    in.nextLine();
 
-        List<DispositivoUsb> comMaquininha = usbs.getDispositivosUsbConectados();
+    System.out.println("Por favor, remova a maquininha. Após remover, pressione ENTER");
+    in.nextLine();
 
-        System.out.println("Por favor, garanta que sua maquininha de cartão esteja devidamente conectada. Quando estiver certo disso, pressione ENTER.");
-        String ok = in.nextLine();
+    List<DispositivoUsb> dispositivosConectados = usbs.getDispositivosUsbConectados();
 
-        System.out.println("Por favor Remova a maquininha. Após remover, pressione ENTER");
-        ok = in.nextLine();
-        List<DispositivoUsb> semMaquininha = usbs.getDispositivosUsbConectados();
-
-        for (DispositivoUsb dispositivo : comMaquininha) {
-            if (!semMaquininha.contains(dispositivo)) {
-                maquininha = dispositivo;
-            }
+    for (DispositivoUsb dispositivo : dispositivosConectados) {
+        if (!usbs.getDispositivosUsbConectados().contains(dispositivo)) {
+            maquininha = dispositivo;
+            break;
         }
-        return maquininha;
     }
+
+    return maquininha;
+}
 }

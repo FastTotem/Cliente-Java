@@ -31,17 +31,16 @@ public class Totem {
     }
 
     public Totem getTotem() {
+        String query = (boardSerialNumber.equals("unknown")) ?
+              "SELECT * FROM totem WHERE chaveDeAcesso = ?" :
+              "SELECT * FROM totem WHERE boardSerialNumber = ?";
 
         try {
-            Totem totem = con.queryForObject("SELECT * FROM totem WHERE chaveDeAcesso = ?",
-                  new BeanPropertyRowMapper<>(Totem.class), chaveDeAcesso);
-
-            return totem;
-
+            return con.queryForObject(query,
+                  new BeanPropertyRowMapper<>(Totem.class), (boardSerialNumber.equals("unknown")) ? chaveDeAcesso : boardSerialNumber);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
-
     }
 
     public Totem validarTotemJaAtivo() {
@@ -64,10 +63,8 @@ public class Totem {
             return totem;
         } else {
             try {
-                Totem totem = con.queryForObject("SELECT * FROM totem WHERE boardSerialNumber = ?",
+                return con.queryForObject("SELECT * FROM totem WHERE boardSerialNumber = ?",
                       new BeanPropertyRowMapper<>(Totem.class), boardSerialNumber);
-
-                return totem;
 
             } catch (EmptyResultDataAccessException e) {
                 return null;
@@ -125,5 +122,28 @@ public class Totem {
 
     public void setComponentes(List<Componente> componentes) {
         this.componentes = componentes;
+    }
+
+    public Conexao getConexao() {
+        return conexao;
+    }
+
+    public JdbcTemplate getCon() {
+        return con;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID do Totem: ").append(idTotem).append("\n");
+        sb.append("Nome: ").append(nome).append("\n");
+        sb.append("Chave de Acesso: ").append(chaveDeAcesso).append("\n");
+        sb.append("ID da Empresa: ").append(fkEmpresa).append("\n");
+        sb.append("Número de Série da Placa: ").append(boardSerialNumber).append("\n");
+        sb.append("Componentes:\n");
+        for (Componente componente : componentes) {
+            sb.append(componente.toString()).append("\n");
+        }
+        return sb.toString();
     }
 }
