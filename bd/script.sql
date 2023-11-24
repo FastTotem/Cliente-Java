@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Totem (
     idTotem INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255),
     chaveDeAcesso VARCHAR(255),
-    totemID VARCHAR(255),
+    totemIP VARCHAR(255),
     boardSerialNumber VARCHAR(255),
     fkEmpresa INT,
     FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa)
@@ -110,6 +110,6 @@ GRANT ALL PRIVILEGES ON fastTotem.* TO 'fastTotemAdmin'@'%';
 FLUSH PRIVILEGES;
 
 
-INSERT INTO endereco (logradouro, bairro, numero, complemento, cep) VALUES ('Avenida Hilário Pereira de Souza', 'Centro', '492', 'Piso 2', '06010170');
-INSERT INTO empresa (razaoSocial, cnpj, email, fkEndereco) VALUES ('King Hamburgueria', '12345678978945', 'kinghamburgueria@mail.com', 1);
-INSERT INTO totem (nome, chaveDeAcesso, fkEmpresa) VALUES ('Totem01', '1234', 1);
+INSERT INTO Endereco (logradouro, bairro, numero, complemento, cep) VALUES ('Avenida Hilário Pereira de Souza', 'Centro', '492', 'Piso 2', '06010170');
+INSERT INTO Empresa (razaoSocial, cnpj, email, fkEndereco) VALUES ('King Hamburgueria', '12345678978945', 'kinghamburgueria@mail.com', 1);
+INSERT INTO Totem (nome, chaveDeAcesso, fkEmpresa) VALUES ('Totem01', '1234', 1);

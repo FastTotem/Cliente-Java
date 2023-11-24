@@ -53,7 +53,12 @@ public class Totem {
             Totem totem = null;
             do {
                 System.out.println("Verificamos que você está utilizando uma EC2, por favor insira a chave do totem:");
-                String chave = in.nextLine();
+                String chave = null;
+
+                while(chave == null && in.hasNextLine()) {
+                    chave = in.nextLine();
+                }
+
                 try {
                     totem = con.queryForObject("SELECT * FROM totem WHERE chaveDeAcesso = ?",
                           new BeanPropertyRowMapper<>(Totem.class), chave);
