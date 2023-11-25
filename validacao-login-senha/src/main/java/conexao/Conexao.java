@@ -16,7 +16,7 @@ public class Conexao {
         BasicDataSource dataSourceSqlServer = new BasicDataSource();
         dataSourceSqlServer.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-        dataSource.setUrl("jdbc:mysql://localhost:3306/fasttotem");
+        dataSource.setUrl("jdbc:mysql://ec2-34-226-153-19.compute-1.amazonaws.com:3306/fasttotem");
         dataSource.setUsername("fastTotemAdmin");
         dataSource.setPassword("fasttotem123");
 
