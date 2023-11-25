@@ -9,16 +9,3 @@ services:
       - ./bd:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
-  # Serviço para o aplicativo Java
-  java-app:
-    image: openjdk:17
-    volumes:
-      - ./out/artifacts/validacao_login_senha_jar/validacao-login-senha.jar:/app/validacao-login-senha.jar
-      - /proc:/host/proc
-    command: tail -f /dev/null
-    ports:
-      - "8080:8080"
-    cap_add:
-      - SYS_RAWIO
-    depends_on:
-      - mysql-db
