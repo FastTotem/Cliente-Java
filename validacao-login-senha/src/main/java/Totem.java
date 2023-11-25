@@ -83,7 +83,7 @@ public class Totem {
 
     public void inserirTotem() {
         try {
-            con.update("INSERT INTO totem (nome, chaveDeAcesso) VALUES (?,?);",
+            con.update("INSERT INTO totem (idTotem, nome, chaveDeAcesso) VALUES (1,?,?);",
                     nome, chaveDeAcesso);
         } catch (Exception e) {
             Logger.logWarning(String.format("Erro ao inserir totem na conexão MySQL - %s", e), Totem.class);

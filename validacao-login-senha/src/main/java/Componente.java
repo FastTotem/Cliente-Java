@@ -15,6 +15,7 @@ public abstract class Componente {
     protected String nomeComponente;
     protected String tipoComponente;
     protected Integer fkTotem;
+    protected Integer fkEmpresa;
     private String status;
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
@@ -46,17 +47,18 @@ public abstract class Componente {
 
                 conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
                         nomeComponente, tipoComponente, fkTotem);
-                con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,1)",
-                      nomeComponente, tipoComponente);
+                Integer idComponenteInserido = conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
+
+                con.update("INSERT INTO componente (idComponente, nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?,1)",
+                        idComponenteInserido, nomeComponente, tipoComponente);
+
                 System.out.println("Componente inserido!");
 
-                Integer idComponente = conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
-
-                return idComponente;
+                return idComponenteInserido;
 
             } catch (Exception e) {
                 Logger.logInfo("Erro ao inserir componente - " + e, Componente.class);
-
+                e.printStackTrace();
             }
 
         } else if (Objects.equals(tipoComponente, String.valueOf(TipoEnum.DISCO))) {
@@ -65,12 +67,13 @@ public abstract class Componente {
 
                 conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
                         nomeComponente, tipoComponente, fkTotem);
-                con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,1)",
-                        nomeComponente, tipoComponente);
+                Integer idComponenteInserido = conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
 
-                Integer idComponente = conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
+                con.update("INSERT INTO componente (idComponente, nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?,1)",
+                        idComponenteInserido, nomeComponente, tipoComponente);
 
-                return idComponente;
+
+                return idComponenteInserido;
             } catch (Exception e) {
                 e.printStackTrace();
                 Logger.logInfo("Erro ao inserir componente - Disco" + e, Componente.class);
@@ -102,29 +105,34 @@ public abstract class Componente {
     }
 
     protected void verificarStatus(Double valor) {
-        ParametroAlerta parametroAlerta = con.queryForObject("SELECT * FROM parametroAlerta WHERE componente = ?",
-              new BeanPropertyRowMapper<>(ParametroAlerta.class), tipoComponente);
+        try {
+            ParametroAlerta parametroAlerta = conSqlServer.queryForObject("SELECT * FROM parametroAlerta WHERE componente = ? and fkEmpresa = ?",
+                    new BeanPropertyRowMapper<>(ParametroAlerta.class), tipoComponente, fkEmpresa);
 
-        if (valor >= parametroAlerta.getNotificacao()) {
-            if (valor > parametroAlerta.getIdeal() && valor <= parametroAlerta.getAlerta()) {
-                if (!this.status.equals(String.valueOf(ParametroAlertaEnum.ALERTA))) {
-                    this.status = String.valueOf(ParametroAlertaEnum.ALERTA);
-                    try {
-                        Notification.enviarNotificacao(String.format("%s está em alerta!"));
-                    } catch (Exception e) {
-                        Logger.logInfo(String.format("Notificação de alerta não enviada - %s", e), Componente.class);
+            if (valor >= parametroAlerta.getNotificacao()) {
+                if (valor > parametroAlerta.getIdeal() && valor <= parametroAlerta.getAlerta()) {
+                    if (!this.status.equals(String.valueOf(ParametroAlertaEnum.ALERTA))) {
+                        this.status = String.valueOf(ParametroAlertaEnum.ALERTA);
+                        try {
+                            Notification.enviarNotificacao(String.format("%s está em alerta!"));
+                        } catch (Exception e) {
+                            Logger.logInfo(String.format("Notificação de alerta não enviada - %s", e), Componente.class);
+                        }
                     }
-                }
-            } else if (valor <= parametroAlerta.getCritico()) {
-                if (!this.status.equals(String.valueOf(ParametroAlertaEnum.CRITICO))) {
-                    this.status = String.valueOf(ParametroAlertaEnum.CRITICO);
-                    try {
-                        Notification.enviarNotificacao(String.format("%s está em crítico!"));
-                    } catch (Exception e) {
-                        Logger.logInfo(String.format("Notificação de critico não enviada - %s", e), Componente.class);
+                } else if (valor <= parametroAlerta.getCritico()) {
+                    if (!this.status.equals(String.valueOf(ParametroAlertaEnum.CRITICO))) {
+                        this.status = String.valueOf(ParametroAlertaEnum.CRITICO);
+                        try {
+                            Notification.enviarNotificacao(String.format("%s está em crítico!"));
+                        } catch (Exception e) {
+                            Logger.logInfo(String.format("Notificação de critico não enviada - %s", e), Componente.class);
+                        }
                     }
                 }
             }
+        } catch (Exception e) {
+            Logger.logWarning(String.format("Erro ao verificar parâmetros e enviar notificações - %s", e), Componente.class);
+            e.printStackTrace();
         }
     }
 
@@ -134,7 +142,9 @@ public abstract class Componente {
                     valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
             con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
                     valor, tipoCaptura, LocalDateTime.now(), idComponente);
-            verificarStatus(valor);
+            if (!tipoComponente.equals(String.valueOf(TipoEnum.USB))) {
+                verificarStatus(valor);
+            }
             System.out.println("Captura realizada!");
         } catch (Exception e) {
             Logger.logWarning(String.format("Falha na inserção de captura - %s", e), Componente.class);
@@ -202,4 +212,11 @@ public abstract class Componente {
         this.fkTotem = fkTotem;
     }
 
+    public Integer getFkEmpresa() {
+        return fkEmpresa;
+    }
+
+    public void setFkEmpresa(Integer fkEmpresa) {
+        this.fkEmpresa = fkEmpresa;
+    }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +33,7 @@ public class Monitoramento {
 
         totem = totem.validarTotemJaAtivo();
         Integer idTotem;
+        Integer idEmpresa;
 
         if (totem == null) {
 
@@ -55,12 +57,18 @@ public class Monitoramento {
             } while (!chaveValida);
 
             idTotem = totem.getIdTotem();
+            idEmpresa = totem.getFkEmpresa();
 
             // fkTotem para inserção na captura
             discosT.setFkTotem(idTotem);
             memoriaT.setFkTotem(idTotem);
             processadorT.setFkTotem(idTotem);
             maquinaT.setFkTotem(idTotem);
+
+            discosT.setFkEmpresa(idEmpresa);
+            memoriaT.setFkEmpresa(idEmpresa);
+            processadorT.setFkEmpresa(idEmpresa);
+            maquininha.setFkEmpresa(idEmpresa);
 
             // set id dos componentes para captura
             memoriaT.setIdComponente(memoriaT.inserirComponente());
@@ -79,6 +87,7 @@ public class Monitoramento {
         } else {
 
             idTotem = totem.getIdTotem();
+            idEmpresa = totem.getFkEmpresa();
 
             // fkTotem para inserção na captura
             discosT.setFkTotem(idTotem);
@@ -87,45 +96,49 @@ public class Monitoramento {
             maquinaT.setFkTotem(idTotem);
             maquininha.setFkTotem(idTotem);
 
+            discosT.setFkEmpresa(idEmpresa);
+            memoriaT.setFkEmpresa(idEmpresa);
+            processadorT.setFkEmpresa(idEmpresa);
+            maquininha.setFkEmpresa(idEmpresa);
+
             // set id dos componentes para captura
             discosT.setIdDiscos();
             memoriaT.setIdComponenteTotemValidado();
             processadorT.setIdComponenteTotemValidado();
             maquininha.setIdComponenteTotemValidado();
 
-            Logger logger = new Logger();
-
-            new Thread(() -> {
-                try {
-                    while (true) {
-                        List<DiscoT> discos = discosT.getDiscosT(); // Obtém a lista de discos
-                        logger.logDiscoInfo(discos); // Chama o método passando a lista de discos
-                        Thread.sleep(10000);// Aguarda 10 segundos antes de verificar novamente
-                    }
-                } catch (Exception e) {
-                    Logger.logInfo("Erro Thread DISCO.\" " + e, Componente.class);
-                    e.printStackTrace();
-                }
-            }).start();
-
-            Timer timer = new Timer();
-            long delay = 0;
-            long interval = 24 * 60 * 60 * 1000;
-
-            timer.scheduleAtFixedRate(new TimerTask() {
-                public void run() {
-                    FileUploader.enviarArquivoParaSlack(logger.getLogFile());
-                }
-            }, delay, interval);
         }
+
+//        new Thread(() -> {
+//            try {
+//                while (true) {
+//                    List<DiscoT> discos = discosT.getDiscosT(); // Obtém a lista de discos
+//                    Logger.logDiscoInfo(discos); // Chama o método passando a lista de discos
+//                    Thread.sleep(10000);// Aguarda 10 segundos antes de verificar novamente
+//                }
+//            } catch (Exception e) {
+//                Logger.logInfo("Erro Thread DISCO.\" " + e, Componente.class);
+//                e.printStackTrace();
+//            }
+//        }).start();
+//
+//        Timer timer = new Timer();
+//        long delay = 0;
+//        long interval = 24 * 60 * 60 * 1000;
+//
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            public void run() {
+//                FileUploader.enviarArquivoParaSlack(Logger.getLogFile());
+//            }
+//        }, delay, interval);
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
         scheduler.scheduleAtFixedRate(() -> {
-            processadorT.monitorarUsoProcessador();
-            memoriaT.monitorarUsoMemoria();
-            maquinaT.monitorarTempoAtividade();
-            maquininha.logUsbDevices();
+//            processadorT.monitorarUsoProcessador();
+//            memoriaT.monitorarUsoMemoria();
+//            maquinaT.monitorarTempoAtividade();
+//            maquininha.logUsbDevices();
             memoriaT.inserirCapturaUsoMemoria();
             processadorT.inserirCapturaUsoProcessador();
             discosT.inserirCapturasDisco();
@@ -138,8 +151,10 @@ public class Monitoramento {
         }, 0, 1, TimeUnit.HOURS);
 
         //execução contínua do código
+        CountDownLatch latch = new CountDownLatch(1);
         try {
             Thread.currentThread().join();
+            latch.await();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {

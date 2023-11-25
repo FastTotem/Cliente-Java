@@ -46,6 +46,7 @@ public class DiscosT extends Componente {
         }
 
         for(DiscoT discoT: discosT){
+            idComponente = discoT.getIdDisco();
             inserirCapturaComponente(discoT.getEscritas(), String.valueOf(TipoEnum.ESCRITA));
             inserirCapturaComponente(discoT.getLeituras(), String.valueOf(TipoEnum.LEITURA));
         }

@@ -13,6 +13,7 @@ public class UsbT extends Componente {
 
     public UsbT(DispositivosUsbGrupo usbs) {
         this.usbs = usbs;
+        this.tipoComponente = String.valueOf(TipoEnum.USB);
     }
 
     public UsbT(DispositivoUsb maquininha, DispositivosUsbGrupo usbs) {
