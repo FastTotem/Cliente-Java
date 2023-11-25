@@ -1,10 +1,3 @@
-import com.github.britooo.looca.api.group.discos.Disco;
-import com.github.britooo.looca.api.group.discos.DiscoGrupo;
-import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
-import conexao.Conexao;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import java.util.Date;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,12 +5,12 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class Logger {
     private static final int tamanhoMaximo = 30;
     private static final int maximoHistoricoArquivos = 100;
-
 
     static Date dataAtual = new Date();
     static SimpleDateFormat formatoData = new SimpleDateFormat("yyyyMMdd");
@@ -25,19 +18,6 @@ public class Logger {
 
     private static final String logDir = "logs" + File.separator;
     private static final String logFile = logDir + "HardwareComponent" + dataFormatada + ".log";
-
-    private final Conexao conexao = new Conexao();
-    private final JdbcTemplate con = conexao.getConexaoDoBanco();
-
-    static {
-        // Verifica se a pasta "logs" existe e cria se não existir
-        File logsDir = new File(logDir);
-        if (!logsDir.exists()) {
-            if (!logsDir.mkdirs()) {
-                throw new RuntimeException("Falha ao criar a pasta 'logs'.");
-            }
-        }
-    }
 
     public static String getLogFile() {
         return logFile;

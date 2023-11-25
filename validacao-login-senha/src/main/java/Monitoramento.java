@@ -32,7 +32,7 @@ public class Monitoramento {
 
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                FileUploader.enviarArquivoParaSlack(logger.getLogFile());
+                FileUploader.enviarArquivoParaSlack(Logger.getLogFile());
             }
         }, delay, interval);
 
@@ -46,6 +46,8 @@ public class Monitoramento {
             configurarTotemExistente(totem, discosT, memoriaT, processadorT, maquinaT, maquininha);
         }
     }
+
+
     private static Totem configurarTotem(Scanner txtScanner) {
         Totem totem = new Totem();
         String serialNumber = new SystemInfo().getHardware().getComputerSystem().getBaseboard().getSerialNumber();
