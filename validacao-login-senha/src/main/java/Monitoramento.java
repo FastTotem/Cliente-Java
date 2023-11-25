@@ -41,7 +41,6 @@ public class Monitoramento {
             totem = new Totem();
             configurarNovoTotem(totem, txtScanner);
             idTotem = totem.getIdTotem();
-            // Configuração duplicada, removida a segunda chamada de configurarNovoTotem
         } else {
             idTotem = totem.getIdTotem();
             configurarTotemExistente(totem, discosT, memoriaT, processadorT, maquinaT, maquininha);

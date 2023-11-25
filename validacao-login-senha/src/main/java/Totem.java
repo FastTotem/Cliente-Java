@@ -34,7 +34,6 @@ public class Totem {
         String query = (boardSerialNumber.equals("unknown")) ?
               "SELECT * FROM totem WHERE chaveDeAcesso = ?" :
               "SELECT * FROM totem WHERE boardSerialNumber = ?";
-
         try {
             return con.queryForObject(query,
                   new BeanPropertyRowMapper<>(Totem.class), (boardSerialNumber.equals("unknown")) ? chaveDeAcesso : boardSerialNumber);

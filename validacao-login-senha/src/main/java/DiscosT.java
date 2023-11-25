@@ -25,7 +25,6 @@ public class DiscosT extends Componente {
     }
 
     public void inserirDiscos(){
-
         for (DiscoT discoT : discosT){
             nomeComponente = discoT.getNome();
             idDiscos.add(inserirComponente());
@@ -46,11 +45,10 @@ public class DiscosT extends Componente {
         }
     }
 
-    public void inserirReadWrite(){
+    public void inserirLeituraEscrita(){
         if (idDiscos.isEmpty()){
             setIdDiscos();
         }
-
         if (discosT.get(0).getIdDisco() == null){
             Integer idDisco;
             for (int i = 0; i < idDiscos.size(); i++) {
@@ -58,29 +56,11 @@ public class DiscosT extends Componente {
                 discosT.get(i).setIdDisco(idDisco);
             }
         }
-
         for(DiscoT discoT: discosT){
-            inserirCapturaComponente(discoT.calcularReadWrite(), String.valueOf(TipoEnum.TAXA_TRANSFERENCIA));
+            inserirCapturaComponente(discoT.calcularLeituraEscrita(), String.valueOf(TipoEnum.TAXA_TRANSFERENCIA));
         }
 
     }
-
-//    public void inserirPorcentagemArmazenada(){
-//        if (idDiscos.isEmpty()){
-//            setIdDiscos();
-//        }
-//
-//        if (discosT.get(0).getIdDisco() == null){
-//            Integer idDisco;
-//            for (int i = 0; i < idDiscos.size(); i++) {
-//                idDisco = idDiscos.get(i);
-//                discosT.get(i).setIdDisco(idDisco);
-//            }
-//        }
-//        for(DiscoT discoT: discosT){
-//            inserirCapturaComponente(discoT.calcularPorcentagemArmazenada(), String.valueOf(TipoEnum.ESCRITA), discoT.getIdDisco());
-//        }
-//    }
 
     public void setIdDiscos(){
         idDiscos = getListaIdComponente(String.valueOf(TipoEnum.DISCO));
