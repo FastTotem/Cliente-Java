@@ -17,7 +17,7 @@ public class Logger {
     static String dataFormatada = formatoData.format(dataAtual);
 
     private static final String logDir = "logs" + File.separator;
-    private static final String logFile = logDir + "HardwareComponent" + dataFormatada + ".log";
+    private static final String logFile = "HardwareInfo" + dataFormatada + ".log";
 
     public static String getLogFile() {
         return logFile;

@@ -83,7 +83,6 @@ public class UsbT extends Componente {
         String usbInfo = "Dispositivos USB:\n";
         usbInfo += "Dispositivos Conectados: " + usbs.getDispositivosUsbConectados() + "\n";
         usbInfo += "Total de Dispositivos USBs: " + usbs.getTotalDispositvosUsb() + "\n";
-        Logger.logInfo(usbInfo, Logger.class);
     }
 
     public void inserirDispositivo() {

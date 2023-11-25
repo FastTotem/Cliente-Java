@@ -16,7 +16,6 @@ public class Monitoramento {
 
 
         Scanner txtScanner = new Scanner(System.in);
-        Logger logger = new Logger();
         DiscosT discosT = new DiscosT();
         MaquinaT maquinaT = new MaquinaT();
         MemoriaT memoriaT = new MemoriaT();
@@ -105,8 +104,8 @@ public class Monitoramento {
         new Thread(() -> {
             try {
                 while (true) {
-                    List<DiscoT> discos = discosT.getDiscosT(); // Obtém a lista de discos
-                    Logger.logDiscoInfo(discos); // Chama o método passando a lista de discos
+                    List<DiscoT> discos = discosT.getDiscosT();
+                    Logger.logDiscoInfo(discos);
                     Thread.sleep(1800000);// Aguarda 2 minutos antes de verificar novamente
                 }
             } catch (Exception e) {

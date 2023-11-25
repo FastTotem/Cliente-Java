@@ -20,7 +20,6 @@ public class MemoriaT extends Componente {
     }
 
     public void monitorarUsoMemoria() {
-        Logger.logInfo(toString(), MemoriaT.class);
         while (true) {
             Double porcentagemUso = getPorcentagemEmUso();
             if (porcentagemUso >= 80.0) {

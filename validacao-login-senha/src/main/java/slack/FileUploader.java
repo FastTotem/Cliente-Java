@@ -18,7 +18,7 @@ public class FileUploader {
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("token", SLACK_API_TOKEN)
                 .addFormDataPart("channels", CHANNEL_ID)
-                .addFormDataPart("file", arquivo.getName(), RequestBody.create(MediaType.parse("text/plain"), arquivo))
+                .addFormDataPart("file", arquivo.getName(), RequestBody.create(MediaType.parse("application/octet-stream"), arquivo))
                 .build();
 
         Request request = new Request.Builder()
@@ -28,7 +28,13 @@ public class FileUploader {
 
         try {
             Response response = client.newCall(request).execute();
-            System.out.println("Log enviado no slack");
+            ResponseBody responseBody = response.body();
+            if (response.isSuccessful() && responseBody != null) {
+                System.out.println("Log enviado no Slack");
+                System.out.println("Response: " + responseBody.string()); // Print Slack's response
+            } else {
+                System.out.println("Erro ao enviar log para o Slack: " + response.code() + " - " + response.message());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

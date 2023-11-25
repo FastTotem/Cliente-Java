@@ -75,17 +75,13 @@ public class MaquinaT {
 
     public void monitorarTempoAtividade() {
         while (true) {
-            // Se o tempo de atividade atingir 75%, registra no log
-            if (tempoDeAtividade >= 75.0) {
+            if (tempoDeAtividade >= 80.0) {
                 Logger.logInfo("⚠️ [ALERTA] Totem em muito tempo de atividade",  MaquinaT.class);
-
             } else if (tempoDeAtividade >= 95.0) {
                 Logger.logInfo("❌" + "[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
             } else {
                 Logger.logInfo("✅" + "[INFO] Maquina: \n" + this, MaquinaT.class);
             }
-            Logger.logInfo(toString(), MaquinaT.class);
-            // Adormece por um curto período antes de verificar novamente
             try {
                 Thread.sleep(1800000);// Aguarda 2 minutos antes de verificar novamente
             } catch (InterruptedException e) {
@@ -101,7 +97,7 @@ public class MaquinaT {
         sb.append("Sistema operacional: ").append(this.sistemaOperacional).append("\n");
 //        sb.append("Fabricante: ").append(this.fabricante).append("\n");
 //        sb.append("Arquitetura: ").append(this.arquitetura).append("bits\n");
-//        sb.append("Inicializado: ").append(this.getInicializado()).append("\n");
+//      sb.append("Inicializado: ").append(this.getInicializado()).append("\n");
         sb.append("Tempo de atividade: ").append(Conversor.formatarSegundosDecorridos(this.sistema.getTempoDeAtividade())).append("\n");
 //        sb.append("Permissões: ").append("Executando como ").append(this.getPermissao() ? "root" : "usuário padrão").append("\n");
         return sb.toString();
