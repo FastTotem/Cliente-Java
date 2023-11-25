@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS parametroAlerta (
 CREATE USER IF NOT EXISTS 'fastTotemAdmin'@'%' IDENTIFIED BY 'fasttotem123';
 
 -- Concede todas as permissões para o usuário fastTotemAdmin no banco de dados fastTotem
-GRANT ALL PRIVILEGES ON fasttotem.* TO 'fastTotemAdmin'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'fastTotemAdmin'@'%';
 
 -- Atualiza as permissões
 FLUSH PRIVILEGES;

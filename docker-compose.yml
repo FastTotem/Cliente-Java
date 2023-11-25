@@ -2,7 +2,7 @@ version: '3'
 services:
   # Serviço para o banco de dados MySQL
   mysql-db:
-    image: mysql:5.7
+    image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: urubu100
     volumes:
@@ -11,10 +11,10 @@ services:
       - "3306:3306"
   # Serviço para o aplicativo Java
   java-app:
-    image: openjdk:latest
+    image: openjdk:17
     volumes:
       - ./out/artifacts/validacao_login_senha_jar/validacao-login-senha.jar:/app/validacao-login-senha.jar
-    command: java -jar /app/validacao-login-senha.jar
+    command: tail -f /dev/null
     ports:
       - "8080:8080"
     depends_on:
