@@ -3,6 +3,10 @@ import com.github.britooo.looca.api.util.Conversor;
 
 public class MemoriaT extends Componente {
     private Memoria memoria;
+    private Long total;
+    private Long disponivel;
+    private Long emUso;
+    private Double porcentagemUsada;
 
     public MemoriaT() {
         this.memoria = new Memoria();
@@ -50,8 +54,16 @@ public class MemoriaT extends Componente {
         return memoria.getEmUso();
     }
 
-    public void setIdMemoriaTotemValidado() {
-        idComponente = getIdComponente(String.valueOf(TipoEnum.MEMORIA), fkTotem);
+    public void setTotal(Long total) {
+        this.total = total;
+    }
+
+    public void setDisponivel(Long disponivel) {
+        this.disponivel = disponivel;
+    }
+
+    public void setEmUso(Long emUso) {
+        this.emUso = emUso;
     }
 
     @Override

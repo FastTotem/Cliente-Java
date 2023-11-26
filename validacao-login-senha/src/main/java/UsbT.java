@@ -9,14 +9,11 @@ public class UsbT extends Componente {
     private String idExclusivo;
     private DispositivoUsb maquininha;
     private DispositivosUsbGrupo usbs;
-    private Integer idUsb;
-    private JdbcTemplate jdbcTemplate;
-
-    public UsbT() {
-    }
+    private JdbcTemplate jdbcTemplate; // Adicione o JdbcTemplate como um membro da classe
 
     public UsbT(DispositivosUsbGrupo usbs) {
         this.usbs = usbs;
+        this.tipoComponente = String.valueOf(TipoEnum.USB);
     }
 
     public UsbT(DispositivoUsb maquininha, DispositivosUsbGrupo usbs) {
@@ -24,49 +21,12 @@ public class UsbT extends Componente {
         this.nome = maquininha.getNome();
         this.idExclusivo = maquininha.getIdDispositivoUsbExclusivo();
         this.usbs = usbs;
+        this.tipoComponente = String.valueOf(TipoEnum.USB);
     }
 
-    // Getters e Setters
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getIdExclusivo() {
-        if (jdbcTemplate == null) {
-            throw new IllegalStateException("JdbcTemplate não foi configurado corretamente");
-        }
-        return idExclusivo;
-    }
-
-    public Integer getIdUsb() {
-        return idUsb;
-    }
-
-    public void setIdUsb(Integer idUsb) {
-        this.idUsb = idUsb;
-    }
-
-    public void setMaquininha(DispositivoUsb maquininha) {
-        this.maquininha = maquininha;
-    }
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public void setIdUsbTotemValidado() {
-        idUsb = getIdComponente(String.valueOf(TipoEnum.USB), fkTotem);
-    }
-
-    // Métodos
     public void verificarConexao() {
         List<DispositivoUsb> usbsConectados = usbs.getDispositivosUsbConectados();
-        idExclusivo = getNomeComponente(String.valueOf(TipoEnum.USB));
-        idUsb = getIdComponente(String.valueOf(TipoEnum.USB), getFkTotem());
+        idExclusivo = searchNomeComponente();
         for (DispositivoUsb usb : usbsConectados) {
             if (usb.getIdDispositivoUsbExclusivo().equals(idExclusivo)) {
                 maquininha = usb;
@@ -83,12 +43,33 @@ public class UsbT extends Componente {
         String usbInfo = "Dispositivos USB:\n";
         usbInfo += "Dispositivos Conectados: " + usbs.getDispositivosUsbConectados() + "\n";
         usbInfo += "Total de Dispositivos USBs: " + usbs.getTotalDispositvosUsb() + "\n";
+        Logger.logInfo(usbInfo, Logger.class);
     }
 
     public void inserirDispositivo() {
         idExclusivo = maquininha.getIdDispositivoUsbExclusivo();
         nomeComponente = idExclusivo;
         idComponente = inserirComponente();
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getIdExclusivo() {
+
+        if (jdbcTemplate == null) {
+            throw new IllegalStateException("JdbcTemplate não foi configurado corretamente");
+        }
+        return idExclusivo;
+    }
+
+    public void setMaquininha(DispositivoUsb maquininha) {
+        this.maquininha = maquininha;
+    }
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override

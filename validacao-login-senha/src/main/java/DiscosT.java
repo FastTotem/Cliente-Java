@@ -25,30 +25,18 @@ public class DiscosT extends Componente {
     }
 
     public void inserirDiscos(){
+
         for (DiscoT discoT : discosT){
             nomeComponente = discoT.getNome();
             idDiscos.add(inserirComponente());
         }
     }
-
-    public void inserirCapturasDisco() {
-        if (idDiscos.isEmpty()) {
-            setIdDiscos();
-        }
-
-        if (discosT.get(0).getIdDisco() == null) {
-            Integer idDisco;
-            for (int i = 0; i < idDiscos.size(); i++) {
-                idDisco = idDiscos.get(i);
-                discosT.get(i).setIdDisco(idDisco);
-            }
-        }
-    }
-
-    public void inserirLeituraEscrita(){
+  
+    public void inserirCapturasDisco(){
         if (idDiscos.isEmpty()){
             setIdDiscos();
         }
+
         if (discosT.get(0).getIdDisco() == null){
             Integer idDisco;
             for (int i = 0; i < idDiscos.size(); i++) {
@@ -56,14 +44,52 @@ public class DiscosT extends Componente {
                 discosT.get(i).setIdDisco(idDisco);
             }
         }
+
         for(DiscoT discoT: discosT){
-            inserirCapturaComponente(discoT.calcularLeituraEscrita(), String.valueOf(TipoEnum.TAXA_TRANSFERENCIA));
+            idComponente = discoT.getIdDisco();
+            inserirCapturaComponente(discoT.getEscritas(), String.valueOf(TipoEnum.ESCRITA));
+            inserirCapturaComponente(discoT.getLeituras(), String.valueOf(TipoEnum.LEITURA));
+        }
+    }
+
+    public void inserirReadWrite(){
+        if (idDiscos.isEmpty()){
+            setIdDiscos();
+        }
+
+        if (discosT.get(0).getIdDisco() == null){
+            Integer idDisco;
+            for (int i = 0; i < idDiscos.size(); i++) {
+                idDisco = idDiscos.get(i);
+                discosT.get(i).setIdDisco(idDisco);
+            }
+        }
+
+        for(DiscoT discoT: discosT){
+            inserirCapturaComponente(discoT.calcularReadWrite(), String.valueOf(TipoEnum.TAXA_TRANSFERENCIA));
         }
 
     }
 
+//    public void inserirPorcentagemArmazenada(){
+//        if (idDiscos.isEmpty()){
+//            setIdDiscos();
+//        }
+//
+//        if (discosT.get(0).getIdDisco() == null){
+//            Integer idDisco;
+//            for (int i = 0; i < idDiscos.size(); i++) {
+//                idDisco = idDiscos.get(i);
+//                discosT.get(i).setIdDisco(idDisco);
+//            }
+//        }
+//        for(DiscoT discoT: discosT){
+//            inserirCapturaComponente(discoT.calcularPorcentagemArmazenada(), String.valueOf(TipoEnum.ESCRITA), discoT.getIdDisco());
+//        }
+//    }
+
     public void setIdDiscos(){
-        idDiscos = getListaIdComponente(String.valueOf(TipoEnum.DISCO));
+        idDiscos = getListaIdComponente();
     }
 
 

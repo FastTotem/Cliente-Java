@@ -6,50 +6,31 @@ import java.util.Scanner;
 
 public class Maquininha {
     private DispositivosUsbGrupo usbs;
-    private Scanner in;
     private DispositivoUsb maquininha;
 
-    public Maquininha(DispositivosUsbGrupo usbs, Scanner in) {
+    public Maquininha(DispositivosUsbGrupo usbs) {
         this.usbs = usbs;
-        this.in = in;
     }
 
-//    public DispositivoUsb cadastrar() {
-//
-//        List<DispositivoUsb> comMaquininha = usbs.getDispositivosUsbConectados();
-//
-//        System.out.println("Por favor, garanta que sua maquininha de cartão esteja devidamente conectada. Quando estiver certo disso, pressione ENTER.");
-//        String ok = in.nextLine();
-//
-//        System.out.println("Por favor Remova a maquininha. Após remover, pressione ENTER");
-//        ok = in.nextLine();
-//
-//        List<DispositivoUsb> semMaquininha = usbs.getDispositivosUsbConectados();
-//
-//        for (DispositivoUsb dispositivo : comMaquininha) {
-//            if (!semMaquininha.contains(dispositivo)) {
-//                maquininha = dispositivo;
-//            }
-//        }
-//        return maquininha;
-//    }
-//}
-public DispositivoUsb cadastrar() {
-    System.out.println("Por favor, garanta que sua maquininha de cartão esteja devidamente conectada. Quando estiver certo disso, pressione ENTER.");
-    in.nextLine();
+    public DispositivoUsb cadastrar() {
 
-    System.out.println("Por favor, remova a maquininha. Após remover, pressione ENTER");
-    in.nextLine();
+        Scanner in = new Scanner(System.in);
 
-    List<DispositivoUsb> dispositivosConectados = usbs.getDispositivosUsbConectados();
+        System.out.println("Por favor, garanta que sua maquininha de cartão esteja devidamente conectada. Quando estiver certo disso, pressione ENTER.");
+        String ok = in.nextLine();
 
-    for (DispositivoUsb dispositivo : dispositivosConectados) {
-        if (!usbs.getDispositivosUsbConectados().contains(dispositivo)) {
-            maquininha = dispositivo;
-            break;
+        List<DispositivoUsb> comMaquininha = usbs.getDispositivosUsbConectados();
+  
+        System.out.println("Por favor Remova a maquininha. Após remover, pressione ENTER");
+        ok = in.nextLine();
+        List<DispositivoUsb> semMaquininha = usbs.getDispositivosUsbConectados();
+
+        for (DispositivoUsb dispositivo : comMaquininha) {
+            if (!semMaquininha.contains(dispositivo)) {
+                maquininha = dispositivo;
+            }
         }
+        return maquininha;
     }
 
-    return maquininha;
-}
 }

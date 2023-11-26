@@ -52,10 +52,6 @@ public class ProcessadorT extends Componente {
         return (frequenciaEmHertz / 1000000000.0);
     }
 
-    public void setIdProcessadorTotemValidado(Integer idTotem) {
-        idComponente = getIdComponente(String.valueOf(TipoEnum.PROCESSADOR), idTotem);
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
