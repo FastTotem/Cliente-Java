@@ -20,7 +20,6 @@ public class DiscoT {
     public DiscoT(Disco discoGrupo) {
         this.disco = discoGrupo;
         this.tamanho = disco.getTamanho();
-        this.ultimaEscrita = disco.getEscritas();
         this.bytesDeLeituras = disco.getBytesDeLeitura();
         this.bytesDeEscritas = disco.getBytesDeEscritas();
         this.nome = disco.getNome();
