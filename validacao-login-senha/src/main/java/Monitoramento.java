@@ -108,7 +108,7 @@ public class Monitoramento {
             maquininha.setIdComponenteTotemValidado();
 
         }
-
+        
 //        new Thread(() -> {
 //            try {
 //                while (true) {
@@ -135,14 +135,11 @@ public class Monitoramento {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
         scheduler.scheduleAtFixedRate(() -> {
-//            processadorT.monitorarUsoProcessador();
-//            memoriaT.monitorarUsoMemoria();
-//            maquinaT.monitorarTempoAtividade();
-//            maquininha.logUsbDevices();
             memoriaT.inserirCapturaUsoMemoria();
             processadorT.inserirCapturaUsoProcessador();
-            discosT.inserirCapturasDisco();
-            discosT.inserirReadWrite();
+//            discosT.inserirCapturasDisco();
+//            discosT.inserirReadWrite();
+            discosT.inserirPorcentagemArmazenada();
         }, 0, 1, TimeUnit.MINUTES);
 
         scheduler.scheduleAtFixedRate(() -> {

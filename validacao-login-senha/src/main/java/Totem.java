@@ -34,7 +34,7 @@ public class Totem {
         } catch (EmptyResultDataAccessException e) {
             return null;
         } catch (DataAccessException dataAccessException) {
-            Logger.logSevere(String.format("Erro de Conexão - %s", dataAccessException.toString()), Totem.class);
+            Logger.logInfo(String.format("Erro de Conexão - %s", dataAccessException), Totem.class);
             throw dataAccessException;
         }
     }
@@ -49,10 +49,12 @@ public class Totem {
                 Totem totem = conSqlServer.queryForObject("SELECT * FROM totem WHERE boardSerialNumber = ?",
                       new BeanPropertyRowMapper<>(Totem.class), boardSerialNumber);
 
+                return totem;
+
             } catch (EmptyResultDataAccessException e) {
                 return null;
             } catch (DataAccessException dataAccessException) {
-                Logger.logSevere(String.format("Erro de Conexão - %s", dataAccessException.toString()), Totem.class);
+                Logger.logInfo(String.format("Erro de Conexão - %s", dataAccessException), Totem.class);
                 dataAccessException.printStackTrace();
                 try {
                     Totem totem = con.queryForObject("SELECT * FROM totem WHERE boardSerialNumber = ?",
@@ -81,7 +83,7 @@ public class Totem {
             con.update("INSERT INTO totem (idTotem, nome, chaveDeAcesso) VALUES (1,?,?);",
                     nome, chaveDeAcesso);
         } catch (Exception e) {
-            Logger.logWarning(String.format("Erro ao inserir totem na conexão MySQL - %s", e), Totem.class);
+            Logger.logInfo(String.format("Erro ao inserir totem na conexão MySQL - %s", e), Totem.class);
             e.printStackTrace();
         }
     }

@@ -47,8 +47,8 @@ public class DiscosT extends Componente {
 
         for(DiscoT discoT: discosT){
             idComponente = discoT.getIdDisco();
-            inserirCapturaComponente(discoT.getEscritas(), String.valueOf(TipoEnum.ESCRITA));
-            inserirCapturaComponente(discoT.getLeituras(), String.valueOf(TipoEnum.LEITURA));
+            inserirCapturaComponente(discoT.getBytesDeEscritas(), String.valueOf(TipoEnum.ESCRITA));
+            inserirCapturaComponente(discoT.getBytesDeLeituras(), String.valueOf(TipoEnum.LEITURA));
         }
     }
 
@@ -66,27 +66,28 @@ public class DiscosT extends Componente {
         }
 
         for(DiscoT discoT: discosT){
-            inserirCapturaComponente(discoT.calcularReadWrite(), String.valueOf(TipoEnum.TAXA_TRANSFERENCIA));
+            inserirCapturaComponente(discoT.calcularLeituraEscrita(), String.valueOf(TipoEnum.TAXA_TRANSFERENCIA));
         }
 
     }
 
-//    public void inserirPorcentagemArmazenada(){
-//        if (idDiscos.isEmpty()){
-//            setIdDiscos();
-//        }
-//
-//        if (discosT.get(0).getIdDisco() == null){
-//            Integer idDisco;
-//            for (int i = 0; i < idDiscos.size(); i++) {
-//                idDisco = idDiscos.get(i);
-//                discosT.get(i).setIdDisco(idDisco);
-//            }
-//        }
-//        for(DiscoT discoT: discosT){
-//            inserirCapturaComponente(discoT.calcularPorcentagemArmazenada(), String.valueOf(TipoEnum.ESCRITA), discoT.getIdDisco());
-//        }
-//    }
+    public void inserirPorcentagemArmazenada(){
+        if (idDiscos.isEmpty()){
+            setIdDiscos();
+        }
+
+        if (discosT.get(0).getIdDisco() == null){
+            Integer idDisco;
+            for (int i = 0; i < idDiscos.size(); i++) {
+                idDisco = idDiscos.get(i);
+                discosT.get(i).setIdDisco(idDisco);
+            }
+        }
+        for(DiscoT discoT: discosT){
+            idComponente = discoT.getIdDisco();
+            inserirCapturaComponente(discoT.calcularPorcentagemArmazenada(), String.valueOf(TipoEnum.ARMAZENAMENTO));
+        }
+    }
 
     public void setIdDiscos(){
         idDiscos = getListaIdComponente();

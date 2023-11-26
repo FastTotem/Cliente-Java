@@ -17,7 +17,6 @@ public class DiscoT {
     private Long ultimaEscrita;
     private Long ultimaLeitura;
 
-    private JdbcTemplate jdbcTemplate;
     public DiscoT(Disco discoGrupo) {
         this.disco = discoGrupo;
         this.tamanho = disco.getTamanho();
@@ -32,24 +31,23 @@ public class DiscoT {
     }
 
     public Double calcularLeituraEscrita() {
-        try {
-            bytesDeLeituras = disco.getBytesDeLeitura();
-            bytesDeEscritas = disco.getBytesDeEscritas();
-            Integer idComponente = getIdDisco();
-            if (idComponente == null) {
-                System.out.println("Componente DISCO não encontrado para o totem ");
-                return null;
-            }
-            Double resposta = (double) (((bytesDeEscritas - ultimaEscrita) + (bytesDeLeituras - ultimaLeitura)) / tempoInsert);
-            ultimaEscrita = bytesDeEscritas;
-            ultimaLeitura = bytesDeLeituras;
-            return resposta;
-        } catch (EmptyResultDataAccessException e) {
-            e.printStackTrace();
-            Logger.logInfo("Erro ao buscar o componente DISCO.\" " + e, Componente.class);
+        bytesDeLeituras = disco.getBytesDeLeitura();
+        bytesDeEscritas = disco.getBytesDeEscritas();
+        Integer idComponente = getIdDisco();
+        if (idComponente == null) {
+            Logger.logInfo("Id de disco não encontrado para realizar cálculo - ", DiscoT.class);
             return null;
         }
+        Double resposta = (double) (((bytesDeEscritas - ultimaEscrita) + (bytesDeLeituras - ultimaLeitura)) / tempoInsert);
+        ultimaEscrita = bytesDeEscritas;
+        ultimaLeitura = bytesDeLeituras;
+        return resposta;
     }
+
+    public Double calcularPorcentagemArmazenada(){
+        return (bytesDeEscritas.doubleValue()/tamanho.doubleValue())*100;
+    }
+
     public Double showTotal() {
         File disk = new File("/"); // diretório raiz do disco
         long totalSpace = disk.getTotalSpace(); // tamanho total do disco em bytes
@@ -106,6 +104,34 @@ public class DiscoT {
 
     public String getNome() {
         return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Long getBytesDeEscritas() {
+        return bytesDeEscritas;
+    }
+
+    public void setBytesDeEscritas(Long bytesDeEscritas) {
+        this.bytesDeEscritas = bytesDeEscritas;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public Long getBytesDeLeituras() {
+        return bytesDeLeituras;
+    }
+
+    public void setBytesDeLeituras(Long bytesDeLeituras) {
+        this.bytesDeLeituras = bytesDeLeituras;
     }
 
     @Override

@@ -99,7 +99,7 @@ public abstract class Componente {
             verificarStatus(Double.valueOf(valor));
             System.out.println("Captura realizada!");
         } catch (Exception e) {
-            Logger.logWarning(String.format("Falha na inserção de captura - %s", e), Componente.class);
+            Logger.logInfo(String.format("Falha na inserção de captura - %s", e), Componente.class);
             e.printStackTrace();
         }
     }
@@ -109,12 +109,17 @@ public abstract class Componente {
             ParametroAlerta parametroAlerta = conSqlServer.queryForObject("SELECT * FROM parametroAlerta WHERE componente = ? and fkEmpresa = ?",
                     new BeanPropertyRowMapper<>(ParametroAlerta.class), tipoComponente, fkEmpresa);
 
+            String nomeTotem = conSqlServer.queryForObject(
+                    "SELECT nome FROM totem WHERE idTotem = 1",
+                    String.class
+            );
+
             if (valor >= parametroAlerta.getNotificacao()) {
                 if (valor > parametroAlerta.getIdeal() && valor <= parametroAlerta.getAlerta()) {
                     if (!this.status.equals(String.valueOf(ParametroAlertaEnum.ALERTA))) {
                         this.status = String.valueOf(ParametroAlertaEnum.ALERTA);
                         try {
-                            Notification.enviarNotificacao(String.format("%s está em alerta!"));
+                            Notification.enviarNotificacao(String.format("%s está em alerta!", nomeTotem));
                         } catch (Exception e) {
                             Logger.logInfo(String.format("Notificação de alerta não enviada - %s", e), Componente.class);
                         }
@@ -123,7 +128,7 @@ public abstract class Componente {
                     if (!this.status.equals(String.valueOf(ParametroAlertaEnum.CRITICO))) {
                         this.status = String.valueOf(ParametroAlertaEnum.CRITICO);
                         try {
-                            Notification.enviarNotificacao(String.format("%s está em crítico!"));
+                            Notification.enviarNotificacao(String.format("%s está em crítico!", nomeTotem));
                         } catch (Exception e) {
                             Logger.logInfo(String.format("Notificação de critico não enviada - %s", e), Componente.class);
                         }
@@ -131,7 +136,7 @@ public abstract class Componente {
                 }
             }
         } catch (Exception e) {
-            Logger.logWarning(String.format("Erro ao verificar parâmetros e enviar notificações - %s", e), Componente.class);
+            Logger.logInfo(String.format("Erro ao verificar parâmetros e enviar notificações - %s", e), Componente.class);
             e.printStackTrace();
         }
     }
@@ -147,7 +152,7 @@ public abstract class Componente {
             }
             System.out.println("Captura realizada!");
         } catch (Exception e) {
-            Logger.logWarning(String.format("Falha na inserção de captura - %s", e), Componente.class);
+            Logger.logInfo(String.format("Falha na inserção de captura - %s", e), Componente.class);
             e.printStackTrace();
         }
 

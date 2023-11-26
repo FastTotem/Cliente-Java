@@ -54,7 +54,7 @@ public class MaquinaT {
 
             System.out.println("Dados do sistema inseridos!");
         } catch (Exception e) {
-            Logger.logWarning(String.format("Erro ao inserir dados do sistema - %s", e), MaquinaT.class);
+            Logger.logInfo(String.format("Erro ao inserir dados do sistema - %s", e), MaquinaT.class);
             e.printStackTrace();
         }
     }
@@ -68,7 +68,7 @@ public class MaquinaT {
 
             System.out.println("Captura realizada!");
         } catch (Exception e) {
-            Logger.logWarning(String.format("Erro ao inserir tempo de atividade - %s", e), MaquinaT.class);
+            Logger.logInfo(String.format("Erro ao inserir tempo de atividade - %s", e), MaquinaT.class);
             e.printStackTrace();
         }
     }

@@ -9,6 +9,9 @@ ParametroAlerta {
     private Double critico;
     private Double notificacao;
 
+    public ParametroAlerta() {
+    }
+
     public ParametroAlerta(Integer idParametroAlerta, String componente, Integer fkEmpresa, Double ideal, Double alerta, Double critico, Double notificacao) {
         this.idParametroAlerta = idParametroAlerta;
         this.componente = componente;
