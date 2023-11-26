@@ -20,11 +20,18 @@ public abstract class Componente {
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
     private final JdbcTemplate conSqlServer = conexao.getConexaoSqlServer();
-
+    private final Integer OCORRENCIA_ALERTA = 3;
+    private Integer qtdeAlerta;
+    private Integer qtdeCritico;
+    private Double ultimaCaptura;
+    private Boolean notificado;
 
 
     public Componente() {
         this.status = String.valueOf(ParametroAlertaEnum.IDEAL);
+        this.notificado = false;
+        qtdeAlerta = 0;
+        qtdeCritico = 0;
     }
 
     public Boolean componenteJaExistente(){
@@ -90,6 +97,25 @@ public abstract class Componente {
 
     }
 
+    protected void inserirCapturaComponente(Double valor, String tipoCaptura) {
+        try {
+            conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
+                    valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
+            con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
+                    valor, tipoCaptura, LocalDateTime.now(), idComponente);
+            if (!tipoComponente.equals(String.valueOf(TipoEnum.USB))) {
+                verificarStatus(valor);
+            } else {
+                verificarAtivo(valor);
+            }
+            System.out.println("Captura realizada!");
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Falha na inserção de captura - %s", e), Componente.class);
+            e.printStackTrace();
+        }
+
+    }
+
     protected void inserirCapturaComponente(Long valor, String tipoCaptura) {
         try {
             conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
@@ -104,58 +130,88 @@ public abstract class Componente {
         }
     }
 
-    protected void verificarStatus(Double valor) {
+    private void verificarStatus(Double valor) {
         try {
             ParametroAlerta parametroAlerta = conSqlServer.queryForObject("SELECT * FROM parametroAlerta WHERE componente = ? and fkEmpresa = ?",
                     new BeanPropertyRowMapper<>(ParametroAlerta.class), tipoComponente, fkEmpresa);
 
-            String nomeTotem = conSqlServer.queryForObject(
+            String nomeTotem = con.queryForObject(
                     "SELECT nome FROM totem WHERE idTotem = 1",
                     String.class
             );
 
             if (valor >= parametroAlerta.getNotificacao()) {
                 if (valor > parametroAlerta.getIdeal() && valor <= parametroAlerta.getAlerta()) {
-                    if (!this.status.equals(String.valueOf(ParametroAlertaEnum.ALERTA))) {
-                        this.status = String.valueOf(ParametroAlertaEnum.ALERTA);
-                        try {
-                            Notification.enviarNotificacao(String.format("%s está em alerta!", nomeTotem));
-                        } catch (Exception e) {
-                            Logger.logInfo(String.format("Notificação de alerta não enviada - %s", e), Componente.class);
+                    this.status = String.valueOf(ParametroAlertaEnum.ALERTA);
+                    qtdeAlerta++;
+                    if (ultimaCaptura != null && ultimaCaptura > parametroAlerta.getIdeal() && ultimaCaptura <= parametroAlerta.getAlerta()) {
+                        if (qtdeAlerta >= OCORRENCIA_ALERTA) {
+                            enviarNotificacao(nomeTotem);
+                            qtdeAlerta = 0;
                         }
                     }
-                } else if (valor <= parametroAlerta.getCritico()) {
-                    if (!this.status.equals(String.valueOf(ParametroAlertaEnum.CRITICO))) {
-                        this.status = String.valueOf(ParametroAlertaEnum.CRITICO);
-                        try {
-                            Notification.enviarNotificacao(String.format("%s está em crítico!", nomeTotem));
-                        } catch (Exception e) {
-                            Logger.logInfo(String.format("Notificação de critico não enviada - %s", e), Componente.class);
+                } else if (valor > parametroAlerta.getAlerta()) {
+                    this.status = String.valueOf(ParametroAlertaEnum.CRITICO);
+                    qtdeCritico++;
+                    if (ultimaCaptura != null && ultimaCaptura > parametroAlerta.getAlerta()) {
+                        if (qtdeCritico >= OCORRENCIA_ALERTA) {
+                            enviarNotificacao(nomeTotem);
+                            qtdeCritico = 0;
                         }
                     }
                 }
             }
+            if (!status.equals(String.valueOf(ParametroAlertaEnum.IDEAL)) && valor <= parametroAlerta.getIdeal()) {
+                this.status = String.valueOf(ParametroAlertaEnum.IDEAL);
+                qtdeAlerta = 0;
+                qtdeCritico = 0;
+            }
+            ultimaCaptura = valor;
         } catch (Exception e) {
             Logger.logInfo(String.format("Erro ao verificar parâmetros e enviar notificações - %s", e), Componente.class);
             e.printStackTrace();
         }
     }
 
-    protected void inserirCapturaComponente(Double valor, String tipoCaptura) {
+    private void verificarAtivo(Double valor) {
         try {
-            conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
-                    valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
-            con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
-                    valor, tipoCaptura, LocalDateTime.now(), idComponente);
-            if (!tipoComponente.equals(String.valueOf(TipoEnum.USB))) {
-                verificarStatus(valor);
+
+            if (!notificado && valor.equals(0.0)) {
+
+                String nomeTotem = con.queryForObject(
+                        "SELECT nome FROM totem WHERE idTotem = 1",
+                        String.class
+                );
+
+                enviarNotificacao(nomeTotem);
+                notificado = true;
+            } else if (notificado && valor.equals(1.0)) {
+                notificado = false;
             }
-            System.out.println("Captura realizada!");
+
         } catch (Exception e) {
-            Logger.logInfo(String.format("Falha na inserção de captura - %s", e), Componente.class);
+            Logger.logInfo(String.format("Erro ao verificar status e enviar notificações - %s", e), Notification.class);
             e.printStackTrace();
         }
 
+    }
+
+    private void enviarNotificacao(String nomeTotem) {
+        if (!tipoComponente.equals(String.valueOf(TipoEnum.USB))) {
+            try {
+                Notification.enviarNotificacao(String.format("%s está com %s em %s!", nomeTotem, tipoComponente, status));
+            } catch (Exception e) {
+                Logger.logInfo(String.format("Notificação de %s não enviada - %s", status, e), Notification.class);
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                Notification.enviarNotificacao(String.format("%s não está com a maquininha conectada!", nomeTotem));
+            } catch (Exception e) {
+                Logger.logInfo(String.format("Notificação de %s não enviada - %s", tipoComponente, e), Notification.class);
+                e.printStackTrace();
+            }
+        }
     }
 
     protected List<Integer> getListaIdComponente() {
