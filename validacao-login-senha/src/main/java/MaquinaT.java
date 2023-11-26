@@ -22,12 +22,6 @@ public class MaquinaT {
     private Long tempoDeAtividade;
     private Integer fkTotem;
 
-    // Códigos de escape ANSI para cores
-    static String reset = "\u001B[0m";
-    static String red = "\u001B[31m";
-    private static String green = "\u001B[32m";
-    private static String yellow = "\u001B[33m";
-
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
     private final JdbcTemplate conSqlServer = conexao.getConexaoSqlServer();
@@ -64,7 +58,6 @@ public class MaquinaT {
             e.printStackTrace();
         }
     }
-
     public void inserirTempoDeAtividade() {
         try {
             conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,?)",
@@ -102,19 +95,15 @@ public class MaquinaT {
 
     public void monitorarTempoAtividade() {
         while (true) {
-            // Se o tempo de atividade atingir 75%, registra no log
-            if (tempoDeAtividade >= 75.0) {
-                Logger.logWarning("[ALERTA] Totem em muito tempo de atividade",  MaquinaT.class);
-
+            if (tempoDeAtividade >= 80.0) {
+                Logger.logInfo("⚠️ [ALERTA] Totem em muito tempo de atividade",  MaquinaT.class);
             } else if (tempoDeAtividade >= 95.0) {
-                Logger.logSevere("[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
+                Logger.logInfo("❌" + "[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
             } else {
-                Logger.logInfo("[INFO] Maquina: \n" + this, MaquinaT.class);
+                Logger.logInfo("✅" + "[INFO] Maquina: \n" + this, MaquinaT.class);
             }
-            Logger.logInfo(toString(), MaquinaT.class);
-            // Adormece por um curto período antes de verificar novamente
             try {
-                Thread.sleep(10000); // intervalo
+                Thread.sleep(1800000);// Aguarda 2 minutos antes de verificar novamente
             } catch (InterruptedException e) {
                 Logger.logInfo("Erro no monitoramento do tempo de Atividade da Maquina.\" " + e, Componente.class);
                 e.printStackTrace();
@@ -128,7 +117,7 @@ public class MaquinaT {
         sb.append("Sistema operacional: ").append(this.sistemaOperacional).append("\n");
 //        sb.append("Fabricante: ").append(this.fabricante).append("\n");
 //        sb.append("Arquitetura: ").append(this.arquitetura).append("bits\n");
-//        sb.append("Inicializado: ").append(this.getInicializado()).append("\n");
+//      sb.append("Inicializado: ").append(this.getInicializado()).append("\n");
         sb.append("Tempo de atividade: ").append(Conversor.formatarSegundosDecorridos(this.sistema.getTempoDeAtividade())).append("\n");
 //        sb.append("Permissões: ").append("Executando como ").append(this.getPermissao() ? "root" : "usuário padrão").append("\n");
         return sb.toString();

@@ -16,31 +16,25 @@ public class MemoriaT extends Componente {
     public Double getPorcentagemEmUso() {
         Double totalAtual = Double.valueOf(memoria.getTotal());
         Double emUsoAtual = Double.valueOf(memoria.getEmUso());
-        Double usoMemoriaPorcentagem = (emUsoAtual * 100) / totalAtual;
-        return usoMemoriaPorcentagem;
+        return (emUsoAtual * 100) / totalAtual;
     }
 
     public void inserirCapturaUsoMemoria() {
-        this.inserirCapturaComponente(getPorcentagemEmUso(), String.valueOf(TipoEnum.MEMORIA));
-//        disponivel = memoria.getDisponivel();
-//        this.inserirCapturaComponente(disponivel, String.valueOf(TipoCapturaEnum.MEMORIA));
+        inserirCapturaComponente(getPorcentagemEmUso(), String.valueOf(TipoEnum.MEMORIA));
     }
 
     public void monitorarUsoMemoria() {
-        MemoriaT memoriaT = new MemoriaT();
-        Logger.logInfo(toString(), MemoriaT.class);
         while (true) {
-            // Se a memoria atingir 80% ou mais, registra no log
-            if (memoriaT.getPorcentagemEmUso() >= 80.0) {
-                Logger.logInfo("[ALERTA] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%" , MemoriaT.class);
-            } else if (memoriaT.getPorcentagemEmUso() >= 99.0) {
-                Logger.logInfo("[SEVERO] Memória atingiu " + getPorcentagemEmUso().shortValue() + "%", MemoriaT.class);
+            Double porcentagemUso = getPorcentagemEmUso();
+            if (porcentagemUso >= 80.0) {
+                Logger.logInfo("⚠\uFE0F" + "[ALERTA] Memória atingiu " + porcentagemUso.shortValue() + "%", MemoriaT.class);
+            } else if (porcentagemUso >= 99.0) {
+                Logger.logInfo("❌" + "[SEVERO] Memória atingiu " + porcentagemUso.shortValue() + "%", MemoriaT.class);
             } else {
-                Logger.logInfo("[INFO] Memoria: \n" + this, Logger.class);
+                Logger.logInfo("✅" + "[INFO] Memória: \n" + this, Logger.class);
             }
-            // Adormece por um curto período antes de verificar novamente
             try {
-                Thread.sleep(10000); // Ajuste o intervalo conforme necessário
+                Thread.sleep(1800000); // Aguarda 2 minutos antes de verificar novamente
             } catch (InterruptedException e) {
                 Logger.logInfo("Erro para monitorar uso da Memória.\" " + e, Componente.class);
                 e.printStackTrace();
@@ -74,10 +68,8 @@ public class MemoriaT extends Componente {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Em uso: ").append(Conversor.formatarBytes(this.getEmUso())).append("\n");
-        sb.append("Disponível: ").append(Conversor.formatarBytes(this.getDisponivel())).append("\n");
-        sb.append("Total: ").append(Conversor.formatarBytes(this.getTotal())).append("\n");
-        return sb.toString();
+        return "Em uso: " + Conversor.formatarBytes(this.getEmUso()) + "\n" +
+              "Disponível: " + Conversor.formatarBytes(this.getDisponivel()) + "\n" +
+              "Total: " + Conversor.formatarBytes(this.getTotal()) + "\n";
     }
 }

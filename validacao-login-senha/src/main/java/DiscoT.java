@@ -9,31 +9,29 @@ public class DiscoT {
     private Integer idDisco;
     private Disco disco;
     private Long tamanho;
-    private Long escritas;
     private Long bytesDeEscritas;
     private String nome;
     private String modelo;
     private Long bytesDeLeituras;
     private Integer tempoInsert;
-    private Long lastRead;
-    private Long lastWrite;
-    private Long leituras;
-    private JdbcTemplate jdbcTemplate; // Adicione o JdbcTemplate como um membro da classe
+    private Long ultimaEscrita;
+    private Long ultimaLeitura;
 
+    private JdbcTemplate jdbcTemplate;
     public DiscoT(Disco discoGrupo) {
         this.disco = discoGrupo;
         this.tamanho = disco.getTamanho();
-        this.escritas = disco.getEscritas();
+        this.ultimaEscrita = disco.getEscritas();
         this.bytesDeLeituras = disco.getBytesDeLeitura();
         this.bytesDeEscritas = disco.getBytesDeEscritas();
         this.nome = disco.getNome();
         this.modelo = disco.getModelo();
         this.tempoInsert = 60;
-        this.lastRead = bytesDeLeituras;
-        this.lastWrite = bytesDeEscritas;
+        this.ultimaLeitura = bytesDeLeituras;
+        this.ultimaEscrita = bytesDeEscritas;
     }
 
-    public Long calcularReadWrite() {
+    public Double calcularLeituraEscrita() {
         try {
             bytesDeLeituras = disco.getBytesDeLeitura();
             bytesDeEscritas = disco.getBytesDeEscritas();
@@ -42,22 +40,16 @@ public class DiscoT {
                 System.out.println("Componente DISCO não encontrado para o totem ");
                 return null;
             }
-//         System.out.println(String.format("((bytesDeEscritas[%d] - lastWrite[%d]) + (bytesDeLeituras[%d] - lastRead[%d])) / tempoInsert[%d];",bytesDeEscritas,lastWrite,bytesDeLeituras,lastRead,tempoInsert));
-            Long resposta = ((bytesDeEscritas - lastWrite) + (bytesDeLeituras - lastRead)) / tempoInsert;
-            lastWrite = bytesDeEscritas;
-            lastRead = bytesDeLeituras;
+            Double resposta = (double) (((bytesDeEscritas - ultimaEscrita) + (bytesDeLeituras - ultimaLeitura)) / tempoInsert);
+            ultimaEscrita = bytesDeEscritas;
+            ultimaLeitura = bytesDeLeituras;
             return resposta;
         } catch (EmptyResultDataAccessException e) {
-           e.printStackTrace();
+            e.printStackTrace();
             Logger.logInfo("Erro ao buscar o componente DISCO.\" " + e, Componente.class);
             return null;
         }
     }
-
-    public Long calcularPorcentagemArmazenada(){
-        return (bytesDeEscritas/tamanho)*100;
-    }
-
     public Double showTotal() {
         File disk = new File("/"); // diretório raiz do disco
         long totalSpace = disk.getTotalSpace(); // tamanho total do disco em bytes
@@ -104,11 +96,6 @@ public class DiscoT {
         return numero;
     }
 
-
-    private static Double byteConverterMega(long bytes) {
-        return (double) bytes / (1024 * 1024);
-    }
-
     public Integer getIdDisco() {
         return idDisco;
     }
@@ -117,89 +104,16 @@ public class DiscoT {
         this.idDisco = idDisco;
     }
 
-    public Long getTamanho() {
-        return tamanho;
-    }
-
-    public void setTamanho(Long tamanho) {
-        this.tamanho = tamanho;
-    }
-
-    public Long getBytesDeEscritas() {
-        return disco.getBytesDeEscritas();
-    }
-
-    public void setBytesDeEscritas(Long bytesDeEscritas) {
-        this.bytesDeEscritas = bytesDeEscritas;
-    }
-
-    public Long getBytesDeLeituras() {
-        return disco.getBytesDeLeitura();
-    }
-
-    public void setBytesDeLeituras(Long bytesDeLeituras) {
-        this.bytesDeLeituras = bytesDeLeituras;
-    }
-
-
-    public Long getEscritas() {
-        return disco.getEscritas();
-    }
-
-    public Long getLeituras() {
-        return disco.getLeituras();
-    }
-
-    public void setLeituras(Long leituras) {
-        this.leituras = leituras;
-    }
-
-    public Integer getTempoInsert() {
-        return tempoInsert;
-    }
-
-    public void setTempoInsert(Integer tempoInsert) {
-        this.tempoInsert = tempoInsert;
-    }
-
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    public Long getLastRead() {
-        return lastRead;
-    }
-
-    public void setLastRead(Long lastRead) {
-        this.lastRead = lastRead;
-    }
-
-    public Long getLastWrite() {
-        return lastWrite;
-    }
-
-    public void setLastWrite(Long lastWrite) {
-        this.lastWrite = lastWrite;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\nTamanho Total: ").append(showTotal()).append("\n");
-        sb.append("Espaço Usado: ").append( showUsado()).append("\n");
-        sb.append("Espaço Disponível: ").append( showDisponivel()).append("\n");
+        sb.append("Espaço Usado: ").append(showUsado()).append("\n");
+        sb.append("Espaço Disponível: ").append(showDisponivel()).append("\n");
         sb.append("Tempo de transferência: ").append(disco.getTempoDeTransferencia().shortValue()).append("\n");
         return sb.toString();
     }
