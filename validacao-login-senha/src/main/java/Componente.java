@@ -101,8 +101,6 @@ public abstract class Componente {
         try {
             conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
                     valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
-            con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
-                    valor, tipoCaptura, LocalDateTime.now(), idComponente);
             if (!tipoComponente.equals(String.valueOf(TipoEnum.USB))) {
                 verificarStatus(valor);
             } else {
@@ -114,18 +112,32 @@ public abstract class Componente {
             e.printStackTrace();
         }
 
+        try {
+            con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
+                    valor, tipoCaptura, LocalDateTime.now(), idComponente);
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Falha na inserção de captura (MySQL Local) - %s", e), Componente.class);
+            e.printStackTrace();
+        }
+
     }
 
     protected void inserirCapturaComponente(Long valor, String tipoCaptura) {
         try {
             conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
                     valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
-            con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
-                    valor, tipoCaptura, LocalDateTime.now(), idComponente);
             verificarStatus(Double.valueOf(valor));
             System.out.println("Captura realizada!");
         } catch (Exception e) {
             Logger.logInfo(String.format("Falha na inserção de captura - %s", e), Componente.class);
+            e.printStackTrace();
+        }
+
+        try {
+            con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
+                    valor, tipoCaptura, LocalDateTime.now(), idComponente);
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Falha na inserção de captura (MySQL Local) - %s", e), Componente.class);
             e.printStackTrace();
         }
     }
