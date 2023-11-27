@@ -8,7 +8,7 @@ public class Maquininha {
     private DispositivosUsbGrupo usbs;
     private DispositivoUsb maquininha;
 
-    public Maquininha(DispositivosUsbGrupo usbs, Scanner txtScanner) {
+    public Maquininha(DispositivosUsbGrupo usbs) {
         this.usbs = usbs;
     }
 

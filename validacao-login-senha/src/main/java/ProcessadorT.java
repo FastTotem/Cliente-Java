@@ -62,5 +62,4 @@ public class ProcessadorT extends Componente {
         return sb.toString();
     }
 
-    public void setIdProcessadorTotemValidado(Integer idTotem) { idComponente = getIdComponente(String.valueOf(TipoEnum.PROCESSADOR), idTotem);}
 }

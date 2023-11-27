@@ -115,19 +115,7 @@ public abstract class Componente {
         }
 
     }
-    protected Integer getIdComponente(String tipoComponente, Integer idTotem) {
-        Integer idComponente = null;
-        try {
-            idComponente = con.queryForObject(
-                  "SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
-                  Integer.class, tipoComponente, idTotem
-            );
-        } catch (EmptyResultDataAccessException e) {
-            Logger.logInfo("Componente não encontrado" + e, Componente.class);
-            throw new RuntimeException("Componente não encontrado para o tipo: " + tipoComponente);
-        }
-        return idComponente;
-    }
+
     protected void inserirCapturaComponente(Long valor, String tipoCaptura) {
         try {
             conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",

@@ -79,6 +79,4 @@ public class UsbT extends Componente {
         return String.format("\nNome: %s\nId de dispositivo exclusivo: %s\nConectado: %s", this.getNome(), this.getIdExclusivo().toString());
     }
 
-    public void setIdUsbTotemValidado() { idExclusivo = String.valueOf(getIdComponente(String.valueOf(TipoEnum.USB), fkTotem));
-    }
 }
