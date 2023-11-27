@@ -6,15 +6,20 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class Monitoramento {
+
+    private static final Semaphore pauseSemaphore = new Semaphore(1);
+    private static boolean pausado = false;
+
     public static void main(String[] args) {
 
         Scanner txtScanner = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
+
+        Mensagens mensagem = new Mensagens();
+        System.out.println(mensagem.getBoasVindas());
 
         Totem totem = new Totem();
         String serialNumber = new SystemInfo().getHardware().getComputerSystem().getBaseboard().getSerialNumber();
@@ -28,12 +33,19 @@ public class Monitoramento {
         Maquininha cadastroMaquina = new Maquininha(usbs);
         UsbT maquininha = new UsbT(usbs);
 
-        Mensagens mensagem = new Mensagens();
-        System.out.println(mensagem.getBoasVindas());
-
         totem = totem.validarTotemJaAtivo();
         Integer idTotem;
         Integer idEmpresa;
+
+        Thread inputThread = new Thread(() -> {
+            while (true) {
+                String userInput = txtScanner.nextLine();
+                if (userInput.equalsIgnoreCase("P")) {
+                    togglePause();
+                }
+            }
+        });
+        inputThread.start();
 
         if (totem == null) {
 
@@ -135,21 +147,40 @@ public class Monitoramento {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
         scheduler.scheduleAtFixedRate(() -> {
-            memoriaT.inserirCapturaUsoMemoria();
-            processadorT.inserirCapturaUsoProcessador();
-//            discosT.inserirCapturasDisco();
-//            discosT.inserirReadWrite();
-            discosT.inserirPorcentagemArmazenada();
-        }, 0, 1, TimeUnit.MINUTES);
+            try {
+                pauseSemaphore.acquire();
+                if (!pausado) {
+                    memoriaT.inserirCapturaUsoMemoria();
+                    processadorT.inserirCapturaUsoProcessador();
+//                    discosT.inserirCapturasDisco();
+//                    discosT.inserirReadWrite();
+                    discosT.inserirPorcentagemArmazenada();
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } finally {
+                pauseSemaphore.release();
+            }
+        }, 0, 5, TimeUnit.SECONDS);
 
         scheduler.scheduleAtFixedRate(() -> {
-            maquinaT.inserirTempoDeAtividade();
-            maquininha.verificarConexao();
+            try {
+                pauseSemaphore.acquire();
+                if (!pausado) {
+                    maquinaT.inserirTempoDeAtividade();
+                    maquininha.verificarConexao();
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } finally {
+                pauseSemaphore.release();
+            }
         }, 0, 1, TimeUnit.HOURS);
 
         //execução contínua do código
         CountDownLatch latch = new CountDownLatch(1);
         try {
+            inputThread.join();
             Thread.currentThread().join();
             latch.await();
         } catch (InterruptedException e) {
@@ -158,4 +189,17 @@ public class Monitoramento {
             scheduler.shutdown();
         }
     }
+
+    private static void togglePause() {
+        try {
+            pauseSemaphore.acquire();
+            pausado = !pausado;
+            System.out.println("Programa " + (pausado ? "pausado" : "retomado"));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            pauseSemaphore.release();
+        }
+    }
+
 }

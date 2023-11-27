@@ -17,6 +17,9 @@ public class Mensagens {
                               
                               
               *************************** Bem vindo ao FastTotem! ***************************
+              
+              Programa iniciado. Aperte P + Enter para pausar e CTRL C para sair.
+              
               """;
         this.adeus = """
               ********************************   Até Logo!!   ********************************
