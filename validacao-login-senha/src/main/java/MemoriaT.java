@@ -72,4 +72,8 @@ public class MemoriaT extends Componente {
               "Disponível: " + Conversor.formatarBytes(this.getDisponivel()) + "\n" +
               "Total: " + Conversor.formatarBytes(this.getTotal()) + "\n";
     }
+
+    public void setIdMemoriaTotemValidado() {
+        idComponente = getIdComponente(String.valueOf(TipoEnum.MEMORIA), fkTotem);
+    }
 }
