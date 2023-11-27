@@ -19,9 +19,9 @@ public class ProcessadorT extends Componente {
         while (true) {
             Double uso = processador.getUso();
             if (uso >= 80.0) {
-                Logger.logInfo("⚠\uFE0F [ALERTA] Carga do sistema atingiu " + uso.shortValue() + "%", ProcessadorT.class);
+                Logger.logWarning("⚠\uFE0F [ALERTA] Carga do sistema atingiu " + uso.shortValue() + "%", ProcessadorT.class);
             } else if (uso >= 98.0) {
-                Logger.logInfo("❌ [SEVERO] Carga do sistema atingiu " + uso.shortValue() + "%", ProcessadorT.class);
+                Logger.logWarning("❌ [SEVERO] Carga do sistema atingiu " + uso.shortValue() + "%", ProcessadorT.class);
             } else {
                 Logger.logInfo("✅ [INFO] \n" + this, ProcessadorT.class);
             }

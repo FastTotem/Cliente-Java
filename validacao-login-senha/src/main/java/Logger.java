@@ -17,7 +17,7 @@ public class Logger {
     static String dataFormatada = formatoData.format(dataAtual);
 
     private static final String logDir = "logs" + File.separator;
-    private static final String logFile = "HardwareInfo" + dataFormatada + ".log";
+    private static final String logFile = logDir +"HardwareInfo" + dataFormatada + ".log";
 
     public static String getLogFile() {
         return logFile;
@@ -63,7 +63,17 @@ public class Logger {
 
     public static synchronized <T> void logInfo(String message, Class<T> clazz) {
         String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
-        // Salva no arquivo de log
+        try {
+            checkLogRotation();
+            try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
+                writer.println(logEntry);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static <T> void logWarning(String message, Class<T> clazz) {
+        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
         try {
             checkLogRotation();
             try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {

@@ -27,9 +27,9 @@ public class MemoriaT extends Componente {
         while (true) {
             Double porcentagemUso = getPorcentagemEmUso();
             if (porcentagemUso >= 80.0) {
-                Logger.logInfo("⚠\uFE0F" + "[ALERTA] Memória atingiu " + porcentagemUso.shortValue() + "%", MemoriaT.class);
+                Logger.logWarning("⚠\uFE0F" + "[ALERTA] Memória atingiu " + porcentagemUso.shortValue() + "%", MemoriaT.class);
             } else if (porcentagemUso >= 99.0) {
-                Logger.logInfo("❌" + "[SEVERO] Memória atingiu " + porcentagemUso.shortValue() + "%", MemoriaT.class);
+                Logger.logWarning("❌" + "[SEVERO] Memória atingiu " + porcentagemUso.shortValue() + "%", MemoriaT.class);
             } else {
                 Logger.logInfo("✅" + "[INFO] Memória: \n" + this, Logger.class);
             }

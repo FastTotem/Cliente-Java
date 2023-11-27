@@ -96,9 +96,9 @@ public class MaquinaT {
     public void monitorarTempoAtividade() {
         while (true) {
             if (tempoDeAtividade >= 80.0) {
-                Logger.logInfo("⚠️ [ALERTA] Totem em muito tempo de atividade",  MaquinaT.class);
+                Logger.logWarning("⚠️ [ALERTA] Totem em muito tempo de atividade",  MaquinaT.class);
             } else if (tempoDeAtividade >= 95.0) {
-                Logger.logInfo("❌" + "[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
+                Logger.logWarning("❌" + "[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
             } else {
                 Logger.logInfo("✅" + "[INFO] Maquina: \n" + this, MaquinaT.class);
             }
