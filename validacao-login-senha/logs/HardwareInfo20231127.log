@@ -1,2 +1,94 @@
 20231127 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (Falha na conexão TCP/IP com o host localhost, porta 1433. Erro: "Connection refused: no further information. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".)
 20231127 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (Falha na conexão TCP/IP com o host localhost, porta 1433. Erro: "Connection refused: no further information. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".)
+20231127 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (Falha na conexão TCP/IP com o host localhost, porta 1433. Erro: "Connection refused: no further information. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".)
+20231127 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (Falha na conexão TCP/IP com o host localhost, porta 1433. Erro: "Connection refused: no further information. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".)
+20231127 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (Falha de logon do usuário 'fastTotemAdmin'. ClientConnectionId:60c441ca-eb53-4494-b659-48be0266b26e)
+20231127 [Totem] Erro ao inserir totem na conexão MySQL - org.springframework.dao.DuplicateKeyException: PreparedStatementCallback; SQL [INSERT INTO totem (idTotem, nome, chaveDeAcesso) VALUES (1,?,?);]; Duplicate entry '1' for key 'totem.PRIMARY'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry '1' for key 'totem.PRIMARY'
+20231127 [Componente] Erro ao inserir componente - Discoorg.springframework.dao.IncorrectResultSizeDataAccessException: Incorrect result size: expected 1, actual 2
+20231127 [MaquinaT] ⚠️ [ALERTA] Totem em muito tempo de atividade
+20231127 [DiscoT] Disco Info: 
+
+Tamanho Total: 237.69
+Espaço Usado: 132.75
+Espaço Disponível: 104.94
+Tempo de transferência: 26672
+
+20231127 [Logger] ✅[INFO] Memória: 
+Em uso: 7,4 GiB
+Disponível: 8,3 GiB
+Total: 15,7 GiB
+
+20231127 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0xa0ed
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&457D673&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+, 
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9a13
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&3CE02D8&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+20231127 [Componente] Erro ao verificar parâmetros e enviar notificações - org.springframework.dao.EmptyResultDataAccessException: Incorrect result size: expected 1, actual 0
+20231127 [Componente] Falha na inserção de captura (MySQL Local) - org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)]; Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_1` FOREIGN KEY (`fkComponente`) REFERENCES `componente` (`idComponente`)); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_1` FOREIGN KEY (`fkComponente`) REFERENCES `componente` (`idComponente`))
+20231127 [MaquinaT] Erro ao inserir tempo de atividade (MySQL Local) - org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,1)]; Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_2` FOREIGN KEY (`fkTotem`) REFERENCES `totem` (`idTotem`)); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_2` FOREIGN KEY (`fkTotem`) REFERENCES `totem` (`idTotem`))
+20231127 [Notification] Erro ao verificar status e enviar notificações - org.springframework.dao.EmptyResultDataAccessException: Incorrect result size: expected 1, actual 0
+20231127 [Componente] Falha na inserção de captura (MySQL Local) - org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)]; Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_1` FOREIGN KEY (`fkComponente`) REFERENCES `componente` (`idComponente`)); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_1` FOREIGN KEY (`fkComponente`) REFERENCES `componente` (`idComponente`))
+20231127 [ProcessadorT] ✅ [INFO] 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 8%
+
+20231127 [Componente] Erro ao verificar parâmetros e enviar notificações - org.springframework.dao.EmptyResultDataAccessException: Incorrect result size: expected 1, actual 0
+20231127 [Componente] Falha na inserção de captura (MySQL Local) - org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)]; Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_1` FOREIGN KEY (`fkComponente`) REFERENCES `componente` (`idComponente`)); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_1` FOREIGN KEY (`fkComponente`) REFERENCES `componente` (`idComponente`))
+20231127 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (A propriedade "encrypt" está definida como "true" e a propriedade "trustServerCertificate" está definida como "false", mas o driver não pôde estabelecer uma conexão segura com o SQL Server usando a criptografia do protocolo SSL (SSL): Erro: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target. ClientConnectionId:61e0c6fa-b704-4699-b936-ab063285cbdc)
+20231127 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (A propriedade "encrypt" está definida como "true" e a propriedade "trustServerCertificate" está definida como "false", mas o driver não pôde estabelecer uma conexão segura com o SQL Server usando a criptografia do protocolo SSL (SSL): Erro: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target. ClientConnectionId:cf38428f-a98e-489f-9d2f-8c39e6c8b530)
+20231127 [Componente] Erro ao inserir componente - Discoorg.springframework.dao.IncorrectResultSizeDataAccessException: Incorrect result size: expected 1, actual 4
+20231127 [MaquinaT] ⚠️ [ALERTA] Totem em muito tempo de atividade
+20231127 [DiscoT] Disco Info: 
+
+Tamanho Total: 237.69
+Espaço Usado: 132.75
+Espaço Disponível: 104.94
+Tempo de transferência: -30488
+
+20231127 [Logger] ✅[INFO] Memória: 
+Em uso: 7,5 GiB
+Disponível: 8,3 GiB
+Total: 15,7 GiB
+
+20231127 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0xa0ed
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&457D673&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+, 
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9a13
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&3CE02D8&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+20231127 [Componente] Falha na inserção de captura (MySQL Local) - org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)]; Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_1` FOREIGN KEY (`fkComponente`) REFERENCES `componente` (`idComponente`)); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_1` FOREIGN KEY (`fkComponente`) REFERENCES `componente` (`idComponente`))
+20231127 [ProcessadorT] ✅ [INFO] 
+Fabricante: GenuineIntel
+Modelo: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+Frequência: 2.419 GHz
+Em Uso: 6%
+
+20231127 [Componente] Falha na inserção de captura (MySQL Local) - org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)]; Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_1` FOREIGN KEY (`fkComponente`) REFERENCES `componente` (`idComponente`)); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_1` FOREIGN KEY (`fkComponente`) REFERENCES `componente` (`idComponente`))
+20231127 [Componente] Falha na inserção de captura (MySQL Local) - org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)]; Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_1` FOREIGN KEY (`fkComponente`) REFERENCES `componente` (`idComponente`)); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`fasttotem`.`captura`, CONSTRAINT `captura_ibfk_1` FOREIGN KEY (`fkComponente`) REFERENCES `componente` (`idComponente`))

@@ -20,8 +20,7 @@ public class Conexao {
 
         dataSourceSqlServer = new BasicDataSource();
         dataSourceSqlServer.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        dataSourceSqlServer.setUrl("jdbc:sqlserver://localhost:1433;database=fasttotem;encrypt=true;trustServerCertificate=true;");
-        //dataSource.setUrl("jdbc:sqlserver://fasttotem.database.windows.net:1433;database=fasttotem;user=fastTotemAdmin;password=fasttotem123;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
+        dataSourceSqlServer.setUrl("jdbc:sqlserver://ec2-54-144-141-96.compute-1.amazonaws.com:1433;database=fasttotem;encrypt=true;trustServerCertificate=true;loginTimeout=30;");
         dataSourceSqlServer.setUsername("fastTotemAdmin");
         dataSourceSqlServer.setPassword("fasttotem123");
 
