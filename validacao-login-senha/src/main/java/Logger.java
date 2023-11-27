@@ -23,6 +23,17 @@ public class Logger {
         return logFile;
     }
 
+    static void checkLogDirectory() {
+        File logDirectory = new File(logDir);
+        if (!logDirectory.exists()) {
+            boolean created = logDirectory.mkdirs(); // Tenta criar o diretório e os subdiretórios
+
+            if (!created) {
+                System.err.println("Erro ao criar o diretório de log.");
+                return;
+            }
+        }
+    }
     private static void checkLogRotation() throws IOException {
         long fileSize = new File(logFile).length();
         if (fileSize > tamanhoMaximo * 1024 * 1024) {
@@ -31,7 +42,7 @@ public class Logger {
     }
 
     private static void rotateLogs() throws IOException {
-        String rotatedFileName = logDir + dataFormatada + ".log";
+        String rotatedFileName = logDir + "HardwareInfo" + dataFormatada + ".log";
         File currentLogFile = new File(logFile);
         File rotatedFile = new File(rotatedFileName);
         currentLogFile.renameTo(rotatedFile);

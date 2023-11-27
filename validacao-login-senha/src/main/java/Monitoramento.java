@@ -14,6 +14,7 @@ public class Monitoramento {
     private static Integer idTotem;
 
     public static void main(String[] args) {
+
         Scanner txtScanner = new Scanner(System.in);
         Logger logger = new Logger();
         DiscosT discosT = new DiscosT();
@@ -23,6 +24,8 @@ public class Monitoramento {
         DispositivosUsbGrupo usbs = new DispositivosUsbGrupo();
         Maquininha cadastroMaquina = new Maquininha(usbs, txtScanner);
         UsbT maquininha = new UsbT(usbs);
+
+        Logger.checkLogDirectory();
 
         iniciarAgendamentoDeEnvioDeArquivo(logger);
 
@@ -36,7 +39,6 @@ public class Monitoramento {
             configurarTotemExistente(totem, discosT, memoriaT, processadorT, maquinaT, maquininha);
         }
     }
-
     private static void iniciarAgendamentoDeEnvioDeArquivo(Logger logger) {
         Timer timer = new Timer();
         long delay = 0;
