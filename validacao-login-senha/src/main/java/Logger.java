@@ -28,17 +28,6 @@ public class Logger {
         return logFile;
     }
 
-    static void checkLogDirectory() {
-        File logDirectory = new File(logDir);
-        if (!logDirectory.exists()) {
-            boolean created = logDirectory.mkdirs(); // Tenta criar o diretório e os subdiretórios
-
-            if (!created) {
-                System.err.println("Erro ao criar o diretório de log.");
-                return;
-            }
-        }
-    }
     private static void checkLogRotation() throws IOException {
         long fileSize = new File(logFile).length();
         if (fileSize > tamanhoMaximo * 1024 * 1024) {
@@ -81,10 +70,24 @@ public class Logger {
         }
     }
 
+    public static void checkLogDirectory() {
+        File logDirectory = new File(logDir);
+        if (!logDirectory.exists()) {
+            boolean created = logDirectory.mkdirs(); // Try to create the directory and subdirectories
+
+            if (!created) {
+                System.err.println("Error creating the log directory.");
+                return;
+            }
+        }
+    }
+
     public static synchronized <T> void logInfo(String message, Class<T> clazz) {
         String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
         try {
+            checkLogDirectory();
             checkLogRotation();
+
             try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
                 writer.println(logEntry);
             }
@@ -92,6 +95,7 @@ public class Logger {
             e.printStackTrace();
         }
     }
+
     public static <T> void logWarning(String message, Class<T> clazz) {
         String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
         try {
