@@ -94,8 +94,18 @@ public class Totem {
 
     public void inserirTotem() {
         try {
-            con.update("INSERT INTO totem (idTotem, nome, chaveDeAcesso) VALUES (1,?,?);",
-                    nome, chaveDeAcesso);
+           if (boardSerialNumber.equals("unknown")) {
+               try {
+                   con.update("SELECT * FROM totem WHERE idTotem = 1",
+                           nome, chaveDeAcesso);
+               } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
+                   con.update("INSERT INTO totem (idTotem, nome, chaveDeAcesso) VALUES (1,?,?);",
+                           nome, chaveDeAcesso);
+               }
+           } else {
+               con.update("INSERT INTO totem (idTotem, nome, chaveDeAcesso) VALUES (1,?,?);",
+                       nome, chaveDeAcesso);
+           }
         } catch (Exception e) {
             Logger.logInfo(String.format("Erro ao inserir totem na conexão MySQL - %s", e), Totem.class);
             e.printStackTrace();
