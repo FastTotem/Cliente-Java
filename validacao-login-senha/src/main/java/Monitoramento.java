@@ -142,6 +142,8 @@ public class Monitoramento {
             }
         }
 
+        totem.atualizarTotemAtivo();
+
         new Thread(processadorT::monitorarUsoProcessador).start();
         new Thread(memoriaT::monitorarUsoMemoria).start();
         new Thread(maquinaT::monitorarTempoAtividade).start();

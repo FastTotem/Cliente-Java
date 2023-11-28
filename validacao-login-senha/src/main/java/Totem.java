@@ -94,7 +94,7 @@ public class Totem {
 
     public void inserirTotem() {
         try {
-           if (boardSerialNumber.equals("unknown")) {
+           if (boardSerialNumber.equals("unknown") || boardSerialNumber == null) {
                try {
                    con.update("SELECT * FROM totem WHERE idTotem = 1",
                            nome, chaveDeAcesso);
@@ -108,6 +108,16 @@ public class Totem {
            }
         } catch (Exception e) {
             Logger.logInfo(String.format("Erro ao inserir totem na conexão MySQL - %s", e), Totem.class);
+            e.printStackTrace();
+        }
+    }
+
+    public void atualizarTotemAtivo() {
+        try {
+            conSqlServer.update("UPDATE totem SET statusTotem = 'Ok' WHERE idTotem = ?", boardSerialNumber, idTotem);
+            System.out.println("Status atualizado");
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Erro ao alterar status na conexão MySQL - %s", e), Totem.class);
             e.printStackTrace();
         }
     }
