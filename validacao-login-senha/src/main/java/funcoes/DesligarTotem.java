@@ -1,5 +1,6 @@
 package funcoes;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -9,7 +10,9 @@ import java.io.OutputStream;
 public class DesligarTotem implements HttpHandler {
     @Override
     public void handle(HttpExchange t) throws IOException {
-        String response = "Desligando totem";
+        Headers headers = t.getResponseHeaders();
+        headers.set("Access-Control-Allow-Origin", "*");
+        headers.set("Content-Type", "application/json");
 
         try {
             Process process = Runtime.getRuntime().exec("shutdown -s -t 3000");
@@ -17,6 +20,8 @@ public class DesligarTotem implements HttpHandler {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+
+        String response = "{ \"message\": \"Desligando totem\" }";
 
         t.sendResponseHeaders(200, response.length());
         OutputStream os = t.getResponseBody();

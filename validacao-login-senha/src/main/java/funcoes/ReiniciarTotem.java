@@ -1,5 +1,6 @@
 package funcoes;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -9,7 +10,11 @@ import java.io.OutputStream;
 public class ReiniciarTotem implements HttpHandler {
     @Override
     public void handle(HttpExchange t) throws IOException {
-        String response = "Reiniciando totem";
+        Headers headers = t.getResponseHeaders();
+        headers.set("Access-Control-Allow-Origin", "*");
+        headers.set("Content-Type", "application/json");
+
+        String response = "{ \"message\": \"Reiniciando totem\" }";
         t.sendResponseHeaders(200, response.length());
         OutputStream os = t.getResponseBody();
         os.write(response.getBytes());

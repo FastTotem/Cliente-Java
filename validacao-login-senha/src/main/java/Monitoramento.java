@@ -108,7 +108,7 @@ public class Monitoramento {
             discosT.setIdDiscos();
             memoriaT.setIdMemoriaTotemValidado();
             processadorT.setIdProcessadorTotemValidado(idTotem);
-            maquininha.setIdUsbTotemValidado();
+            //maquininha.setIdUsbTotemValidado();
 
 
         }
