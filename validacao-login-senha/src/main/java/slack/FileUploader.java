@@ -14,27 +14,30 @@ public class FileUploader {
 
         File arquivo = new File(caminhoArquivo);
 
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("token", SLACK_API_TOKEN)
-                .addFormDataPart("channels", CHANNEL_ID)
-                .addFormDataPart("file", arquivo.getName(), RequestBody.create(MediaType.parse("application/octet-stream"), arquivo))
-                .build();
+        if (arquivo.exists()) {
 
-        Request request = new Request.Builder()
-                .url("https://slack.com/api/files.upload")
-                .post(requestBody)
-                .build();
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("token", SLACK_API_TOKEN)
+                    .addFormDataPart("channels", CHANNEL_ID)
+                    .addFormDataPart("file", arquivo.getName(), RequestBody.create(MediaType.parse("application/octet-stream"), arquivo))
+                    .build();
 
-        try {
-            Response response = client.newCall(request).execute();
-            ResponseBody responseBody = response.body();
-            if (response.isSuccessful() && responseBody != null) {
-            } else {
-                System.out.println("Erro ao enviar log para o Slack: " + response.code() + " - " + response.message());
+            Request request = new Request.Builder()
+                    .url("https://slack.com/api/files.upload")
+                    .post(requestBody)
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                ResponseBody responseBody = response.body();
+                if (response.isSuccessful() && responseBody != null) {
+                } else {
+                    System.out.println("Erro ao enviar log para o Slack: " + response.code() + " - " + response.message());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
