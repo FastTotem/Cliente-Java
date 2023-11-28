@@ -2,22 +2,27 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Logger {
     private static final int tamanhoMaximo = 30;
     private static final int maximoHistoricoArquivos = 100;
 
-    static Date dataAtual = new Date();
-    static SimpleDateFormat formatoData = new SimpleDateFormat("yyyyMMdd");
-    static String dataFormatada = formatoData.format(dataAtual);
+    static Calendar dataEHora = Calendar.getInstance();
+    static SimpleDateFormat formatoData = new SimpleDateFormat("HH:mm:ss");
+    static String dataFormatada = formatoData.format(dataEHora.getTime());
 
-    private static final String logDir = "logs" + File.separator;
-    private static final String logFile = logDir +"HardwareInfo" + dataFormatada + ".log";
+    static Date data = new Date();
+     static SimpleDateFormat dataAtual = new SimpleDateFormat("yyyyMMdd");
+    static String dt = dataAtual.format(data);
+
+        private static final String logDir = "logs" + File.separator;
+    private static final String logFile = logDir +"HardwareInfo" +  dt + ".log";
+
+    public Logger() throws ParseException {
+    }
 
     public static String getLogFile() {
         return logFile;
@@ -42,7 +47,11 @@ public class Logger {
     }
 
     private static void rotateLogs() throws IOException {
-        String rotatedFileName = logDir + "HardwareInfo" + dataFormatada + ".log";
+        Date data = new Date();
+        SimpleDateFormat dataAtual = new SimpleDateFormat("yyyyMMdd");
+        String dt = dataAtual.format(data);
+
+        String rotatedFileName = logDir + "HardwareInfo" + dt + ".log";
         File currentLogFile = new File(logFile);
         File rotatedFile = new File(rotatedFileName);
         currentLogFile.renameTo(rotatedFile);
@@ -73,8 +82,7 @@ public class Logger {
     }
 
     public static synchronized <T> void logInfo(String message, Class<T> clazz) {
-        private Calendar dataEHora;
-        String logEntry = dataFormatada + Calendar.getInstance() + " [" + clazz.getSimpleName() + "] " + message;
+        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
         try {
             checkLogRotation();
             try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
