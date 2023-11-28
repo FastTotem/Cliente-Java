@@ -30,8 +30,6 @@ public class FileUploader {
             Response response = client.newCall(request).execute();
             ResponseBody responseBody = response.body();
             if (response.isSuccessful() && responseBody != null) {
-                System.out.println("Log enviado no Slack");
-                System.out.println("Response: " + responseBody.string()); // Print Slack's response
             } else {
                 System.out.println("Erro ao enviar log para o Slack: " + response.code() + " - " + response.message());
             }
