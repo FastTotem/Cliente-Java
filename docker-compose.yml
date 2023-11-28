@@ -13,7 +13,7 @@ services:
   java-app:
     image: openjdk:17
     volumes:
-      - ./out/artifacts/validacao_login_senha_jar/validacao-login-senha.jar:/app/validacao-login-senha.jar
+      - ./client/FastTotemClient.jar:/FastTotemClient.jar
       - /proc:/host/proc
     command: tail -f /dev/null
     ports:
