@@ -18,7 +18,7 @@ public class Logger {
      static SimpleDateFormat dataAtual = new SimpleDateFormat("yyyyMMdd");
     static String dt = dataAtual.format(data);
 
-        private static final String logDir = "logs" + File.separator;
+        private static final String logDir = "client" + File.separator + "logs" + File.separator;
     private static final String logFile = logDir +"HardwareInfo" +  dt + ".log";
 
     public Logger() throws ParseException {
