@@ -114,7 +114,7 @@ public class Totem {
 
     public void atualizarTotemAtivo() {
         try {
-            conSqlServer.update("UPDATE totem SET statusTotem = 'Ok' WHERE idTotem = ?", idTotem);
+            conSqlServer.update("UPDATE totem SET statusTotem = 'ok' WHERE idTotem = ?", idTotem);
             System.out.println("Status atualizado");
         } catch (Exception e) {
             Logger.logInfo(String.format("Erro ao alterar status na conexão MySQL - %s", e), Totem.class);
