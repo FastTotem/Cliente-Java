@@ -3,6 +3,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import slack.Notification;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,19 +15,29 @@ public abstract class Componente {
     protected String nomeComponente;
     protected String tipoComponente;
     protected Integer fkTotem;
+    protected Integer fkEmpresa;
     private String status;
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
     private final JdbcTemplate conSqlServer = conexao.getConexaoSqlServer();
+    private final Integer OCORRENCIA_ALERTA = 3;
+    private Integer qtdeAlerta;
+    private Integer qtdeCritico;
+    private Double ultimaCaptura;
+    private Boolean notificado;
+
 
     public Componente() {
         this.status = String.valueOf(ParametroAlertaEnum.IDEAL);
+        this.notificado = false;
+        qtdeAlerta = 0;
+        qtdeCritico = 0;
     }
 
     public Boolean componenteJaExistente(){
 
         try {
-            Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
+            Integer idComponente = conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
             return true;
         } catch (EmptyResultDataAccessException e) {
            return false;
@@ -41,105 +52,197 @@ public abstract class Componente {
         if (!componenteJaExistente()){
             try {
 
-                con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
-                      nomeComponente, tipoComponente, fkTotem);
-//                conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
-//                      nomeComponente, tipoComponente, fkTotem);
+                conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
+                        nomeComponente, tipoComponente, fkTotem);
+                Integer idComponenteInserido = conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
+
+                con.update("INSERT INTO componente (idComponente, nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?,1)",
+                        idComponenteInserido, nomeComponente, tipoComponente);
+
                 System.out.println("Componente inserido!");
 
-                Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND tipoComponente = ?", Integer.class, fkTotem, tipoComponente);
-
-                return idComponente;
+                return idComponenteInserido;
 
             } catch (Exception e) {
-                System.out.println(LocalDateTime.now() + " Erro ao inserir componente - " + e);
+                Logger.logInfo("Erro ao inserir componente - " + e, Componente.class);
+                e.printStackTrace();
             }
 
         } else if (Objects.equals(tipoComponente, String.valueOf(TipoEnum.DISCO))) {
 
             try {
 
-                con.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
+                conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
                         nomeComponente, tipoComponente, fkTotem);
+                Integer idComponenteInserido = conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
 
-                Integer idComponente = con.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
+                con.update("INSERT INTO componente (idComponente, nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?,1)",
+                        idComponenteInserido, nomeComponente, tipoComponente);
 
-                return idComponente;
+
+                return idComponenteInserido;
             } catch (Exception e) {
-                System.out.println("Erro ao inserir componente - Disco");
                 e.printStackTrace();
+                Logger.logInfo("Erro ao inserir componente - Disco" + e, Componente.class);
             }
 
 
+        } else {
+            if (!Objects.equals(tipoComponente, String.valueOf(TipoEnum.DISCO))) {
+                return setIdComponenteTotemValidado();
+            }
         }
 
         return null;
 
     }
 
-    ;
-
-    protected void inserirCapturaComponente(Long valor, String tipoCaptura) {
-
-        con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
-              valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
-
-        System.out.println("Captura realizada!");
-
-    }
-
-    protected void verificarStatus(Double valor) {
-        ParametroAlerta parametroAlerta = con.queryForObject("SELECT * FROM parametroAlerta WHERE componente = ?",
-              new BeanPropertyRowMapper<>(ParametroAlerta.class), tipoComponente);
-
-        if (valor >= parametroAlerta.getNotificacao()) {
-            if (valor > parametroAlerta.getIdeal() && valor <= parametroAlerta.getAlerta()) {
-                if (!this.status.equals(String.valueOf(ParametroAlertaEnum.ALERTA))) {
-                    this.status = String.valueOf(ParametroAlertaEnum.ALERTA);
-                    // mandar mensagem alerta
-                }
-            } else if (valor <= parametroAlerta.getCritico()) {
-                if (!this.status.equals(String.valueOf(ParametroAlertaEnum.CRITICO))) {
-                    this.status = String.valueOf(ParametroAlertaEnum.CRITICO);
-                    // mandar mensagem critico
-                }
+    protected void inserirCapturaComponente(Double valor, String tipoCaptura) {
+        try {
+            conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
+                    valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
+            if (!tipoComponente.equals(String.valueOf(TipoEnum.USB))) {
+                verificarStatus(valor);
+            } else {
+                verificarAtivo(valor);
             }
+            System.out.println("Captura realizada!");
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Falha na inserção de captura - %s", e), Componente.class);
+            e.printStackTrace();
+        }
+
+        try {
+            con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
+                    valor, tipoCaptura, LocalDateTime.now(), idComponente);
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Falha na inserção de captura (MySQL Local) - %s", e), Componente.class);
+            e.printStackTrace();
         }
 
     }
 
-    protected void inserirCapturaComponente(Double valor, String tipoCaptura) {
+    protected void inserirCapturaComponente(Long valor, String tipoCaptura) {
+        try {
+            conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
+                    valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
+            verificarStatus(Double.valueOf(valor));
+            System.out.println("Captura realizada!");
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Falha na inserção de captura - %s", e), Componente.class);
+            e.printStackTrace();
+        }
 
-        con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
-              valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
+        try {
+            con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
+                    valor, tipoCaptura, LocalDateTime.now(), idComponente);
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Falha na inserção de captura (MySQL Local) - %s", e), Componente.class);
+            e.printStackTrace();
+        }
+    }
 
-        System.out.println("Captura realizada!");
+    private void verificarStatus(Double valor) {
+        try {
+            ParametroAlerta parametroAlerta = conSqlServer.queryForObject("SELECT * FROM parametroAlerta WHERE componente = ? and fkEmpresa = ?",
+                    new BeanPropertyRowMapper<>(ParametroAlerta.class), tipoComponente, fkEmpresa);
+
+            String nomeTotem = con.queryForObject(
+                    "SELECT nome FROM totem WHERE idTotem = 1",
+                    String.class
+            );
+
+            if (valor >= parametroAlerta.getNotificacao()) {
+                if (valor > parametroAlerta.getIdeal() && valor <= parametroAlerta.getAlerta()) {
+                    this.status = String.valueOf(ParametroAlertaEnum.ALERTA);
+                    qtdeAlerta++;
+                    if (ultimaCaptura != null && ultimaCaptura > parametroAlerta.getIdeal() && ultimaCaptura <= parametroAlerta.getAlerta()) {
+                        if (qtdeAlerta >= OCORRENCIA_ALERTA) {
+                            enviarNotificacao(nomeTotem);
+                            qtdeAlerta = 0;
+                        }
+                    }
+                } else if (valor > parametroAlerta.getAlerta()) {
+                    this.status = String.valueOf(ParametroAlertaEnum.CRITICO);
+                    qtdeCritico++;
+                    if (ultimaCaptura != null && ultimaCaptura > parametroAlerta.getAlerta()) {
+                        if (qtdeCritico >= OCORRENCIA_ALERTA) {
+                            enviarNotificacao(nomeTotem);
+                            qtdeCritico = 0;
+                        }
+                    }
+                }
+            }
+            if (!status.equals(String.valueOf(ParametroAlertaEnum.IDEAL)) && valor <= parametroAlerta.getIdeal()) {
+                this.status = String.valueOf(ParametroAlertaEnum.IDEAL);
+                qtdeAlerta = 0;
+                qtdeCritico = 0;
+            }
+            ultimaCaptura = valor;
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Erro ao verificar parâmetros e enviar notificações - %s", e), Componente.class);
+            e.printStackTrace();
+        }
+    }
+
+    private void verificarAtivo(Double valor) {
+        try {
+
+            if (!notificado && valor.equals(0.0)) {
+
+                String nomeTotem = con.queryForObject(
+                        "SELECT nome FROM totem WHERE idTotem = 1",
+                        String.class
+                );
+
+                enviarNotificacao(nomeTotem);
+                notificado = true;
+            } else if (notificado && valor.equals(1.0)) {
+                notificado = false;
+            }
+
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Erro ao verificar status e enviar notificações - %s", e), Notification.class);
+            e.printStackTrace();
+        }
 
     }
 
-    protected void notificarAdministrador(String mensagem) {
-        // Isso pode ser feito por slack.
-        System.out.println("Notificação para administrador: " + mensagem);
+    private void enviarNotificacao(String nomeTotem) {
+        if (!tipoComponente.equals(String.valueOf(TipoEnum.USB))) {
+            try {
+                Notification.enviarNotificacao(String.format("%s está com %s em %s!", nomeTotem, tipoComponente, status));
+            } catch (Exception e) {
+                Logger.logInfo(String.format("Notificação de %s não enviada - %s", status, e), Notification.class);
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                Notification.enviarNotificacao(String.format("%s não está com a maquininha conectada!", nomeTotem));
+            } catch (Exception e) {
+                Logger.logInfo(String.format("Notificação de %s não enviada - %s", tipoComponente, e), Notification.class);
+                e.printStackTrace();
+            }
+        }
     }
 
-    protected List<Integer> getListaIdComponente(String tipoComponente) {
-        List<Integer> idComponentes = con.queryForList("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
+    protected List<Integer> getListaIdComponente() {
+        List<Integer> idComponentes = conSqlServer.queryForList("SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
               Integer.class, tipoComponente, fkTotem);
         return idComponentes;
     }
 
-    protected Integer getIdComponente(String tipoComponente, Integer idTotem) {
-        Integer idComponente = null;
+    protected Integer setIdComponenteTotemValidado() {
         try {
-            idComponente = con.queryForObject(
+            idComponente = conSqlServer.queryForObject(
                   "SELECT idComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
-                  Integer.class, tipoComponente, idTotem
+                  Integer.class, tipoComponente, fkTotem
             );
+            return idComponente;
         } catch (EmptyResultDataAccessException e) {
-            Logger.logInfo("Componente não encontrado", Componente.class);
+            Logger.logInfo("Componente não encontrado" + e, Componente.class);
             throw new RuntimeException("Componente não encontrado para o tipo: " + tipoComponente);
         }
-        return idComponente;
     }
 
     public void setIdComponente(Integer idComponente) {
@@ -150,16 +253,16 @@ public abstract class Componente {
         return nomeComponente;
     }
 
-    public String getNomeComponente(String tipoComponente) {
+    public String searchNomeComponente() {
         try {
-            nomeComponente = con.queryForObject("SELECT nomeComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
+            nomeComponente = conSqlServer.queryForObject("SELECT nomeComponente FROM componente WHERE tipoComponente = ? AND fkTotem = ?",
                   String.class, tipoComponente, fkTotem);
+            return nomeComponente;
         } catch (EmptyResultDataAccessException e) {
             // Se resultado vazio definir uma mensagem de log ou lançar uma exceção
-            Logger.logInfo("Componente não encontrado", UsbT.class); // Valor padrão ou mensagem de erro
+            Logger.logInfo("Componente não encontrado" + e, UsbT.class);
             throw new RuntimeException("Componente não encontrado para o tipo: " + tipoComponente);
         }
-        return nomeComponente;
     }
 
     public void setNomeComponente(String nomeComponente) {
@@ -182,4 +285,11 @@ public abstract class Componente {
         this.fkTotem = fkTotem;
     }
 
+    public Integer getFkEmpresa() {
+        return fkEmpresa;
+    }
+
+    public void setFkEmpresa(Integer fkEmpresa) {
+        this.fkEmpresa = fkEmpresa;
+    }
 }

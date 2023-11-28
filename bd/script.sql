@@ -1,3 +1,5 @@
+DROP DATABASE fasttotem;
+-- Verifica se o banco de dados 'fastTotem' existe
 CREATE DATABASE IF NOT EXISTS fasttotem;
 USE fasttotem;
 
@@ -38,10 +40,10 @@ CREATE TABLE IF NOT EXISTS usuario (
 -- Cria a tabela Totem se ela não existir
 CREATE TABLE IF NOT EXISTS totem (
     idTotem INT AUTO_INCREMENT PRIMARY KEY,
+    totemIP VARCHAR(255),
     nome VARCHAR(255),
     dtCriacao DATETIME,
     chaveDeAcesso VARCHAR(255),
-    totemIP VARCHAR(255),
     boardSerialNumber VARCHAR(255),
     statusTotem VARCHAR(255),
     jar VARCHAR(255),

@@ -7,7 +7,10 @@ import conexao.Conexao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import oshi.hardware.HardwareAbstractionLayer;
 
+import java.awt.*;
 import java.time.LocalDateTime;
+
+import static java.awt.Color.red;
 
 public class MaquinaT {
     private Sistema sistema;
@@ -18,10 +21,10 @@ public class MaquinaT {
     private Long capacidadeDisco;
     private Long tempoDeAtividade;
     private Integer fkTotem;
-    private HardwareAbstractionLayer hal;
 
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
+    private final JdbcTemplate conSqlServer = conexao.getConexaoSqlServer();
 
     public MaquinaT() {
         this.sistema = new Sistema();
@@ -29,7 +32,6 @@ public class MaquinaT {
         Memoria memoria = new Memoria();
         DiscoGrupo grupoDeDiscos = new DiscoGrupo();
 
-        this.hal = new oshi.SystemInfo().getHardware();
 
         this.sistemaOperacional = sistema.getSistemaOperacional();
         this.fabricante = sistema.getFabricante();
@@ -40,19 +42,41 @@ public class MaquinaT {
     }
 
     public void inserirDadosSistema() {
-        con.update("INSERT INTO infoMaquina " +
-              "(sistemaOperacional, fabricante, nomeProcessador, " +
-              "capacidadeRam, capacidadeDisco, fkTotem) " +
-              "VALUES (?,?,?,?,?,?)", sistemaOperacional, fabricante, nomeProcessador, capacidadeRam, capacidadeDisco, fkTotem);
+        try {
+            conSqlServer.update("INSERT INTO infoMaquina " +
+                    "(sistemaOperacional, fabricante, nomeProcessador, " +
+                    "capacidadeRam, capacidadeDisco, fkTotem) " +
+                    "VALUES (?,?,?,?,?,?)", sistemaOperacional, fabricante, nomeProcessador, capacidadeRam, capacidadeDisco, fkTotem);
+            con.update("INSERT INTO infoMaquina " +
+                    "(sistemaOperacional, fabricante, nomeProcessador, " +
+                    "capacidadeRam, capacidadeDisco, fkTotem) " +
+                    "VALUES (?,?,?,?,?,1)", sistemaOperacional, fabricante, nomeProcessador, capacidadeRam, capacidadeDisco);
 
-        System.out.println("Dados do sistema inseridos!");
+            System.out.println("Dados do sistema inseridos!");
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Erro ao inserir dados do sistema - %s", e), MaquinaT.class);
+            e.printStackTrace();
+        }
     }
-
     public void inserirTempoDeAtividade() {
-        con.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,?)",
-              tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now(), fkTotem);
+        try {
+            conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,?)",
+                    tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now(), fkTotem);
+            System.out.println("Captura realizada!");
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Erro ao inserir tempo de atividade - %s", e), MaquinaT.class);
+            e.printStackTrace();
+        }
 
-        System.out.println("Captura realizada!");
+        try {
+            con.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,1)",
+                    tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now());
+
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Erro ao inserir tempo de atividade (MySQL Local) - %s", e), MaquinaT.class);
+            e.printStackTrace();
+        }
+
     }
 
     public Sistema getSistema() {
@@ -77,19 +101,17 @@ public class MaquinaT {
 
     public void monitorarTempoAtividade() {
         while (true) {
-            // Se o tempo de atividade atingir 80%, registra no log
-            if (tempoDeAtividade >= 75.0) {
-                Logger.logWarning("[ALERTA] Totem em muito tempo de atividade", MaquinaT.class);
+            if (tempoDeAtividade >= 80.0) {
+                Logger.logWarning("⚠️ [ALERTA] Totem em muito tempo de atividade",  MaquinaT.class);
             } else if (tempoDeAtividade >= 95.0) {
-                Logger.logSevere("[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
+                Logger.logWarning("❌" + "[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
             } else {
-                Logger.logInfo("Maquina Info: \n" + this, MaquinaT.class);
+                Logger.logInfo("✅" + "[INFO] Maquina: \n" + this, MaquinaT.class);
             }
-            Logger.logInfo(toString(), MaquinaT.class);
-            // Adormece por um curto período antes de verificar novamente
             try {
-                Thread.sleep(10000); // intervalo
+                Thread.sleep(1800000);// Aguarda 2 minutos antes de verificar novamente
             } catch (InterruptedException e) {
+                Logger.logInfo("Erro no monitoramento do tempo de Atividade da Maquina.\" " + e, Componente.class);
                 e.printStackTrace();
             }
         }
@@ -101,7 +123,7 @@ public class MaquinaT {
         sb.append("Sistema operacional: ").append(this.sistemaOperacional).append("\n");
 //        sb.append("Fabricante: ").append(this.fabricante).append("\n");
 //        sb.append("Arquitetura: ").append(this.arquitetura).append("bits\n");
-//        sb.append("Inicializado: ").append(this.getInicializado()).append("\n");
+//      sb.append("Inicializado: ").append(this.getInicializado()).append("\n");
         sb.append("Tempo de atividade: ").append(Conversor.formatarSegundosDecorridos(this.sistema.getTempoDeAtividade())).append("\n");
 //        sb.append("Permissões: ").append("Executando como ").append(this.getPermissao() ? "root" : "usuário padrão").append("\n");
         return sb.toString();

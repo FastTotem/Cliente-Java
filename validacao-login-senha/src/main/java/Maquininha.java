@@ -6,21 +6,21 @@ import java.util.Scanner;
 
 public class Maquininha {
     private DispositivosUsbGrupo usbs;
-    private Scanner in;
     private DispositivoUsb maquininha;
 
-    public Maquininha(DispositivosUsbGrupo usbs, Scanner in) {
+    public Maquininha(DispositivosUsbGrupo usbs) {
         this.usbs = usbs;
-        this.in = in;
     }
 
     public DispositivoUsb cadastrar() {
 
-        List<DispositivoUsb> comMaquininha = usbs.getDispositivosUsbConectados();
+        Scanner in = new Scanner(System.in);
 
         System.out.println("Por favor, garanta que sua maquininha de cartão esteja devidamente conectada. Quando estiver certo disso, pressione ENTER.");
         String ok = in.nextLine();
 
+        List<DispositivoUsb> comMaquininha = usbs.getDispositivosUsbConectados();
+  
         System.out.println("Por favor Remova a maquininha. Após remover, pressione ENTER");
         ok = in.nextLine();
         List<DispositivoUsb> semMaquininha = usbs.getDispositivosUsbConectados();
@@ -32,4 +32,5 @@ public class Maquininha {
         }
         return maquininha;
     }
+
 }

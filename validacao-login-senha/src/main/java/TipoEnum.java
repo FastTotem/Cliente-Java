@@ -8,16 +8,16 @@ public enum TipoEnum {
     TEMPO_ATIVIDADE("tempoAtividade"),
     ESCRITA("escrita"),
     LEITURA("leitura"),
-    TAXA_TRANSFERENCIA("taxaTransferencia");
+    TAXA_TRANSFERENCIA("taxaTransferencia"),
+    ARMAZENAMENTO("porcentagemArmazenamento");
 
-    private String tipoCaptura;
+    private final String tipoCaptura;
 
     TipoEnum(String tipo) {
-        tipoCaptura = tipo;
+        this.tipoCaptura = tipo;
     }
 
     public String getTipoCaptura() {
         return tipoCaptura;
     }
-
 }
