@@ -110,9 +110,11 @@ public class Monitoramento {
             totem.inserirIpTotem();
 
             // Encontrando a maquininha
-            maquininha.setMaquininha(cadastroMaquina.cadastrar());
-            maquininha.setFkTotem(totem.getIdTotem());
-            maquininha.inserirDispositivo();
+            if (!serialNumber.equals("unknown")) {
+                maquininha.setMaquininha(cadastroMaquina.cadastrar());
+                maquininha.setFkTotem(totem.getIdTotem());
+                maquininha.inserirDispositivo();
+            }
 
         } else {
 
@@ -135,13 +137,17 @@ public class Monitoramento {
             discosT.setIdDiscos();
             memoriaT.setIdComponenteTotemValidado();
             processadorT.setIdComponenteTotemValidado();
-            maquininha.setIdComponenteTotemValidado();
+            if (!serialNumber.equals("unknown")) {
+                maquininha.setIdComponenteTotemValidado();
+            }
         }
 
         new Thread(processadorT::monitorarUsoProcessador).start();
         new Thread(memoriaT::monitorarUsoMemoria).start();
         new Thread(maquinaT::monitorarTempoAtividade).start();
-        new Thread(maquininha::logUsbDevices).start();
+        if (!serialNumber.equals("unknown")) {
+            new Thread(maquininha::logUsbDevices).start();
+        }
 
         new Thread(() -> {
             try {
@@ -166,7 +172,9 @@ public class Monitoramento {
 
         scheduler.scheduleAtFixedRate(() -> {
             maquinaT.inserirTempoDeAtividade();
-            maquininha.verificarConexao();
+            if (!serialNumber.equals("unknown")) {
+                maquininha.verificarConexao();
+            }
         }, 0, 1, TimeUnit.HOURS);
 
         //execução contínua do código
