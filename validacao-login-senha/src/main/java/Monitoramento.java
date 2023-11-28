@@ -7,6 +7,7 @@ import slack.FileUploader;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
@@ -17,7 +18,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Monitoramento {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         int serverPort = 8080;
         InetAddress localHost = InetAddress.getLocalHost();
 

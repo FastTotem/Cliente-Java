@@ -5,3 +5,44 @@ java.util.GregorianCalendar[time=1701195599682,areFieldsSet=true,areAllFieldsSet
 java.util.GregorianCalendar[time=1701195599682,areFieldsSet=true,areAllFieldsSet=true,lenient=true,zone=sun.util.calendar.ZoneInfo[id="America/Sao_Paulo",offset=-10800000,dstSavings=0,useDaylight=false,transitions=93,lastRule=null],firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2023,MONTH=10,WEEK_OF_YEAR=48,WEEK_OF_MONTH=5,DAY_OF_MONTH=28,DAY_OF_YEAR=332,DAY_OF_WEEK=3,DAY_OF_WEEK_IN_MONTH=4,AM_PM=1,HOUR=3,HOUR_OF_DAY=15,MINUTE=19,SECOND=59,MILLISECOND=682,ZONE_OFFSET=-10800000,DST_OFFSET=0] [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (Falha na conexão TCP/IP com o host ec2-54-144-141-96.compute-1.amazonaws.com, porta 1433. Erro: "Connect timed out. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".)
 15:47:11 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (Falha na conexão TCP/IP com o host ec2-54-144-141-96.compute-1.amazonaws.com, porta 1433. Erro: "Connect timed out. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".)
 15:52:16 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (Falha na conexão TCP/IP com o host ec2-54-144-141-96.compute-1.amazonaws.com, porta 1433. Erro: "Connect timed out. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".)
+17:00:39 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (Falha na conexão TCP/IP com o host ec2-54-144-141-96.compute-1.amazonaws.com, porta 1433. Erro: "Connect timed out. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".)
+17:07:43 [Totem] Erro ao inserir totem na conexão MySQL - org.springframework.dao.DuplicateKeyException: PreparedStatementCallback; SQL [INSERT INTO totem (idTotem, nome, chaveDeAcesso) VALUES (1,?,?);]; Duplicate entry '1' for key 'totem.PRIMARY'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry '1' for key 'totem.PRIMARY'
+17:07:43 [Componente] Erro ao inserir componente - Discoorg.springframework.dao.IncorrectResultSizeDataAccessException: Incorrect result size: expected 1, actual 7
+17:17:00 [Totem] Erro ao inserir totem na conexão MySQL - org.springframework.dao.DuplicateKeyException: PreparedStatementCallback; SQL [INSERT INTO totem (idTotem, nome, chaveDeAcesso) VALUES (1,?,?);]; Duplicate entry '1' for key 'totem.PRIMARY'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry '1' for key 'totem.PRIMARY'
+17:17:00 [MaquinaT] ⚠️ [ALERTA] Totem em muito tempo de atividade
+17:17:00 [DiscoT] Disco Info: 
+
+Tamanho Total: 930.45
+Espaço Usado: 434.32
+Espaço Disponível: 496.14
+Tempo de transferência: 23527
+
+17:17:00 [DiscoT] Disco Info: 
+
+Tamanho Total: 930.45
+Espaço Usado: 434.32
+Espaço Disponível: 496.14
+Tempo de transferência: -5000
+
+17:17:00 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0xa12f
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&233F764E&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+17:17:00 [Logger] ✅[INFO] Memória: 
+Em uso: 6,3 GiB
+Disponível: 1,6 GiB
+Total: 8,0 GiB
+
+17:17:00 [ProcessadorT] ✅ [INFO] 
+Fabricante: GenuineIntel
+Modelo: Intel(R) Pentium(R) CPU G4560 @ 3.50GHz
+Frequência: 3.504 GHz
+Em Uso: 29%
+

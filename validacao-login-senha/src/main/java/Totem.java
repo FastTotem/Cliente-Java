@@ -160,6 +160,8 @@ public class Totem {
 
     public void setIpTotem(String ipTotem) {
         this.ipTotem = ipTotem;
+    }
+
     public Conexao getConexao() {
         return conexao;
     }
