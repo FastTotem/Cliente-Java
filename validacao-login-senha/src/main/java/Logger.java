@@ -73,7 +73,8 @@ public class Logger {
     }
 
     public static synchronized <T> void logInfo(String message, Class<T> clazz) {
-        String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
+        private Calendar dataEHora;
+        String logEntry = dataFormatada + Calendar.getInstance() + " [" + clazz.getSimpleName() + "] " + message;
         try {
             checkLogRotation();
             try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
