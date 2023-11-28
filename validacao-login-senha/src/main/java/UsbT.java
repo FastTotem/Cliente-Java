@@ -44,6 +44,9 @@ public class UsbT extends Componente {
         usbInfo += "Dispositivos Conectados: " + usbs.getDispositivosUsbConectados() + "\n";
         usbInfo += "Total de Dispositivos USBs: " + usbs.getTotalDispositvosUsb() + "\n";
         Logger.logInfo(usbInfo, Logger.class);
+        if (usbs.getDispositivosUsbConectados() == null) {
+            Logger.logWarning("⚠️ [ALERTA] Nenhum USB Conectado", UsbT.class);
+        }
     }
 
     public void inserirDispositivo() {
@@ -57,7 +60,6 @@ public class UsbT extends Componente {
     }
 
     public String getIdExclusivo() {
-
         if (jdbcTemplate == null) {
             throw new IllegalStateException("JdbcTemplate não foi configurado corretamente");
         }
@@ -76,4 +78,5 @@ public class UsbT extends Componente {
     public String toString() {
         return String.format("\nNome: %s\nId de dispositivo exclusivo: %s\nConectado: %s", this.getNome(), this.getIdExclusivo().toString());
     }
+
 }

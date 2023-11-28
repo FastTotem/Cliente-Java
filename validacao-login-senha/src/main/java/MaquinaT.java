@@ -62,15 +62,21 @@ public class MaquinaT {
         try {
             conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,?)",
                     tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now(), fkTotem);
-
-            con.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,1)",
-                    tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now());
-
             System.out.println("Captura realizada!");
         } catch (Exception e) {
             Logger.logInfo(String.format("Erro ao inserir tempo de atividade - %s", e), MaquinaT.class);
             e.printStackTrace();
         }
+
+        try {
+            con.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,1)",
+                    tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now());
+
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Erro ao inserir tempo de atividade (MySQL Local) - %s", e), MaquinaT.class);
+            e.printStackTrace();
+        }
+
     }
 
     public Sistema getSistema() {
@@ -96,9 +102,9 @@ public class MaquinaT {
     public void monitorarTempoAtividade() {
         while (true) {
             if (tempoDeAtividade >= 80.0) {
-                Logger.logInfo("⚠️ [ALERTA] Totem em muito tempo de atividade",  MaquinaT.class);
+                Logger.logWarning("⚠️ [ALERTA] Totem em muito tempo de atividade",  MaquinaT.class);
             } else if (tempoDeAtividade >= 95.0) {
-                Logger.logInfo("❌" + "[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
+                Logger.logWarning("❌" + "[SEVERO] É necessário Reiniciar o Totem ", MaquinaT.class);
             } else {
                 Logger.logInfo("✅" + "[INFO] Maquina: \n" + this, MaquinaT.class);
             }

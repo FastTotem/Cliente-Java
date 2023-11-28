@@ -33,6 +33,16 @@ public class Monitoramento {
         Maquininha cadastroMaquina = new Maquininha(usbs);
         UsbT maquininha = new UsbT(usbs);
 
+        Timer timer = new Timer();
+        long delay = 0;
+        long interval = 24 * 60 * 60 * 1000;
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                FileUploader.enviarArquivoParaSlack(Logger.getLogFile());
+            }
+        }, delay, interval);
+
         totem = totem.validarTotemJaAtivo();
         Integer idTotem;
         Integer idEmpresa;
@@ -120,29 +130,24 @@ public class Monitoramento {
             maquininha.setIdComponenteTotemValidado();
 
         }
-        
-//        new Thread(() -> {
-//            try {
-//                while (true) {
-//                    List<DiscoT> discos = discosT.getDiscosT(); // Obtém a lista de discos
-//                    Logger.logDiscoInfo(discos); // Chama o método passando a lista de discos
-//                    Thread.sleep(10000);// Aguarda 10 segundos antes de verificar novamente
-//                }
-//            } catch (Exception e) {
-//                Logger.logInfo("Erro Thread DISCO.\" " + e, Componente.class);
-//                e.printStackTrace();
-//            }
-//        }).start();
-//
-//        Timer timer = new Timer();
-//        long delay = 0;
-//        long interval = 24 * 60 * 60 * 1000;
-//
-//        timer.scheduleAtFixedRate(new TimerTask() {
-//            public void run() {
-//                FileUploader.enviarArquivoParaSlack(Logger.getLogFile());
-//            }
-//        }, delay, interval);
+
+        new Thread(processadorT::monitorarUsoProcessador).start();
+        new Thread(memoriaT::monitorarUsoMemoria).start();
+        new Thread(maquinaT::monitorarTempoAtividade).start();
+        new Thread(maquininha::logUsbDevices).start();
+
+        new Thread(() -> {
+            try {
+                while (true) {
+                    List<DiscoT> discos = discosT.getDiscosT(); // Obtém a lista de discos
+                    Logger.logDiscoInfo(discos); // Chama o método passando a lista de discos
+                    Thread.sleep(1800000); // Aguarda 2 minutos antes de verificar novamente
+                }
+            } catch (Exception e) {
+                Logger.logInfo("Erro Thread DISCO.\" " + e, Componente.class);
+                e.printStackTrace();
+            }
+        }).start();
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 

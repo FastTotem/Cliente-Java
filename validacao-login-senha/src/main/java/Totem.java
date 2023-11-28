@@ -71,9 +71,14 @@ public class Totem {
     public void inserirBoardSerialNumber() {
         try {
             conSqlServer.update("UPDATE totem SET boardSerialNumber = ? WHERE idTotem = ?", boardSerialNumber, idTotem);
-            con.update("UPDATE totem SET boardSerialNumber = ? WHERE idTotem = 1", boardSerialNumber);
         } catch (Exception e) {
             Logger.logInfo(String.format("Erro ao inserir boardSerialNumber - %s", e), Totem.class);
+            e.printStackTrace();
+        }
+        try {
+            con.update("UPDATE totem SET boardSerialNumber = ? WHERE idTotem = 1", boardSerialNumber);
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Erro ao inserir boardSerialNumber (MySQL Local) - %s", e), Totem.class);
             e.printStackTrace();
         }
     }

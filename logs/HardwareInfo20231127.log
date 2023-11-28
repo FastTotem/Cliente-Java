@@ -1,0 +1,81 @@
+20231127 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (Falha na conexão TCP/IP com o host localhost, porta 1433. Erro: "Connection refused: no further information. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".)
+20231127 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (Falha na conexão TCP/IP com o host localhost, porta 1433. Erro: "Connection refused: no further information. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".)
+20231127 [Totem] Erro de Conexão - org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Cannot create PoolableConnectionFactory (Falha na conexão TCP/IP com o host localhost, porta 1433. Erro: "Connection refused: no further information. Verifique as propriedades da conexão. Verifique se uma instância do SQL Server está sendo executada no host e se está aceitando conexões TCP/IP na porta. Verifique se as conexões TCP na porta não foram bloqueadas por um firewall.".)
+20231127 [MaquinaT] ⚠️ [ALERTA] Totem em muito tempo de atividade
+20231127 [MemoriaT] ⚠️[ALERTA] Memória atingiu 94%
+20231127 [DiscoT] Disco Info: 
+
+Tamanho Total: 149.02
+Espaço Usado: 128.2
+Espaço Disponível: 20.81
+Tempo de transferência: -19069
+
+20231127 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9ded
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&281A6942&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+20231127 [ProcessadorT] ✅ [INFO] 
+Fabricante: GenuineIntel
+Modelo: Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz
+Frequência: 1.8 GHz
+Em Uso: 7%
+
+20231127 [MaquinaT] ⚠️ [ALERTA] Totem em muito tempo de atividade
+20231127 [MemoriaT] ⚠️[ALERTA] Memória atingiu 94%
+20231127 [DiscoT] Disco Info: 
+
+Tamanho Total: 149.02
+Espaço Usado: 128.22
+Espaço Disponível: 20.8
+Tempo de transferência: -753
+
+20231127 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9ded
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&281A6942&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+20231127 [ProcessadorT] ✅ [INFO] 
+Fabricante: GenuineIntel
+Modelo: Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz
+Frequência: 1.8 GHz
+Em Uso: 6%
+
+20231127 [MaquinaT] ⚠️ [ALERTA] Totem em muito tempo de atividade
+20231127 [DiscoT] Disco Info: 
+
+Tamanho Total: 149.02
+Espaço Usado: 128.3
+Espaço Disponível: 20.71
+Tempo de transferência: 7956
+
+20231127 [MemoriaT] ⚠️[ALERTA] Memória atingiu 93%
+20231127 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9ded
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&281A6942&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+20231127 [ProcessadorT] ✅ [INFO] 
+Fabricante: GenuineIntel
+Modelo: Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz
+Frequência: 1.8 GHz
+Em Uso: 23%
+
