@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import slack.Notification;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,6 +26,7 @@ public abstract class Componente {
     private Integer qtdeCritico;
     private Double ultimaCaptura;
     private Boolean notificado;
+    private static ZoneId zoneSaoPaulo = ZoneId.of("America/Sao_Paulo");
 
 
     public Componente() {
@@ -45,6 +47,15 @@ public abstract class Componente {
             return true;
         }
 
+    }
+
+    public Boolean discoValidado () {
+        try {
+            conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
+            return false;
+        } catch (EmptyResultDataAccessException e) {
+            return true;
+        }
     }
 
     public Integer inserirComponente() {
@@ -72,15 +83,18 @@ public abstract class Componente {
 
             try {
 
-                conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
-                        nomeComponente, tipoComponente, fkTotem);
-                Integer idComponenteInserido = conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
+                if (discoValidado()) {
+                    conSqlServer.update("INSERT INTO componente (nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?)",
+                            nomeComponente, tipoComponente, fkTotem);
+                    Integer idComponenteInserido = conSqlServer.queryForObject("SELECT idComponente FROM componente WHERE fkTotem = ? AND nomeComponente = ?", Integer.class, fkTotem, nomeComponente);
 
-                con.update("INSERT INTO componente (idComponente, nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?,1)",
-                        idComponenteInserido, nomeComponente, tipoComponente);
+                    con.update("INSERT INTO componente (idComponente, nomeComponente, tipoComponente, fkTotem) VALUES (?,?,?,1)",
+                            idComponenteInserido, nomeComponente, tipoComponente);
 
 
-                return idComponenteInserido;
+                    return idComponenteInserido;
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
                 Logger.logInfo("Erro ao inserir componente - Disco" + e, Componente.class);
@@ -100,7 +114,7 @@ public abstract class Componente {
     protected void inserirCapturaComponente(Double valor, String tipoCaptura) {
         try {
             conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
-                    valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
+                    valor, tipoCaptura, LocalDateTime.now(zoneSaoPaulo), idComponente, fkTotem);
             if (!tipoComponente.equals(String.valueOf(TipoEnum.USB))) {
                 verificarStatus(valor);
             } else {
@@ -114,7 +128,7 @@ public abstract class Componente {
 
         try {
             con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
-                    valor, tipoCaptura, LocalDateTime.now(), idComponente);
+                    valor, tipoCaptura, LocalDateTime.now(zoneSaoPaulo), idComponente);
         } catch (Exception e) {
             Logger.logInfo(String.format("Falha na inserção de captura (MySQL Local) - %s", e), Componente.class);
             e.printStackTrace();
@@ -125,7 +139,7 @@ public abstract class Componente {
     protected void inserirCapturaComponente(Long valor, String tipoCaptura) {
         try {
             conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,?)",
-                    valor, tipoCaptura, LocalDateTime.now(), idComponente, fkTotem);
+                    valor, tipoCaptura, LocalDateTime.now(zoneSaoPaulo), idComponente, fkTotem);
             verificarStatus(Double.valueOf(valor));
             System.out.println("Captura realizada!");
         } catch (Exception e) {
@@ -135,7 +149,7 @@ public abstract class Componente {
 
         try {
             con.update("INSERT INTO captura (valor, tipo, dataHora, fkComponente, fkTotem) VALUES (?,?,?,?,1)",
-                    valor, tipoCaptura, LocalDateTime.now(), idComponente);
+                    valor, tipoCaptura, LocalDateTime.now(zoneSaoPaulo), idComponente);
         } catch (Exception e) {
             Logger.logInfo(String.format("Falha na inserção de captura (MySQL Local) - %s", e), Componente.class);
             e.printStackTrace();
@@ -147,9 +161,9 @@ public abstract class Componente {
             ParametroAlerta parametroAlerta = conSqlServer.queryForObject("SELECT * FROM parametroAlerta WHERE componente = ? and fkEmpresa = ?",
                     new BeanPropertyRowMapper<>(ParametroAlerta.class), tipoComponente, fkEmpresa);
 
-            String nomeTotem = con.queryForObject(
-                    "SELECT nome FROM totem WHERE idTotem = 1",
-                    String.class
+            String nomeTotem = conSqlServer.queryForObject(
+                    "SELECT nome FROM totem WHERE idTotem = ?",
+                    String.class, fkTotem
             );
 
             if (valor >= parametroAlerta.getNotificacao()) {

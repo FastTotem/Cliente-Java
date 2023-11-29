@@ -9,6 +9,7 @@ import oshi.hardware.HardwareAbstractionLayer;
 
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import static java.awt.Color.red;
 
@@ -25,6 +26,7 @@ public class MaquinaT {
     private final Conexao conexao = new Conexao();
     private final JdbcTemplate con = conexao.getConexaoDoBanco();
     private final JdbcTemplate conSqlServer = conexao.getConexaoSqlServer();
+    private static ZoneId zoneSaoPaulo = ZoneId.of("America/Sao_Paulo");
 
     public MaquinaT() {
         this.sistema = new Sistema();
@@ -61,7 +63,7 @@ public class MaquinaT {
     public void inserirTempoDeAtividade() {
         try {
             conSqlServer.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,?)",
-                    tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now(), fkTotem);
+                    tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now(zoneSaoPaulo), fkTotem);
             System.out.println("Captura realizada!");
         } catch (Exception e) {
             Logger.logInfo(String.format("Erro ao inserir tempo de atividade - %s", e), MaquinaT.class);
@@ -70,7 +72,7 @@ public class MaquinaT {
 
         try {
             con.update("INSERT INTO captura (valor, tipo, dataHora, fkTotem) VALUES (?,?,?,1)",
-                    tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now());
+                    tempoDeAtividade, String.valueOf(TipoEnum.TEMPO_ATIVIDADE), LocalDateTime.now(zoneSaoPaulo));
 
         } catch (Exception e) {
             Logger.logInfo(String.format("Erro ao inserir tempo de atividade (MySQL Local) - %s", e), MaquinaT.class);
