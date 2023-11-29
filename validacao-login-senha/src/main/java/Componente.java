@@ -191,6 +191,7 @@ public abstract class Componente {
             }
             if (!status.equals(ParametroAlertaEnum.IDEAL.getStatus()) && valor <= parametroAlerta.getIdeal()) {
                 this.status = ParametroAlertaEnum.IDEAL.getStatus();
+                atualizarStatusTotem();
                 qtdeAlerta = 0;
                 qtdeCritico = 0;
             }
@@ -244,7 +245,7 @@ public abstract class Componente {
 
     public void atualizarStatusTotem() {
         try {
-            conSqlServer.update("UPDATE totem SET statusTotem = '?' WHERE idTotem = ?", status, fkTotem);
+            conSqlServer.update("UPDATE totem SET statusTotem = ? WHERE idTotem = ?", status, fkTotem);
             System.out.println("Status atualizado");
         } catch (Exception e) {
             Logger.logInfo(String.format("Erro ao alterar status - %s", e), Totem.class);
