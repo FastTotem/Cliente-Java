@@ -19,7 +19,7 @@ public class DesligarTotem implements HttpHandler {
 
         if (sistema.getSistemaOperacional().toLowerCase().equals("windows")){
             try {
-                Process process = Runtime.getRuntime().exec("shutdown -s -t 3000");
+                Process process = Runtime.getRuntime().exec("shutdown -s -t 0");
                 process.waitFor();
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();

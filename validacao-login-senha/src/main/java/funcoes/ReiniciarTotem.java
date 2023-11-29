@@ -23,7 +23,7 @@ public class ReiniciarTotem implements HttpHandler {
 
         if (sistema.getSistemaOperacional().toLowerCase().equals("windows")){
             try {
-                Process process = Runtime.getRuntime().exec("shutdown -r -t 1000");
+                Process process = Runtime.getRuntime().exec("shutdown -r -t 0");
                 process.waitFor();
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
