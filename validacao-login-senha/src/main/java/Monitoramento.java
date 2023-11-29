@@ -19,6 +19,9 @@ import java.util.concurrent.TimeUnit;
 
 public class Monitoramento {
     public static void main(String[] args) throws IOException {
+
+        Logger.checkLogDirectory();
+
         int serverPort = 8080;
         InetAddress localHost = InetAddress.getLocalHost();
 

@@ -104,6 +104,7 @@ public class Logger {
     public static <T> void logWarning(String message, Class<T> clazz) {
         String logEntry = dataFormatada + " [" + clazz.getSimpleName() + "] " + message;
         try {
+            checkLogDirectory();
             checkLogRotation();
             try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
                 writer.println(logEntry);
