@@ -95,7 +95,7 @@ public class Totem {
     public void inserirTotem() {
        if (boardSerialNumber == null || boardSerialNumber.equals("unknown")) {
            try {
-               con.update("SELECT * FROM totem WHERE idTotem = 1");
+               con.queryForObject("SELECT * FROM totem WHERE idTotem = 1",  new BeanPropertyRowMapper<>(Totem.class));
            } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
                con.update("INSERT INTO totem (idTotem, nome, chaveDeAcesso) VALUES (1,?,?);",
                        nome, chaveDeAcesso);
