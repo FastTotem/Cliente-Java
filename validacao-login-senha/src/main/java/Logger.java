@@ -4,22 +4,27 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 public class Logger {
+
     private static final int tamanhoMaximo = 30;
     private static final int maximoHistoricoArquivos = 100;
 
-    static Calendar dataEHora = Calendar.getInstance();
-    static SimpleDateFormat formatoData = new SimpleDateFormat("HH:mm:ss");
-    static String dataFormatada = formatoData.format(dataEHora.getTime());
+    private static Calendar dataEHora = Calendar.getInstance();
+    private static SimpleDateFormat formatoData = new SimpleDateFormat("HH:mm:ss");
+    private static String dataFormatada = formatoData.format(dataEHora.getTime());
 
-    static Date data = new Date();
-     static SimpleDateFormat dataAtual = new SimpleDateFormat("yyyyMMdd");
-    static String dt = dataAtual.format(data);
+    private static Date data = new Date();
+    private static SimpleDateFormat dataAtual = new SimpleDateFormat("yyyyMMdd");
+    private static String dt = dataAtual.format(data);
 
-        private static final String logDir = "client" + File.separator + "logs" + File.separator;
-    private static final String logFile = logDir +"HardwareInfo" +  dt + ".log";
+    private static final String logDir = "logs" + File.separator;
+    private static final String logFile = logDir + "HardwareInfo" + dt + ".log";
 
     public Logger() throws ParseException {
     }
@@ -73,7 +78,7 @@ public class Logger {
     public static void checkLogDirectory() {
         File logDirectory = new File(logDir);
         if (!logDirectory.exists()) {
-            boolean created = logDirectory.mkdirs(); // Try to create the directory and subdirectories
+            boolean created = logDirectory.mkdirs(); // Tenta criar o diretório e os subdiretórios
 
             if (!created) {
                 System.err.println("Error creating the log directory.");

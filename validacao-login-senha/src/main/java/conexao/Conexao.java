@@ -14,7 +14,7 @@ public class Conexao {
     public Conexao() {
         dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://mysql-db:3306/fasttotem");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/fasttotem");
         dataSource.setUsername("fastTotemAdmin");
         dataSource.setPassword("fasttotem123");
 

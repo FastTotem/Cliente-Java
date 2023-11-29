@@ -93,26 +93,27 @@ public class Totem {
     }
 
     public void inserirTotem() {
-        try {
-            Totem totemExistente = conSqlServer.queryForObject(
-                    "SELECT * FROM totem WHERE boardSerialNumber = ?",
-                    new BeanPropertyRowMapper<>(Totem.class),
-                    boardSerialNumber);
-
-            if (totemExistente == null) {
-                conSqlServer.update(
-                        "INSERT INTO totem (idTotem, nome, chaveDeAcesso) VALUES (1, ?, ?);",
-                        nome, chaveDeAcesso);
-            }
-        } catch (Exception e) {
-            Logger.logInfo(String.format("Erro ao inserir totem na conexão MySQL - %s", e), Totem.class);
-            e.printStackTrace();
-        }
+       if (boardSerialNumber == null || boardSerialNumber.equals("unknown")) {
+           try {
+               con.update("SELECT * FROM totem WHERE idTotem = 1");
+           } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
+               con.update("INSERT INTO totem (idTotem, nome, chaveDeAcesso) VALUES (1,?,?);",
+                       nome, chaveDeAcesso);
+           }
+       } else {
+           try {
+               con.update("INSERT INTO totem (idTotem, nome, chaveDeAcesso) VALUES (1,?,?);",
+                       nome, chaveDeAcesso);
+           } catch (Exception e) {
+               Logger.logInfo(String.format("Erro ao inserir totem na conexão MySQL - %s", e), Totem.class);
+               e.printStackTrace();
+           }
+       }
     }
 
     public void atualizarTotemAtivo() {
         try {
-            conSqlServer.update("UPDATE totem SET statusTotem = 'Ok' WHERE idTotem = ?", idTotem);
+            conSqlServer.update("UPDATE totem SET statusTotem = 'ok' WHERE idTotem = ?", idTotem);
             System.out.println("Status atualizado");
         } catch (Exception e) {
             Logger.logInfo(String.format("Erro ao alterar status na conexão MySQL - %s", e), Totem.class);
