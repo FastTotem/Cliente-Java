@@ -122,7 +122,12 @@ public class Totem {
     }
 
     public void inserirIpTotem() {
-        con.update("UPDATE totem SET totemIP = ? WHERE idTotem = ?", ipTotem, idTotem);
+        try {
+            conSqlServer.update("UPDATE totem SET totemIP = ? WHERE idTotem = ?", ipTotem, idTotem);
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Erro ao inserir IP - %s", e), Totem.class);
+            e.printStackTrace();
+        }
     }
 
     public Integer getIdTotem() {
