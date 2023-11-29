@@ -26,11 +26,11 @@ public abstract class Componente {
     private Integer qtdeCritico;
     private Double ultimaCaptura;
     private Boolean notificado;
-    private static ZoneId zoneSaoPaulo = ZoneId.of("America/Sao_Paulo");
+    private static final ZoneId zoneSaoPaulo = ZoneId.of("America/Sao_Paulo");
 
 
     public Componente() {
-        this.status = String.valueOf(ParametroAlertaEnum.IDEAL);
+        this.status = ParametroAlertaEnum.IDEAL.getStatus();
         this.notificado = false;
         qtdeAlerta = 0;
         qtdeCritico = 0;
@@ -168,27 +168,29 @@ public abstract class Componente {
 
             if (valor >= parametroAlerta.getNotificacao()) {
                 if (valor > parametroAlerta.getIdeal() && valor <= parametroAlerta.getAlerta()) {
-                    this.status = String.valueOf(ParametroAlertaEnum.ALERTA);
+                    this.status = ParametroAlertaEnum.ALERTA.getStatus();
                     qtdeAlerta++;
                     if (ultimaCaptura != null && ultimaCaptura > parametroAlerta.getIdeal() && ultimaCaptura <= parametroAlerta.getAlerta()) {
                         if (qtdeAlerta >= OCORRENCIA_ALERTA) {
+                            atualizarStatusTotem();
                             enviarNotificacao(nomeTotem);
                             qtdeAlerta = 0;
                         }
                     }
                 } else if (valor > parametroAlerta.getAlerta()) {
-                    this.status = String.valueOf(ParametroAlertaEnum.CRITICO);
+                    this.status = ParametroAlertaEnum.CRITICO.getStatus();
                     qtdeCritico++;
                     if (ultimaCaptura != null && ultimaCaptura > parametroAlerta.getAlerta()) {
                         if (qtdeCritico >= OCORRENCIA_ALERTA) {
+                            atualizarStatusTotem();
                             enviarNotificacao(nomeTotem);
                             qtdeCritico = 0;
                         }
                     }
                 }
             }
-            if (!status.equals(String.valueOf(ParametroAlertaEnum.IDEAL)) && valor <= parametroAlerta.getIdeal()) {
-                this.status = String.valueOf(ParametroAlertaEnum.IDEAL);
+            if (!status.equals(ParametroAlertaEnum.IDEAL.getStatus()) && valor <= parametroAlerta.getIdeal()) {
+                this.status = ParametroAlertaEnum.IDEAL.getStatus();
                 qtdeAlerta = 0;
                 qtdeCritico = 0;
             }
@@ -237,6 +239,16 @@ public abstract class Componente {
                 Logger.logInfo(String.format("Notificação de %s não enviada - %s", tipoComponente, e), Notification.class);
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void atualizarStatusTotem() {
+        try {
+            conSqlServer.update("UPDATE totem SET statusTotem = '?' WHERE idTotem = ?", status, fkTotem);
+            System.out.println("Status atualizado");
+        } catch (Exception e) {
+            Logger.logInfo(String.format("Erro ao alterar status - %s", e), Totem.class);
+            e.printStackTrace();
         }
     }
 
