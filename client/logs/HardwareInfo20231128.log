@@ -1,0 +1,30 @@
+21:00:20 [MaquinaT] ?? [ALERTA] Totem em muito tempo de atividade
+21:00:20 [DiscoT] Disco Info: 
+
+Tamanho Total: 237.86
+Espaço Usado: 97.34
+Espaço Disponível: 140.51
+Tempo de transferência: -1459
+
+21:00:20 [Logger] ?[INFO] Memória: 
+Em uso: 10,3 GiB
+Disponível: 5,6 GiB
+Total: 15,9 GiB
+
+21:00:20 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x9d2f
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\4&2DE756A1&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x8086
+]
+Total de Dispositivos USBs: 0
+
+21:00:20 [ProcessadorT] ? [INFO] 
+Fabricante: GenuineIntel
+Modelo: Intel(R) Core(TM) i5-8350U CPU @ 1.70GHz
+Frequência: 1.896 GHz
+Em Uso: 40%
+
