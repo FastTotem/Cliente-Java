@@ -1,0 +1,16 @@
+@echo off
+set "sinalFile=sinal.txt"
+
+:waitForSignal
+echo Aguardando sinal do Java...
+
+if exist "%sinal%" (
+    del "%sinal%"
+    echo Sinal recebido! Executando o programa...
+
+    rem Substitua o comando abaixo pelo caminho e nome do seu programa
+    start "" "emptyStandbyList.exe"
+)
+
+timeout /nobreak /t 1 > nul
+goto waitForSignal

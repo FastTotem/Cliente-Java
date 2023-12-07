@@ -1,0 +1,152 @@
+22:52:35 [DiscoT] Disco Info: 
+
+Tamanho Total: 953.23
+Espaço Usado: 611.85
+Espaço Disponível: 341.39
+Tempo de transferência: -13485
+
+22:52:35 [DiscoT] Disco Info: 
+
+Tamanho Total: 953.23
+Espaço Usado: 611.85
+Espaço Disponível: 341.39
+Tempo de transferência: 6
+
+22:52:35 [DiscoT] Disco Info: 
+
+Tamanho Total: 953.23
+Espaço Usado: 611.85
+Espaço Disponível: 341.39
+Tempo de transferência: 12
+
+22:52:35 [Logger] ✅[INFO] Memória: 
+Em uso: 13,7 GiB
+Disponível: 18,2 GiB
+Total: 31,9 GiB
+
+22:52:35 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x43d5
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\5&4087D53&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x1022
+, 
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x149c
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\5&2C35141&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x1022
+]
+Total de Dispositivos USBs: 0
+
+22:52:35 [ProcessadorT] ✅ [INFO] 
+Fabricante: AuthenticAMD
+Modelo: AMD Ryzen 5 5600X 6-Core Processor             
+Frequência: 4.2 GHz
+Em Uso: 5%
+
+23:05:19 [MaquinaT] ⚠️ [ALERTA] Totem em muito tempo de atividade
+23:05:19 [DiscoT] Disco Info: 
+
+Tamanho Total: 953.23
+Espaço Usado: 611.87
+Espaço Disponível: 341.37
+Tempo de transferência: 12429
+
+23:05:19 [DiscoT] Disco Info: 
+
+Tamanho Total: 953.23
+Espaço Usado: 611.87
+Espaço Disponível: 341.37
+Tempo de transferência: 6
+
+23:05:19 [DiscoT] Disco Info: 
+
+Tamanho Total: 953.23
+Espaço Usado: 611.87
+Espaço Disponível: 341.37
+Tempo de transferência: 845
+
+23:05:19 [Logger] ✅[INFO] Memória: 
+Em uso: 13,9 GiB
+Disponível: 18,0 GiB
+Total: 31,9 GiB
+
+23:05:19 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x43d5
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\5&4087D53&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x1022
+, 
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x149c
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\5&2C35141&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x1022
+]
+Total de Dispositivos USBs: 0
+
+23:05:19 [ProcessadorT] ✅ [INFO] 
+Fabricante: AuthenticAMD
+Modelo: AMD Ryzen 5 5600X 6-Core Processor             
+Frequência: 4.2 GHz
+Em Uso: 7%
+
+23:09:26 [MaquinaT] ⚠️ [ALERTA] Totem em muito tempo de atividade
+23:09:26 [DiscoT] Disco Info: 
+
+Tamanho Total: 953.23
+Espaço Usado: 611.88
+Espaço Disponível: 341.36
+Tempo de transferência: -31242
+
+23:09:26 [DiscoT] Disco Info: 
+
+Tamanho Total: 953.23
+Espaço Usado: 611.88
+Espaço Disponível: 341.36
+Tempo de transferência: 6
+
+23:09:26 [DiscoT] Disco Info: 
+
+Tamanho Total: 953.23
+Espaço Usado: 611.88
+Espaço Disponível: 341.36
+Tempo de transferência: 847
+
+23:09:26 [Logger] ✅[INFO] Memória: 
+Em uso: 13,9 GiB
+Disponível: 18,0 GiB
+Total: 31,9 GiB
+
+23:09:26 [Logger] Dispositivos USB:
+Dispositivos Conectados: [
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x43d5
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\5&4087D53&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x1022
+, 
+Nome: USB Root Hub (USB 3.0)
+Id produto: 0x149c
+Número de série: 
+Id de dispositivo exclusivo: USB\ROOT_HUB30\5&2C35141&0&0
+Fornecedor: (Standard USB HUBs)
+Id fornecedor: 0x1022
+]
+Total de Dispositivos USBs: 0
+
+23:09:26 [ProcessadorT] ✅ [INFO] 
+Fabricante: AuthenticAMD
+Modelo: AMD Ryzen 5 5600X 6-Core Processor             
+Frequência: 4.2 GHz
+Em Uso: 7%
+

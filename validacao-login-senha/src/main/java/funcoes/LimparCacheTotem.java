@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,8 +21,24 @@ public class LimparCacheTotem implements HttpHandler {
 
         String response = "{ \"message\": \"Limpando cache do totem\" }";
 
+        String path = LimparCacheTotem.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        String decodedPath = URLDecoder.decode(path, "UTF-8");
+        String pathzinElevate = String.format("""
+                "%sElevate.exe"
+                """,decodedPath.replace("FastTotemClient.jar", ""));
+        String pathzinEmpty = String.format("""
+                "%sEmptyStandbyList.exe"
+                """,decodedPath.replace("FastTotemClient.jar", ""));
+
+        String pathTrue = String.format("""
+                "%s"
+                """,decodedPath.replace("/FastTotemClient.jar", ""));
+
         try {
-            String comando = "Elevate.exe schtasks /create /tn StandbyListTask2 /tr C:/teste-standby-list/EmptyStandbyList.exe /sc minute /mo 10 /ru SYSTEM";
+            String comando = String.format("""
+                    cd %s
+                    Elevate.exe schtasks /create /tn StandbyListTaskLendaria /tr EmptyStandbyList.exe /sc minute /mo 10 /ru SYSTEM""", pathTrue);
+            System.out.println(comando);
             executarComandoNoShell(comando);
             System.out.println("Tarefa agendada criada com sucesso.");
         } catch (IOException e) {
